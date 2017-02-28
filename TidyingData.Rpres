@@ -1,0 +1,125 @@
+TidyingData
+========================================================
+author: 
+date: 
+autosize: true
+font-family: 'Helvetica'
+
+Loading libraries
+========================================================
+
+```{r, echo=F}
+library(dplyr) 
+```
+
+Vectors
+========================================================
+
+Two Types
+
+- Atomic: six types: log, numeric (int, dbl), char,cplx
+- Lists: (aka recurcive vec)
+- 
+
+Vector
+========================================================
+
+- Atomic: six types: log, numeric (int, dbl), char,cplx
+- Lists: (aka recurcive vec)
+
+Vector properties
+========================================================
+
+```{r, results= 'asis', echo=TRUE}
+typeof(letters) # [1] "character"
+
+
+typeof(11:20) # [1] "integer"
+
+x <- list(LETTERS[1], 'b', 1:10)
+x
+length(x)
+
+```
+
+Vector properties
+========================================================
+
+* Contain metadata using attributes
+* Attributes create augmented vectors which provide additional behavior
+* Augemnted vectors (4 types)
+  + Factors: under-the-hood are integer vectors
+  + Dates/date-times: top of numeric vectors
+  + DF and Tibbles are built on top of lists
+ 
+ Logical 
+========================================================
+
+```{r, results= 'asis', echo=TRUE}
+10 > 7 # 1] TRUE
+
+# Three different types, T, F and NA 
+c(T,T,F,NA) #[1]  TRUE  TRUE FALSE    NA
+
+``` 
+
+Numeric (Integer and Double Vectors)
+========================================================
+
+```{r, results= 'asis', echo=TRUE}
+# Dboules/floating-point numbers are approximations
+x <- sqrt(2)^2
+x
+x - 2 #[1] 4.440892e-16
+
+# How can we compare two numeric vectors? 
+# == operator is not reliable
+# use dplyr::near function which includes tolerance
+
+sqrt(2) ^ 2 == 2
+near(sqrt(2) ^ 2, 2)
+
+``` 
+
+Numeric (Integer and Double Vectors)
+========================================================
+```{r, results= 'asis', echo=TRUE}
+# In R numbers are created as doubles by default
+typeof(1) # [1] "double"
+
+# to create an integer, do this
+typeof(1L) # [1] "integer"
+
+# Three different types, T, F and NA 
+c(T,T,F,NA) #[1]  TRUE  TRUE FALSE NA
+
+``` 
+
+Slide With Plot
+========================================================
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Next slide
+=======================================================
+
+The Arithmetric mean is equal to $\frac{1}{n} \sum_{i=1}^{n} x_{i}$, or summation of n numbers divided by n
+
+$$
+   \begin{aligned}
+   \dot{x} & = \sigma(y = x) \\
+   \dot{y} & = \rho x - y - xz \\
+   \dot{z} & = ~\beta z + xy \\
+   \end{aligned}
+$$
+
+Next Slide
+========================================================
+
+First column
+***
+
+Second Column
+
