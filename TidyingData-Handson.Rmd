@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "C:/Users/ravichandrans/Desktop/BTEP")
+knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
 print(getwd())
 ```
 
@@ -132,12 +132,15 @@ knitr::kable(mtcars)
 
 What is tibble?
 
-- modern way or loooking at data.frame 
+- modern way or loooking at the traditional data.frame 
 - you will get a lot more useful information than the data.frames
+- tibble is part of tibble package and part of the core tidyverse package
  
 To get help, use 
 ```{r, tibblehelp, eval=FALSE}
 ?tibble
+vignette("tibble")
+
 ```
 
  
@@ -182,7 +185,8 @@ head(cars) #otherwise you get all 50 rows
 ## Why Tibble? 
 
 - Tibble doesnt change the inputs. Ex. strings to factors 
-- Doesnt add new names or modify
+- Doesnt add new names or modify the inputs
+- For example, Tibble never converts strings to factors
 
 ## What is tribble
 
@@ -227,6 +231,13 @@ options(tibble.print_max = 10, tibble.print_min = 6)
 t2
 ```
 
+You can also use the following tibble option to show all columns
+```{r, eval=FALSE}
+options(tibble.width = Inf)
+# more options available at 
+package?tibble
+```
+
 
 How to extract the columns or rows of tibble?
 
@@ -267,8 +278,25 @@ After the change
 t2
 ```
 
+## Subsetting 
 
-How to add a row in an existing tibble?
+- $ by name
+- [[  by name or position
+
+```{r}
+df <- tibble(
+  x = runif(5),
+  y = rnorm(5)
+)
+
+df$x
+
+df[[1]]
+```
+
+df %>% .$x
+
+df %>% .[["y"]]
 
 ## Including Plots
 

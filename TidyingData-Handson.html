@@ -125,44 +125,12 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = &quot;C:/Users/ravichandrans/Desktop/BTEP&quot;)
+knitr::opts_knit$set(root.dir = &quot;H:/2017/BTEP1-TidyingData&quot;)
 print(getwd())</code></pre>
-<pre><code>## [1] &quot;C:/Users/ravichandrans/Desktop/BTEP&quot;</code></pre>
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
+<pre><code>## [1] &quot;H:/2017/BTEP1-TidyingData&quot;</code></pre>
 <p>Let us load the libraries</p>
-</div>
-<div id="provide-information-about-the-source-of-the-data" class="section level2">
-<h2>Provide information about the source of the data</h2>
-<p>Let us read the data.</p>
-<pre class="r"><code>#wdbc &lt;- read_csv(&quot;C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data&quot;, col_names = FALSE)
-
-wdbc &lt;- read_csv(&quot;Data/wdbc.data&quot;, col_names = FALSE)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   X1 = col_integer(),
-##   X2 = col_character()
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
-<pre class="r"><code>#wdbctry2 &lt;- read_csv(&quot;C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data&quot;, header = FALSE)
-names(wdbc)</code></pre>
-<pre><code>##  [1] &quot;X1&quot;  &quot;X2&quot;  &quot;X3&quot;  &quot;X4&quot;  &quot;X5&quot;  &quot;X6&quot;  &quot;X7&quot;  &quot;X8&quot;  &quot;X9&quot;  &quot;X10&quot; &quot;X11&quot;
-## [12] &quot;X12&quot; &quot;X13&quot; &quot;X14&quot; &quot;X15&quot; &quot;X16&quot; &quot;X17&quot; &quot;X18&quot; &quot;X19&quot; &quot;X20&quot; &quot;X21&quot; &quot;X22&quot;
-## [23] &quot;X23&quot; &quot;X24&quot; &quot;X25&quot; &quot;X26&quot; &quot;X27&quot; &quot;X28&quot; &quot;X29&quot; &quot;X30&quot; &quot;X31&quot; &quot;X32&quot;</code></pre>
-<p>Let us add column names</p>
-<pre class="r"><code>cnames &lt;- c(&quot;ID&quot;, &quot;Diagnosis&quot;, 
-            &quot;radius&quot;, &quot;Texture&quot;, &quot;Perimeter&quot;, &quot;area&quot;,
-            &quot;smoothness&quot;, &quot;compactness&quot;, &quot;concavity&quot;, &quot;concave_points&quot;,
-            &quot;symmetry&quot;,&quot;fractaldim&quot;,
-            &quot;radiusSE&quot;, &quot;TextureSE&quot;, &quot;PerimeterSE&quot;, &quot;areaSE&quot;,
-            &quot;smoothnessSE&quot;, &quot;compactnessSE&quot;, &quot;concavitySE&quot;, &quot;concave_pointsSE&quot;,
-            &quot;symmetrySE&quot;,&quot;fractaldimSE&quot;,
-            &quot;radiusW&quot;, &quot;TextureW&quot;, &quot;PerimeterW&quot;, &quot;areaW&quot;,
-            &quot;smoothnessW&quot;, &quot;compactnessW&quot;, &quot;concavityW&quot;, &quot;concave_pointsW&quot;,
-            &quot;symmetryW&quot;,&quot;fractaldimW&quot;)
-
-names(wdbc) &lt;- cnames</code></pre>
+<div id="r-markdown-and-reproducible-research" class="section level2">
+<h2>R Markdown and Reproducible Research</h2>
 </div>
 <div id="r-markdown-basics" class="section level2">
 <h2>R Markdown basics</h2>
@@ -195,6 +163,38 @@ date: &quot;June 10, 2017&quot;
 output: html_document
 ---</code></pre>
 <p>How it works?</p>
+</div>
+<div id="provide-information-about-the-source-of-the-data" class="section level2">
+<h2>Provide information about the source of the data</h2>
+<p>Let us read the data.</p>
+<pre class="r"><code>#wdbc &lt;- read_csv(&quot;C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data&quot;, col_names = FALSE)
+
+wdbc &lt;- read_csv(&quot;Data/wdbc.data&quot;, col_names = FALSE)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   X1 = col_integer(),
+##   X2 = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>#wdbctry2 &lt;- read_csv(&quot;C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data&quot;, header = FALSE)
+names(wdbc)</code></pre>
+<pre><code>##  [1] &quot;X1&quot;  &quot;X2&quot;  &quot;X3&quot;  &quot;X4&quot;  &quot;X5&quot;  &quot;X6&quot;  &quot;X7&quot;  &quot;X8&quot;  &quot;X9&quot;  &quot;X10&quot; &quot;X11&quot;
+## [12] &quot;X12&quot; &quot;X13&quot; &quot;X14&quot; &quot;X15&quot; &quot;X16&quot; &quot;X17&quot; &quot;X18&quot; &quot;X19&quot; &quot;X20&quot; &quot;X21&quot; &quot;X22&quot;
+## [23] &quot;X23&quot; &quot;X24&quot; &quot;X25&quot; &quot;X26&quot; &quot;X27&quot; &quot;X28&quot; &quot;X29&quot; &quot;X30&quot; &quot;X31&quot; &quot;X32&quot;</code></pre>
+<p>Let us add column names</p>
+<pre class="r"><code>cnames &lt;- c(&quot;ID&quot;, &quot;Diagnosis&quot;, 
+            &quot;radius&quot;, &quot;Texture&quot;, &quot;Perimeter&quot;, &quot;area&quot;,
+            &quot;smoothness&quot;, &quot;compactness&quot;, &quot;concavity&quot;, &quot;concave_points&quot;,
+            &quot;symmetry&quot;,&quot;fractaldim&quot;,
+            &quot;radiusSE&quot;, &quot;TextureSE&quot;, &quot;PerimeterSE&quot;, &quot;areaSE&quot;,
+            &quot;smoothnessSE&quot;, &quot;compactnessSE&quot;, &quot;concavitySE&quot;, &quot;concave_pointsSE&quot;,
+            &quot;symmetrySE&quot;,&quot;fractaldimSE&quot;,
+            &quot;radiusW&quot;, &quot;TextureW&quot;, &quot;PerimeterW&quot;, &quot;areaW&quot;,
+            &quot;smoothnessW&quot;, &quot;compactnessW&quot;, &quot;concavityW&quot;, &quot;concave_pointsW&quot;,
+            &quot;symmetryW&quot;,&quot;fractaldimW&quot;)
+
+names(wdbc) &lt;- cnames</code></pre>
 <p>Basic Usage</p>
 <pre class="r"><code>summary(cars)</code></pre>
 <pre><code>##      speed           dist       
@@ -691,11 +691,13 @@ output: html_document
 <h2>Tibble</h2>
 <p>What is tibble?</p>
 <ul>
-<li>modern way or loooking at data.frame</li>
+<li>modern way or loooking at the traditional data.frame</li>
 <li>you will get a lot more useful information than the data.frames</li>
+<li>tibble is part of tibble package and part of the core tidyverse package</li>
 </ul>
 <p>To get help, use</p>
-<pre class="r"><code>?tibble</code></pre>
+<pre class="r"><code>?tibble
+vignette(&quot;tibble&quot;)</code></pre>
 <p>How to create a tibble?</p>
 <pre class="r"><code>tibble(
   x = 1:5, 
@@ -761,7 +763,8 @@ df</code></pre>
 <h2>Why Tibble?</h2>
 <ul>
 <li>Tibble doesnt change the inputs. Ex. strings to factors</li>
-<li>Doesnt add new names or modify</li>
+<li>Doesnt add new names or modify the inputs</li>
+<li>For example, Tibble never converts strings to factors</li>
 </ul>
 </div>
 <div id="what-is-tribble" class="section level2">
@@ -794,37 +797,41 @@ df</code></pre>
 )</code></pre>
 <pre class="r"><code>t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                      a          b     c          d     e
-##                 &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;
-## 1  2017-02-28 15:41:52 2017-03-22     1 0.73207921     h
-## 2  2017-02-28 16:47:46 2017-03-26     2 0.63680024     z
-## 3  2017-02-28 16:57:57 2017-03-04     3 0.14011884     g
-## 4  2017-02-28 19:44:05 2017-03-09     4 0.18972180     k
-## 5  2017-03-01 10:51:05 2017-03-05     5 0.05704076     n
-## 6  2017-02-28 19:20:40 2017-03-07     6 0.31306608     v
-## 7  2017-02-28 15:52:47 2017-03-12     7 0.32395291     q
-## 8  2017-03-01 14:05:38 2017-03-21     8 0.08241420     d
-## 9  2017-02-28 19:21:44 2017-03-29     9 0.40439249     g
-## 10 2017-02-28 23:34:26 2017-03-20    10 0.90013348     n
+##                      a          b     c           d     e
+##                 &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1  2017-03-01 00:58:48 2017-03-26     1 0.140459440     g
+## 2  2017-03-01 11:12:39 2017-03-06     2 0.566170493     z
+## 3  2017-03-01 06:44:36 2017-03-05     3 0.228967283     h
+## 4  2017-03-01 09:24:20 2017-03-03     4 0.239305624     j
+## 5  2017-03-01 06:52:00 2017-03-06     5 0.511922211     x
+## 6  2017-03-01 16:53:16 2017-03-18     6 0.007028327     i
+## 7  2017-03-01 11:27:59 2017-03-22     7 0.525279843     f
+## 8  2017-03-01 17:25:31 2017-03-23     8 0.614367589     o
+## 9  2017-03-01 04:18:14 2017-03-28     9 0.862985947     j
+## 10 2017-03-01 06:47:12 2017-03-13    10 0.425318675     b
 ## # ... with 990 more rows</code></pre>
 <p>You can change the defaults of tibble display with options.</p>
 <pre class="r"><code>options(tibble.print_max = 10, tibble.print_min = 6)
 t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                     a          b     c          d     e
-##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-02-28 15:41:52 2017-03-22     1 0.73207921     h
-## 2 2017-02-28 16:47:46 2017-03-26     2 0.63680024     z
-## 3 2017-02-28 16:57:57 2017-03-04     3 0.14011884     g
-## 4 2017-02-28 19:44:05 2017-03-09     4 0.18972180     k
-## 5 2017-03-01 10:51:05 2017-03-05     5 0.05704076     n
-## 6 2017-02-28 19:20:40 2017-03-07     6 0.31306608     v
+##                     a          b     c           d     e
+##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1 2017-03-01 00:58:48 2017-03-26     1 0.140459440     g
+## 2 2017-03-01 11:12:39 2017-03-06     2 0.566170493     z
+## 3 2017-03-01 06:44:36 2017-03-05     3 0.228967283     h
+## 4 2017-03-01 09:24:20 2017-03-03     4 0.239305624     j
+## 5 2017-03-01 06:52:00 2017-03-06     5 0.511922211     x
+## 6 2017-03-01 16:53:16 2017-03-18     6 0.007028327     i
 ## # ... with 994 more rows</code></pre>
+<p>You can also use the following tibble option to show all columns</p>
+<pre class="r"><code>options(tibble.width = Inf)
+# more options available at 
+package?tibble</code></pre>
 <p>How to extract the columns or rows of tibble?</p>
 <pre class="r"><code>head(t2$a)</code></pre>
-<pre><code>## [1] &quot;2017-02-28 15:41:52 EST&quot; &quot;2017-02-28 16:47:46 EST&quot;
-## [3] &quot;2017-02-28 16:57:57 EST&quot; &quot;2017-02-28 19:44:05 EST&quot;
-## [5] &quot;2017-03-01 10:51:05 EST&quot; &quot;2017-02-28 19:20:40 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2017-03-01 00:58:48 EST&quot; &quot;2017-03-01 11:12:39 EST&quot;
+## [3] &quot;2017-03-01 06:44:36 EST&quot; &quot;2017-03-01 09:24:20 EST&quot;
+## [5] &quot;2017-03-01 06:52:00 EST&quot; &quot;2017-03-01 16:53:16 EST&quot;</code></pre>
 <pre class="r"><code>has_name(t2, &quot;b&quot;)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>getOption(&quot;tibble.max_extra_cols&quot;)</code></pre>
@@ -833,14 +840,14 @@ t2</code></pre>
 <p>original t2</p>
 <pre class="r"><code>t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                     a          b     c          d     e
-##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-02-28 15:41:52 2017-03-22     1 0.73207921     h
-## 2 2017-02-28 16:47:46 2017-03-26     2 0.63680024     z
-## 3 2017-02-28 16:57:57 2017-03-04     3 0.14011884     g
-## 4 2017-02-28 19:44:05 2017-03-09     4 0.18972180     k
-## 5 2017-03-01 10:51:05 2017-03-05     5 0.05704076     n
-## 6 2017-02-28 19:20:40 2017-03-07     6 0.31306608     v
+##                     a          b     c           d     e
+##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1 2017-03-01 00:58:48 2017-03-26     1 0.140459440     g
+## 2 2017-03-01 11:12:39 2017-03-06     2 0.566170493     z
+## 3 2017-03-01 06:44:36 2017-03-05     3 0.228967283     h
+## 4 2017-03-01 09:24:20 2017-03-03     4 0.239305624     j
+## 5 2017-03-01 06:52:00 2017-03-06     5 0.511922211     x
+## 6 2017-03-01 16:53:16 2017-03-18     6 0.007028327     i
 ## # ... with 994 more rows</code></pre>
 <pre class="r"><code>    aa = lubridate::today()
     bb = lubridate::now()
@@ -849,10 +856,10 @@ t2</code></pre>
     ee = sample(letters, 1, replace = TRUE)
     print(aa); print(bb); print(cc); print(dd); print(ee)</code></pre>
 <pre><code>## [1] &quot;2017-02-28&quot;</code></pre>
-<pre><code>## [1] &quot;2017-02-28 14:09:02 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2017-02-28 17:59:43 EST&quot;</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre><code>## [1] 0.6376709</code></pre>
-<pre><code>## [1] &quot;k&quot;</code></pre>
+<pre><code>## [1] 0.03473383</code></pre>
+<pre><code>## [1] &quot;r&quot;</code></pre>
 <pre class="r"><code>t2 %&gt;% 
   add_row(
     a = aa, 
@@ -864,24 +871,24 @@ t2</code></pre>
 <pre><code>## # A tibble: 1,001 × 5
 ##                     a          b     c          d     e
 ##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-02-28 15:41:52 2017-03-22     1 0.73207921     h
-## 2 2017-02-27 19:00:00 2017-02-28     1 0.63767095     k
-## 3 2017-02-28 16:47:46 2017-03-26     2 0.63680024     z
-## 4 2017-02-28 16:57:57 2017-03-04     3 0.14011884     g
-## 5 2017-02-28 19:44:05 2017-03-09     4 0.18972180     k
-## 6 2017-03-01 10:51:05 2017-03-05     5 0.05704076     n
+## 1 2017-03-01 00:58:48 2017-03-26     1 0.14045944     g
+## 2 2017-02-27 19:00:00 2017-02-28     1 0.03473383     r
+## 3 2017-03-01 11:12:39 2017-03-06     2 0.56617049     z
+## 4 2017-03-01 06:44:36 2017-03-05     3 0.22896728     h
+## 5 2017-03-01 09:24:20 2017-03-03     4 0.23930562     j
+## 6 2017-03-01 06:52:00 2017-03-06     5 0.51192221     x
 ## # ... with 995 more rows</code></pre>
 <p>After the change</p>
 <pre class="r"><code>t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                     a          b     c          d     e
-##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-02-28 15:41:52 2017-03-22     1 0.73207921     h
-## 2 2017-02-28 16:47:46 2017-03-26     2 0.63680024     z
-## 3 2017-02-28 16:57:57 2017-03-04     3 0.14011884     g
-## 4 2017-02-28 19:44:05 2017-03-09     4 0.18972180     k
-## 5 2017-03-01 10:51:05 2017-03-05     5 0.05704076     n
-## 6 2017-02-28 19:20:40 2017-03-07     6 0.31306608     v
+##                     a          b     c           d     e
+##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1 2017-03-01 00:58:48 2017-03-26     1 0.140459440     g
+## 2 2017-03-01 11:12:39 2017-03-06     2 0.566170493     z
+## 3 2017-03-01 06:44:36 2017-03-05     3 0.228967283     h
+## 4 2017-03-01 09:24:20 2017-03-03     4 0.239305624     j
+## 5 2017-03-01 06:52:00 2017-03-06     5 0.511922211     x
+## 6 2017-03-01 16:53:16 2017-03-18     6 0.007028327     i
 ## # ... with 994 more rows</code></pre>
 <p>How to add a row in an existing tibble?</p>
 </div>
