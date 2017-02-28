@@ -12,7 +12,7 @@ print(getwd())
 ```
 
 Let us load the libraries
-```{r loadlibraries, include = FALSE}
+```{r loadlibraries}
 library(tidyverse) 
 ```
 
@@ -280,10 +280,11 @@ t2
 
 ## Subsetting 
 
-- $ by name
-- [[  by name or position
+- \$ by name
+-    
 
 ```{r}
+
 df <- tibble(
   x = runif(5),
   y = rnorm(5)
@@ -294,9 +295,19 @@ df$x
 df[[1]]
 ```
 
-df %>% .$x
+Can you use Tibble in a pipeline?
+
+```{r}
+df %>% .$x   
 
 df %>% .[["y"]]
+```
+
+What happens if tibble doesnt work with a package? 
+Transform Tibble back to a data.frame using the following command:
+```{r}
+as.data.frame(df)
+```
 
 ## Including Plots
 

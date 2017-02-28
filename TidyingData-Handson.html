@@ -129,6 +129,16 @@ knitr::opts_knit$set(root.dir = &quot;H:/2017/BTEP1-TidyingData&quot;)
 print(getwd())</code></pre>
 <pre><code>## [1] &quot;H:/2017/BTEP1-TidyingData&quot;</code></pre>
 <p>Let us load the libraries</p>
+<pre class="r"><code>library(tidyverse) </code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
 <div id="r-markdown-and-reproducible-research" class="section level2">
 <h2>R Markdown and Reproducible Research</h2>
 </div>
@@ -797,31 +807,31 @@ df</code></pre>
 )</code></pre>
 <pre class="r"><code>t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                      a          b     c           d     e
-##                 &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1  2017-03-01 00:58:48 2017-03-26     1 0.140459440     g
-## 2  2017-03-01 11:12:39 2017-03-06     2 0.566170493     z
-## 3  2017-03-01 06:44:36 2017-03-05     3 0.228967283     h
-## 4  2017-03-01 09:24:20 2017-03-03     4 0.239305624     j
-## 5  2017-03-01 06:52:00 2017-03-06     5 0.511922211     x
-## 6  2017-03-01 16:53:16 2017-03-18     6 0.007028327     i
-## 7  2017-03-01 11:27:59 2017-03-22     7 0.525279843     f
-## 8  2017-03-01 17:25:31 2017-03-23     8 0.614367589     o
-## 9  2017-03-01 04:18:14 2017-03-28     9 0.862985947     j
-## 10 2017-03-01 06:47:12 2017-03-13    10 0.425318675     b
+##                      a          b     c         d     e
+##                 &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
+## 1  2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
+## 2  2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
+## 3  2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
+## 4  2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
+## 5  2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
+## 6  2017-03-01 17:49:57 2017-03-17     6 0.8269697     r
+## 7  2017-02-28 21:00:26 2017-03-10     7 0.6128061     x
+## 8  2017-03-01 03:28:26 2017-03-14     8 0.8436578     l
+## 9  2017-03-01 15:26:42 2017-03-23     9 0.2841453     s
+## 10 2017-03-01 08:46:51 2017-03-16    10 0.5560663     p
 ## # ... with 990 more rows</code></pre>
 <p>You can change the defaults of tibble display with options.</p>
 <pre class="r"><code>options(tibble.print_max = 10, tibble.print_min = 6)
 t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                     a          b     c           d     e
-##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-03-01 00:58:48 2017-03-26     1 0.140459440     g
-## 2 2017-03-01 11:12:39 2017-03-06     2 0.566170493     z
-## 3 2017-03-01 06:44:36 2017-03-05     3 0.228967283     h
-## 4 2017-03-01 09:24:20 2017-03-03     4 0.239305624     j
-## 5 2017-03-01 06:52:00 2017-03-06     5 0.511922211     x
-## 6 2017-03-01 16:53:16 2017-03-18     6 0.007028327     i
+##                     a          b     c         d     e
+##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
+## 1 2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
+## 2 2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
+## 3 2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
+## 4 2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
+## 5 2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
+## 6 2017-03-01 17:49:57 2017-03-17     6 0.8269697     r
 ## # ... with 994 more rows</code></pre>
 <p>You can also use the following tibble option to show all columns</p>
 <pre class="r"><code>options(tibble.width = Inf)
@@ -829,9 +839,9 @@ t2</code></pre>
 package?tibble</code></pre>
 <p>How to extract the columns or rows of tibble?</p>
 <pre class="r"><code>head(t2$a)</code></pre>
-<pre><code>## [1] &quot;2017-03-01 00:58:48 EST&quot; &quot;2017-03-01 11:12:39 EST&quot;
-## [3] &quot;2017-03-01 06:44:36 EST&quot; &quot;2017-03-01 09:24:20 EST&quot;
-## [5] &quot;2017-03-01 06:52:00 EST&quot; &quot;2017-03-01 16:53:16 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2017-03-01 16:51:37 EST&quot; &quot;2017-03-01 05:23:58 EST&quot;
+## [3] &quot;2017-03-01 13:01:11 EST&quot; &quot;2017-03-01 12:11:37 EST&quot;
+## [5] &quot;2017-03-01 00:28:54 EST&quot; &quot;2017-03-01 17:49:57 EST&quot;</code></pre>
 <pre class="r"><code>has_name(t2, &quot;b&quot;)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>getOption(&quot;tibble.max_extra_cols&quot;)</code></pre>
@@ -840,14 +850,14 @@ package?tibble</code></pre>
 <p>original t2</p>
 <pre class="r"><code>t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                     a          b     c           d     e
-##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-03-01 00:58:48 2017-03-26     1 0.140459440     g
-## 2 2017-03-01 11:12:39 2017-03-06     2 0.566170493     z
-## 3 2017-03-01 06:44:36 2017-03-05     3 0.228967283     h
-## 4 2017-03-01 09:24:20 2017-03-03     4 0.239305624     j
-## 5 2017-03-01 06:52:00 2017-03-06     5 0.511922211     x
-## 6 2017-03-01 16:53:16 2017-03-18     6 0.007028327     i
+##                     a          b     c         d     e
+##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
+## 1 2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
+## 2 2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
+## 3 2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
+## 4 2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
+## 5 2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
+## 6 2017-03-01 17:49:57 2017-03-17     6 0.8269697     r
 ## # ... with 994 more rows</code></pre>
 <pre class="r"><code>    aa = lubridate::today()
     bb = lubridate::now()
@@ -856,10 +866,10 @@ package?tibble</code></pre>
     ee = sample(letters, 1, replace = TRUE)
     print(aa); print(bb); print(cc); print(dd); print(ee)</code></pre>
 <pre><code>## [1] &quot;2017-02-28&quot;</code></pre>
-<pre><code>## [1] &quot;2017-02-28 17:59:43 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2017-02-28 18:42:38 EST&quot;</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre><code>## [1] 0.03473383</code></pre>
-<pre><code>## [1] &quot;r&quot;</code></pre>
+<pre><code>## [1] 0.1268353</code></pre>
+<pre><code>## [1] &quot;z&quot;</code></pre>
 <pre class="r"><code>t2 %&gt;% 
   add_row(
     a = aa, 
@@ -869,28 +879,56 @@ package?tibble</code></pre>
     e = ee, .before = 2  # note the dot in &quot;.before = 2&quot;
 )</code></pre>
 <pre><code>## # A tibble: 1,001 × 5
-##                     a          b     c          d     e
-##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-03-01 00:58:48 2017-03-26     1 0.14045944     g
-## 2 2017-02-27 19:00:00 2017-02-28     1 0.03473383     r
-## 3 2017-03-01 11:12:39 2017-03-06     2 0.56617049     z
-## 4 2017-03-01 06:44:36 2017-03-05     3 0.22896728     h
-## 5 2017-03-01 09:24:20 2017-03-03     4 0.23930562     j
-## 6 2017-03-01 06:52:00 2017-03-06     5 0.51192221     x
+##                     a          b     c         d     e
+##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
+## 1 2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
+## 2 2017-02-27 19:00:00 2017-02-28     1 0.1268353     z
+## 3 2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
+## 4 2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
+## 5 2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
+## 6 2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
 ## # ... with 995 more rows</code></pre>
 <p>After the change</p>
 <pre class="r"><code>t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                     a          b     c           d     e
-##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-03-01 00:58:48 2017-03-26     1 0.140459440     g
-## 2 2017-03-01 11:12:39 2017-03-06     2 0.566170493     z
-## 3 2017-03-01 06:44:36 2017-03-05     3 0.228967283     h
-## 4 2017-03-01 09:24:20 2017-03-03     4 0.239305624     j
-## 5 2017-03-01 06:52:00 2017-03-06     5 0.511922211     x
-## 6 2017-03-01 16:53:16 2017-03-18     6 0.007028327     i
+##                     a          b     c         d     e
+##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
+## 1 2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
+## 2 2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
+## 3 2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
+## 4 2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
+## 5 2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
+## 6 2017-03-01 17:49:57 2017-03-17     6 0.8269697     r
 ## # ... with 994 more rows</code></pre>
-<p>How to add a row in an existing tibble?</p>
+</div>
+<div id="subsetting" class="section level2">
+<h2>Subsetting</h2>
+<ul>
+<li>$ by name</li>
+<li></li>
+</ul>
+<pre class="r"><code>df &lt;- tibble(
+  x = runif(5),
+  y = rnorm(5)
+)
+
+df$x</code></pre>
+<pre><code>## [1] 0.2804677 0.1320433 0.2359260 0.1187970 0.0358042</code></pre>
+<pre class="r"><code>df[[1]]</code></pre>
+<pre><code>## [1] 0.2804677 0.1320433 0.2359260 0.1187970 0.0358042</code></pre>
+<p>Can you use Tibble in a pipeline?</p>
+<pre class="r"><code>df %&gt;% .$x   </code></pre>
+<pre><code>## [1] 0.2804677 0.1320433 0.2359260 0.1187970 0.0358042</code></pre>
+<pre class="r"><code>df %&gt;% .[[&quot;y&quot;]]</code></pre>
+<pre><code>## [1] 0.42473726 1.94220925 0.08866599 0.32734936 0.79383484</code></pre>
+<p>What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:</p>
+<pre class="r"><code>as.data.frame(df)</code></pre>
+<pre><code>##           x          y
+## 1 0.2804677 0.42473726
+## 2 0.1320433 1.94220925
+## 3 0.2359260 0.08866599
+## 4 0.1187970 0.32734936
+## 5 0.0358042 0.79383484</code></pre>
 </div>
 <div id="including-plots" class="section level2">
 <h2>Including Plots</h2>
