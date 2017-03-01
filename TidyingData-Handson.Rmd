@@ -69,6 +69,47 @@ How it works?
 
 Let us read the data. 
 
+## Import functions
+
+We will be using \b{readr} function for this section. 
+Note that read_csv is different than read.csv 
+
+- read_csv() comma-sep files
+- read_csv2() $;$ separated files
+- read_tsv() 
+- read_delim()
+
+## Let us do some examples
+
+Watch out how the column names are displayed and additional information 
+that you get from read_csv
+Also note the number of rows are displayed in read_csv compared to read.csv
+
+```{r}
+read_csv("Data/WHO-2a.csv")
+read.csv("Data/WHO-2a.csv")
+```
+
+What happens if your dataset has a metadata (indicated by \# ) as the first line followed by 
+the column names
+
+```{r}
+read_csv("Data/WHO-2a.csv", comment = "#")
+```
+
+## Why we insist on using readr::read_csv than read.csv?
+
+- Speed (~ 10x)
+- output from readr is Tibbles (we talked about earlier)
+- Base R taps into OS where it is executed. But readr functions are OS independent and
+  hence reproducible
+  
+## Import Exercise-1
+
+What function would you use to read a file whose fields are separated by \|
+
+
+
 ```{r readdata}
 #wdbc <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", col_names = FALSE)
 
@@ -324,7 +365,7 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 with(cars, plot(speed,dist))
 ```
 
-## Exercise 1
+## Tibble Exercise 1
 
 Create a new tibble with the following information:
   name, age, height, weight, smoker (T or F), Male (True or Fale)
@@ -335,6 +376,17 @@ Create a new tibble with the following information:
 
 convert iris data set (given to us in data.frame ) to tibble data_frame
 
+
+## Exercise 3
+
+How can you tell whether the object is a Tibble or not? 
+
+## Exercise 4 (based on Wickam's book)
+
+Partial matching is a big issue with data.frame.
+df <- data.frame(abc = 1, xyz = "a")
+df$x
+df[, "xyz"]
 
 
 

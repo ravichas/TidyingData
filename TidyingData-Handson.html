@@ -177,6 +177,113 @@ output: html_document
 <div id="provide-information-about-the-source-of-the-data" class="section level2">
 <h2>Provide information about the source of the data</h2>
 <p>Let us read the data.</p>
+</div>
+<div id="import-functions" class="section level2">
+<h2>Import functions</h2>
+<p>We will be using  function for this section. Note that read_csv is different than read.csv</p>
+<ul>
+<li>read_csv() comma-sep files</li>
+<li>read_csv2() <span class="math inline">\(;\)</span> separated files</li>
+<li>read_tsv()</li>
+<li>read_delim()</li>
+</ul>
+</div>
+<div id="let-us-do-some-examples" class="section level2">
+<h2>Let us do some examples</h2>
+<p>Watch out how the column names are displayed and additional information that you get from read_csv Also note the number of rows are displayed in read_csv compared to read.csv</p>
+<pre class="r"><code>read_csv(&quot;Data/WHO-2a.csv&quot;)</code></pre>
+<pre><code>## Warning: Duplicated column names deduplicated: '2007-2013' =&gt;
+## '2007-2013_1' [3]</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Country = col_character(),
+##   `2007-2013` = col_double(),
+##   `2007-2013_1` = col_double()
+## )</code></pre>
+<pre><code>## # A tibble: 32 × 3
+##                             Country `2007-2013` `2007-2013_1`
+##                               &lt;chr&gt;       &lt;dbl&gt;         &lt;dbl&gt;
+## 1                           Bahamas        15.9           2.2
+## 2  Bolivia (Plurinational State of)         4.5           3.5
+## 3                            Brazil        11.3            NA
+## 4                      Burkina Faso         2.9           2.2
+## 5                           Burundi         2.8           1.7
+## 6                             China         1.4           1.6
+## 7                          Colombia         3.1            NA
+## 8                             Congo        11.5           6.5
+## 9                      Cook Islands         4.5            NA
+## 10 Democratic Republic of the Congo         2.3           2.0
+## # ... with 22 more rows</code></pre>
+<pre class="r"><code>read.csv(&quot;Data/WHO-2a.csv&quot;)</code></pre>
+<pre><code>##                             Country X2007.2013 X2007.2013.1
+## 1                           Bahamas       15.9          2.2
+## 2  Bolivia (Plurinational State of)        4.5          3.5
+## 3                            Brazil       11.3           NA
+## 4                      Burkina Faso        2.9          2.2
+## 5                           Burundi        2.8          1.7
+## 6                             China        1.4          1.6
+## 7                          Colombia        3.1           NA
+## 8                             Congo       11.5          6.5
+## 9                      Cook Islands        4.5           NA
+## 10 Democratic Republic of the Congo        2.3          2.0
+## 11               Dominican Republic        9.4          1.2
+## 12                          Ecuador        5.0           NA
+## 13                      El Salvador       16.4           NA
+## 14                            Haiti        7.3          4.8
+## 15                            India       86.3         33.1
+## 16                        Indonesia        2.0          1.8
+## 17       Iran (Islamic Republic of)        1.3          1.3
+## 18                       Kyrgyzstan        3.4           NA
+## 19                           Malawi        3.9           NA
+## 20                        Mauritius        5.9           NA
+## 21                           Mexico        4.7           NA
+## 22                        Nicaragua        5.7           NA
+## 23                            Niger        3.9          2.9
+## 24                             Oman        7.4           NA
+## 25                             Peru        5.6          1.4
+## 26                      Philippines       10.8         10.8
+## 27              Republic of Moldova        4.7          5.2
+## 28               Russian Federation        4.1          2.7
+## 29                           Rwanda        3.6          1.7
+## 30            Sao Tome and Principe       13.8          2.4
+## 31                          Ukraine        3.7          4.0
+## 32                           Zambia        4.7           NA</code></pre>
+<p>What happens if your dataset has a metadata (indicated by # ) as the first line followed by the column names</p>
+<pre class="r"><code>read_csv(&quot;Data/WHO-2a.csv&quot;, comment = &quot;#&quot;)</code></pre>
+<pre><code>## Warning: Duplicated column names deduplicated: '2007-2013' =&gt;
+## '2007-2013_1' [3]</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Country = col_character(),
+##   `2007-2013` = col_double(),
+##   `2007-2013_1` = col_double()
+## )</code></pre>
+<pre><code>## # A tibble: 32 × 3
+##                             Country `2007-2013` `2007-2013_1`
+##                               &lt;chr&gt;       &lt;dbl&gt;         &lt;dbl&gt;
+## 1                           Bahamas        15.9           2.2
+## 2  Bolivia (Plurinational State of)         4.5           3.5
+## 3                            Brazil        11.3            NA
+## 4                      Burkina Faso         2.9           2.2
+## 5                           Burundi         2.8           1.7
+## 6                             China         1.4           1.6
+## 7                          Colombia         3.1            NA
+## 8                             Congo        11.5           6.5
+## 9                      Cook Islands         4.5            NA
+## 10 Democratic Republic of the Congo         2.3           2.0
+## # ... with 22 more rows</code></pre>
+</div>
+<div id="why-we-insist-on-using-readrread_csv-than-read.csv" class="section level2">
+<h2>Why we insist on using readr::read_csv than read.csv?</h2>
+<ul>
+<li>Speed (~ 10x)</li>
+<li>output from readr is Tibbles (we talked about earlier)</li>
+<li>Base R taps into OS where it is executed. But readr functions are OS independent and hence reproducible</li>
+</ul>
+</div>
+<div id="import-exercise-1" class="section level2">
+<h2>Import Exercise-1</h2>
+<p>What function would you use to read a file whose fields are separated by |</p>
 <pre class="r"><code>#wdbc &lt;- read_csv(&quot;C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data&quot;, col_names = FALSE)
 
 wdbc &lt;- read_csv(&quot;Data/wdbc.data&quot;, col_names = FALSE)</code></pre>
@@ -807,18 +914,18 @@ df</code></pre>
 )</code></pre>
 <pre class="r"><code>t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
-##                      a          b     c         d     e
-##                 &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
-## 1  2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
-## 2  2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
-## 3  2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
-## 4  2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
-## 5  2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
-## 6  2017-03-01 17:49:57 2017-03-17     6 0.8269697     r
-## 7  2017-02-28 21:00:26 2017-03-10     7 0.6128061     x
-## 8  2017-03-01 03:28:26 2017-03-14     8 0.8436578     l
-## 9  2017-03-01 15:26:42 2017-03-23     9 0.2841453     s
-## 10 2017-03-01 08:46:51 2017-03-16    10 0.5560663     p
+##                      a          b     c           d     e
+##                 &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1  2017-03-01 09:10:51 2017-03-11     1 0.321608160     u
+## 2  2017-03-01 01:50:18 2017-03-18     2 0.938538802     l
+## 3  2017-02-28 21:15:25 2017-03-11     3 0.705187431     m
+## 4  2017-03-01 00:00:01 2017-03-02     4 0.511444793     o
+## 5  2017-03-01 06:33:54 2017-03-02     5 0.863747142     c
+## 6  2017-03-01 00:14:35 2017-03-17     6 0.342131408     r
+## 7  2017-03-01 14:25:43 2017-03-14     7 0.181437200     g
+## 8  2017-03-01 16:00:20 2017-03-13     8 0.391343559     y
+## 9  2017-03-01 13:55:18 2017-03-26     9 0.008267939     a
+## 10 2017-03-01 17:08:07 2017-03-05    10 0.480976147     x
 ## # ... with 990 more rows</code></pre>
 <p>You can change the defaults of tibble display with options.</p>
 <pre class="r"><code>options(tibble.print_max = 10, tibble.print_min = 6)
@@ -826,12 +933,12 @@ t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
 ##                     a          b     c         d     e
 ##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
-## 2 2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
-## 3 2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
-## 4 2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
-## 5 2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
-## 6 2017-03-01 17:49:57 2017-03-17     6 0.8269697     r
+## 1 2017-03-01 09:10:51 2017-03-11     1 0.3216082     u
+## 2 2017-03-01 01:50:18 2017-03-18     2 0.9385388     l
+## 3 2017-02-28 21:15:25 2017-03-11     3 0.7051874     m
+## 4 2017-03-01 00:00:01 2017-03-02     4 0.5114448     o
+## 5 2017-03-01 06:33:54 2017-03-02     5 0.8637471     c
+## 6 2017-03-01 00:14:35 2017-03-17     6 0.3421314     r
 ## # ... with 994 more rows</code></pre>
 <p>You can also use the following tibble option to show all columns</p>
 <pre class="r"><code>options(tibble.width = Inf)
@@ -839,9 +946,9 @@ t2</code></pre>
 package?tibble</code></pre>
 <p>How to extract the columns or rows of tibble?</p>
 <pre class="r"><code>head(t2$a)</code></pre>
-<pre><code>## [1] &quot;2017-03-01 16:51:37 EST&quot; &quot;2017-03-01 05:23:58 EST&quot;
-## [3] &quot;2017-03-01 13:01:11 EST&quot; &quot;2017-03-01 12:11:37 EST&quot;
-## [5] &quot;2017-03-01 00:28:54 EST&quot; &quot;2017-03-01 17:49:57 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2017-03-01 09:10:51 EST&quot; &quot;2017-03-01 01:50:18 EST&quot;
+## [3] &quot;2017-02-28 21:15:25 EST&quot; &quot;2017-03-01 00:00:01 EST&quot;
+## [5] &quot;2017-03-01 06:33:54 EST&quot; &quot;2017-03-01 00:14:35 EST&quot;</code></pre>
 <pre class="r"><code>has_name(t2, &quot;b&quot;)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>getOption(&quot;tibble.max_extra_cols&quot;)</code></pre>
@@ -852,12 +959,12 @@ package?tibble</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
 ##                     a          b     c         d     e
 ##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
-## 2 2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
-## 3 2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
-## 4 2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
-## 5 2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
-## 6 2017-03-01 17:49:57 2017-03-17     6 0.8269697     r
+## 1 2017-03-01 09:10:51 2017-03-11     1 0.3216082     u
+## 2 2017-03-01 01:50:18 2017-03-18     2 0.9385388     l
+## 3 2017-02-28 21:15:25 2017-03-11     3 0.7051874     m
+## 4 2017-03-01 00:00:01 2017-03-02     4 0.5114448     o
+## 5 2017-03-01 06:33:54 2017-03-02     5 0.8637471     c
+## 6 2017-03-01 00:14:35 2017-03-17     6 0.3421314     r
 ## # ... with 994 more rows</code></pre>
 <pre class="r"><code>    aa = lubridate::today()
     bb = lubridate::now()
@@ -866,10 +973,10 @@ package?tibble</code></pre>
     ee = sample(letters, 1, replace = TRUE)
     print(aa); print(bb); print(cc); print(dd); print(ee)</code></pre>
 <pre><code>## [1] &quot;2017-02-28&quot;</code></pre>
-<pre><code>## [1] &quot;2017-02-28 18:42:38 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2017-02-28 19:18:05 EST&quot;</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre><code>## [1] 0.1268353</code></pre>
-<pre><code>## [1] &quot;z&quot;</code></pre>
+<pre><code>## [1] 0.6606746</code></pre>
+<pre><code>## [1] &quot;o&quot;</code></pre>
 <pre class="r"><code>t2 %&gt;% 
   add_row(
     a = aa, 
@@ -881,24 +988,24 @@ package?tibble</code></pre>
 <pre><code>## # A tibble: 1,001 × 5
 ##                     a          b     c         d     e
 ##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
-## 2 2017-02-27 19:00:00 2017-02-28     1 0.1268353     z
-## 3 2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
-## 4 2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
-## 5 2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
-## 6 2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
+## 1 2017-03-01 09:10:51 2017-03-11     1 0.3216082     u
+## 2 2017-02-27 19:00:00 2017-03-01     1 0.6606746     o
+## 3 2017-03-01 01:50:18 2017-03-18     2 0.9385388     l
+## 4 2017-02-28 21:15:25 2017-03-11     3 0.7051874     m
+## 5 2017-03-01 00:00:01 2017-03-02     4 0.5114448     o
+## 6 2017-03-01 06:33:54 2017-03-02     5 0.8637471     c
 ## # ... with 995 more rows</code></pre>
 <p>After the change</p>
 <pre class="r"><code>t2</code></pre>
 <pre><code>## # A tibble: 1,000 × 5
 ##                     a          b     c         d     e
 ##                &lt;dttm&gt;     &lt;date&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
-## 1 2017-03-01 16:51:37 2017-03-02     1 0.6801229     n
-## 2 2017-03-01 05:23:58 2017-03-09     2 0.8006103     r
-## 3 2017-03-01 13:01:11 2017-03-08     3 0.8907159     y
-## 4 2017-03-01 12:11:37 2017-03-08     4 0.3459861     j
-## 5 2017-03-01 00:28:54 2017-03-21     5 0.6642342     g
-## 6 2017-03-01 17:49:57 2017-03-17     6 0.8269697     r
+## 1 2017-03-01 09:10:51 2017-03-11     1 0.3216082     u
+## 2 2017-03-01 01:50:18 2017-03-18     2 0.9385388     l
+## 3 2017-02-28 21:15:25 2017-03-11     3 0.7051874     m
+## 4 2017-03-01 00:00:01 2017-03-02     4 0.5114448     o
+## 5 2017-03-01 06:33:54 2017-03-02     5 0.8637471     c
+## 6 2017-03-01 00:14:35 2017-03-17     6 0.3421314     r
 ## # ... with 994 more rows</code></pre>
 </div>
 <div id="subsetting" class="section level2">
@@ -913,22 +1020,22 @@ package?tibble</code></pre>
 )
 
 df$x</code></pre>
-<pre><code>## [1] 0.2804677 0.1320433 0.2359260 0.1187970 0.0358042</code></pre>
+<pre><code>## [1] 0.3981670 0.8710572 0.8312057 0.7193028 0.5749409</code></pre>
 <pre class="r"><code>df[[1]]</code></pre>
-<pre><code>## [1] 0.2804677 0.1320433 0.2359260 0.1187970 0.0358042</code></pre>
+<pre><code>## [1] 0.3981670 0.8710572 0.8312057 0.7193028 0.5749409</code></pre>
 <p>Can you use Tibble in a pipeline?</p>
 <pre class="r"><code>df %&gt;% .$x   </code></pre>
-<pre><code>## [1] 0.2804677 0.1320433 0.2359260 0.1187970 0.0358042</code></pre>
+<pre><code>## [1] 0.3981670 0.8710572 0.8312057 0.7193028 0.5749409</code></pre>
 <pre class="r"><code>df %&gt;% .[[&quot;y&quot;]]</code></pre>
-<pre><code>## [1] 0.42473726 1.94220925 0.08866599 0.32734936 0.79383484</code></pre>
+<pre><code>## [1]  2.064665  0.698809 -2.152309 -1.425350 -2.468197</code></pre>
 <p>What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:</p>
 <pre class="r"><code>as.data.frame(df)</code></pre>
-<pre><code>##           x          y
-## 1 0.2804677 0.42473726
-## 2 0.1320433 1.94220925
-## 3 0.2359260 0.08866599
-## 4 0.1187970 0.32734936
-## 5 0.0358042 0.79383484</code></pre>
+<pre><code>##           x         y
+## 1 0.3981670  2.064665
+## 2 0.8710572  0.698809
+## 3 0.8312057 -2.152309
+## 4 0.7193028 -1.425350
+## 5 0.5749409 -2.468197</code></pre>
 </div>
 <div id="including-plots" class="section level2">
 <h2>Including Plots</h2>
@@ -943,13 +1050,21 @@ cars
 </p>
 </div>
 </div>
-<div id="exercise-1" class="section level2">
-<h2>Exercise 1</h2>
+<div id="tibble-exercise-1" class="section level2">
+<h2>Tibble Exercise 1</h2>
 <p>Create a new tibble with the following information: name, age, height, weight, smoker (T or F), Male (True or Fale) compare the tibble with the R data_frame</p>
 </div>
 <div id="exercise-2" class="section level2">
 <h2>Exercise 2</h2>
 <p>convert iris data set (given to us in data.frame ) to tibble data_frame</p>
+</div>
+<div id="exercise-3" class="section level2">
+<h2>Exercise 3</h2>
+<p>How can you tell whether the object is a Tibble or not?</p>
+</div>
+<div id="exercise-4-based-on-wickams-book" class="section level2">
+<h2>Exercise 4 (based on Wickam’s book)</h2>
+<p>Partial matching is a big issue with data.frame. df &lt;- data.frame(abc = 1, xyz = “a”) df$x df[, “xyz”]</p>
 </div>
 
 
