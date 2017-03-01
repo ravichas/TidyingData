@@ -1,4 +1,6 @@
 *~
+.RData
+.Rhistory
 *_files
 *_cache
 .Rapp.history
