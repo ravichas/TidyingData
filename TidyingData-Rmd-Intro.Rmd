@@ -2,7 +2,7 @@
 title: "BTEP Rmd Intro"
 author: "Drs.S. Ravichandran and Randall Johnson"
 date: "February 26, 2017"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, echo = FALSE}
