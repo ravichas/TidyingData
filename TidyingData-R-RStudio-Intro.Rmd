@@ -7,7 +7,7 @@ output: github_document
 
 ```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
+knitr::opts_knit$set(root.dir = "C:/Users/RaviChandran/Documents/TidyingData/")
 print(getwd())
 ```
 
@@ -73,6 +73,23 @@ For the rest of the section, we will use a Breast cancer dataset.
 wdbc <- read_csv("Data/wdbc.data", col_names = FALSE)
 #wdbctry2 <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", header = FALSE)
 names(wdbc)
+```
+# where you are? 
+
+```{r}
+getwd()
+```
+
+you can set a directory to go to by 
+```{r, eval = FALSE}
+setwd("YOUR_DIR"")
+```
+
+
+# to get a detailed description of the attached packages and R session 
+
+```{r}
+sessionInfo()
 ```
 
 Let us add column names
