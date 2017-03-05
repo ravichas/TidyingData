@@ -5,19 +5,20 @@ February 26, 2017
 
 ``` r
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "C:/Users/RaviChandran/Documents/TidyingData/")
+knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
 print(getwd())
 ```
 
-    ## [1] "C:/Users/RaviChandran/Documents/TidyingData"
+    ## [1] "H:/2017/BTEP1-TidyingData"
 
 Let us load the libraries
 
 ``` r
+# install.packages("tidyverse")
 library(tidyverse) 
 ```
 
-    ## Warning: package 'tidyverse' was built under R version 3.3.2
+    ## Warning: package 'tidyverse' was built under R version 3.2.5
 
     ## Loading tidyverse: ggplot2
     ## Loading tidyverse: tibble
@@ -26,13 +27,17 @@ library(tidyverse)
     ## Loading tidyverse: purrr
     ## Loading tidyverse: dplyr
 
-    ## Warning: package 'ggplot2' was built under R version 3.3.2
+    ## Warning: package 'ggplot2' was built under R version 3.2.5
 
-    ## Warning: package 'tidyr' was built under R version 3.3.2
+    ## Warning: package 'tibble' was built under R version 3.2.5
 
-    ## Warning: package 'readr' was built under R version 3.3.2
+    ## Warning: package 'tidyr' was built under R version 3.2.5
 
-    ## Warning: package 'purrr' was built under R version 3.3.2
+    ## Warning: package 'readr' was built under R version 3.2.5
+
+    ## Warning: package 'purrr' was built under R version 3.2.5
+
+    ## Warning: package 'dplyr' was built under R version 3.2.5
 
     ## Conflicts with tidy packages ----------------------------------------------
 
@@ -206,7 +211,7 @@ where you are?
 getwd()
 ```
 
-    ## [1] "C:/Users/RaviChandran/Documents/TidyingData"
+    ## [1] "H:/2017/BTEP1-TidyingData"
 
 you can set a directory to go to by
 
@@ -221,7 +226,7 @@ to get a detailed description of the attached packages and R session
 sessionInfo()
 ```
 
-    ## R version 3.3.1 (2016-06-21)
+    ## R version 3.2.4 Revised (2016-03-16 r70336)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
     ## Running under: Windows 7 x64 (build 7601) Service Pack 1
     ## 
@@ -236,20 +241,20 @@ sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ## [1] dplyr_0.5.0     purrr_0.2.2     readr_1.0.0     tidyr_0.6.0    
-    ## [5] tibble_1.2      ggplot2_2.2.0   tidyverse_1.1.1
+    ## [1] dplyr_0.5.0     purrr_0.2.2     readr_1.0.0     tidyr_0.6.1    
+    ## [5] tibble_1.2      ggplot2_2.2.1   tidyverse_1.1.1
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_0.12.8      plyr_1.8.4       forcats_0.2.0    tools_3.3.1     
-    ##  [5] digest_0.6.10    jsonlite_1.1     lubridate_1.6.0  evaluate_0.10   
+    ##  [1] Rcpp_0.12.5      plyr_1.8.4       forcats_0.2.0    tools_3.2.4     
+    ##  [5] digest_0.6.9     jsonlite_1.3     lubridate_1.6.0  evaluate_0.10   
     ##  [9] nlme_3.1-128     gtable_0.2.0     lattice_0.20-33  psych_1.6.12    
-    ## [13] DBI_0.5-1        yaml_2.1.14      parallel_3.3.1   haven_1.0.0     
-    ## [17] xml2_1.1.1       stringr_1.1.0    httr_1.2.1       knitr_1.15.1    
-    ## [21] hms_0.3          rprojroot_1.2    grid_3.3.1       R6_2.2.0        
-    ## [25] readxl_0.1.1     foreign_0.8-67   rmarkdown_1.3    modelr_0.1.0    
+    ## [13] DBI_0.4-1        yaml_2.1.13      parallel_3.2.4   haven_1.0.0     
+    ## [17] xml2_1.1.1       stringr_1.0.0    httr_1.2.1       knitr_1.15.1    
+    ## [21] hms_0.3          rprojroot_1.2    grid_3.2.4       R6_2.2.0        
+    ## [25] readxl_0.1.1     foreign_0.8-66   rmarkdown_1.3    modelr_0.1.0    
     ## [29] reshape2_1.4.2   magrittr_1.5     backports_1.0.5  scales_0.4.1    
     ## [33] htmltools_0.3.5  rvest_0.3.2      assertthat_0.1   mnormt_1.5-5    
-    ## [37] colorspace_1.3-1 stringi_1.1.2    lazyeval_0.2.0   munsell_0.4.3   
+    ## [37] colorspace_1.3-2 stringi_1.0-1    lazyeval_0.2.0   munsell_0.4.3   
     ## [41] broom_0.4.2
 
 Let us add column names
@@ -500,16 +505,16 @@ t2
     ## # A tibble: 1,000 × 5
     ##                      a          b     c         d     e
     ##                 <dttm>     <date> <int>     <dbl> <chr>
-    ## 1  2017-03-04 05:40:15 2017-03-18     1 0.4361178     o
-    ## 2  2017-03-03 19:21:41 2017-03-04     2 0.8797589     l
-    ## 3  2017-03-03 22:24:55 2017-03-13     3 0.1440037     m
-    ## 4  2017-03-04 05:02:35 2017-03-09     4 0.9535734     s
-    ## 5  2017-03-04 07:01:10 2017-03-23     5 0.8333644     u
-    ## 6  2017-03-04 08:40:58 2017-03-04     6 0.1225649     k
-    ## 7  2017-03-03 15:41:52 2017-03-17     7 0.9645794     j
-    ## 8  2017-03-04 04:05:46 2017-03-25     8 0.2524830     a
-    ## 9  2017-03-03 17:11:47 2017-03-03     9 0.1223918     z
-    ## 10 2017-03-04 02:14:54 2017-03-29    10 0.5514916     m
+    ## 1  2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
+    ## 2  2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
+    ## 3  2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
+    ## 4  2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
+    ## 5  2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
+    ## 6  2017-03-04 22:12:31 2017-03-26     6 0.6645248     a
+    ## 7  2017-03-04 21:06:10 2017-03-22     7 0.7076685     h
+    ## 8  2017-03-04 10:23:34 2017-03-17     8 0.4258284     n
+    ## 9  2017-03-04 05:59:57 2017-03-12     9 0.4196729     d
+    ## 10 2017-03-04 04:58:47 2017-03-29    10 0.5023242     x
     ## # ... with 990 more rows
 
 You can change the defaults of tibble display with options.
@@ -522,12 +527,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-04 05:40:15 2017-03-18     1 0.4361178     o
-    ## 2 2017-03-03 19:21:41 2017-03-04     2 0.8797589     l
-    ## 3 2017-03-03 22:24:55 2017-03-13     3 0.1440037     m
-    ## 4 2017-03-04 05:02:35 2017-03-09     4 0.9535734     s
-    ## 5 2017-03-04 07:01:10 2017-03-23     5 0.8333644     u
-    ## 6 2017-03-04 08:40:58 2017-03-04     6 0.1225649     k
+    ## 1 2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
+    ## 2 2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
+    ## 3 2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
+    ## 4 2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
+    ## 5 2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
+    ## 6 2017-03-04 22:12:31 2017-03-26     6 0.6645248     a
     ## # ... with 994 more rows
 
 You can also use the following tibble option to show all columns
@@ -544,9 +549,9 @@ How to extract the columns or rows of tibble?
 head(t2$a)
 ```
 
-    ## [1] "2017-03-04 05:40:15 EST" "2017-03-03 19:21:41 EST"
-    ## [3] "2017-03-03 22:24:55 EST" "2017-03-04 05:02:35 EST"
-    ## [5] "2017-03-04 07:01:10 EST" "2017-03-04 08:40:58 EST"
+    ## [1] "2017-03-04 02:43:45 EST" "2017-03-03 23:43:57 EST"
+    ## [3] "2017-03-04 21:35:15 EST" "2017-03-04 16:54:13 EST"
+    ## [5] "2017-03-04 18:07:18 EST" "2017-03-04 22:12:31 EST"
 
 ``` r
 has_name(t2, "b")
@@ -571,12 +576,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-04 05:40:15 2017-03-18     1 0.4361178     o
-    ## 2 2017-03-03 19:21:41 2017-03-04     2 0.8797589     l
-    ## 3 2017-03-03 22:24:55 2017-03-13     3 0.1440037     m
-    ## 4 2017-03-04 05:02:35 2017-03-09     4 0.9535734     s
-    ## 5 2017-03-04 07:01:10 2017-03-23     5 0.8333644     u
-    ## 6 2017-03-04 08:40:58 2017-03-04     6 0.1225649     k
+    ## 1 2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
+    ## 2 2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
+    ## 3 2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
+    ## 4 2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
+    ## 5 2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
+    ## 6 2017-03-04 22:12:31 2017-03-26     6 0.6645248     a
     ## # ... with 994 more rows
 
 ``` r
@@ -590,13 +595,13 @@ t2
 
     ## [1] "2017-03-03"
 
-    ## [1] "2017-03-03 14:26:58 EST"
+    ## [1] "2017-03-03 23:21:19 EST"
 
     ## [1] 1
 
-    ## [1] 0.6795676
+    ## [1] 0.3309948
 
-    ## [1] "f"
+    ## [1] "r"
 
 ``` r
 t2 %>% 
@@ -612,12 +617,12 @@ t2 %>%
     ## # A tibble: 1,001 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-04 05:40:15 2017-03-18     1 0.4361178     o
-    ## 2 2017-03-02 19:00:00 2017-03-03     1 0.6795676     f
-    ## 3 2017-03-03 19:21:41 2017-03-04     2 0.8797589     l
-    ## 4 2017-03-03 22:24:55 2017-03-13     3 0.1440037     m
-    ## 5 2017-03-04 05:02:35 2017-03-09     4 0.9535734     s
-    ## 6 2017-03-04 07:01:10 2017-03-23     5 0.8333644     u
+    ## 1 2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
+    ## 2 2017-03-02 19:00:00 2017-03-04     1 0.3309948     r
+    ## 3 2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
+    ## 4 2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
+    ## 5 2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
+    ## 6 2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
     ## # ... with 995 more rows
 
 After the change
@@ -629,12 +634,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-04 05:40:15 2017-03-18     1 0.4361178     o
-    ## 2 2017-03-03 19:21:41 2017-03-04     2 0.8797589     l
-    ## 3 2017-03-03 22:24:55 2017-03-13     3 0.1440037     m
-    ## 4 2017-03-04 05:02:35 2017-03-09     4 0.9535734     s
-    ## 5 2017-03-04 07:01:10 2017-03-23     5 0.8333644     u
-    ## 6 2017-03-04 08:40:58 2017-03-04     6 0.1225649     k
+    ## 1 2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
+    ## 2 2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
+    ## 3 2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
+    ## 4 2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
+    ## 5 2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
+    ## 6 2017-03-04 22:12:31 2017-03-26     6 0.6645248     a
     ## # ... with 994 more rows
 
 Subsetting
@@ -652,13 +657,13 @@ df <- tibble(
 df$x
 ```
 
-    ## [1] 0.04821688 0.31713963 0.79074777 0.63222426 0.84670813
+    ## [1] 0.88300098 0.39839256 0.01953404 0.97093124 0.38633763
 
 ``` r
 df[[1]]
 ```
 
-    ## [1] 0.04821688 0.31713963 0.79074777 0.63222426 0.84670813
+    ## [1] 0.88300098 0.39839256 0.01953404 0.97093124 0.38633763
 
 Can you use Tibble in a pipeline?
 
@@ -666,13 +671,13 @@ Can you use Tibble in a pipeline?
 df %>% .$x   
 ```
 
-    ## [1] 0.04821688 0.31713963 0.79074777 0.63222426 0.84670813
+    ## [1] 0.88300098 0.39839256 0.01953404 0.97093124 0.38633763
 
 ``` r
 df %>% .[["y"]]
 ```
 
-    ## [1]  0.3433545  1.3757849  0.7320751 -0.8420667  1.5138804
+    ## [1]  0.3430747 -0.5223135  0.9647045  0.9963238 -1.4469135
 
 What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
 
@@ -681,11 +686,11 @@ as.data.frame(df)
 ```
 
     ##            x          y
-    ## 1 0.04821688  0.3433545
-    ## 2 0.31713963  1.3757849
-    ## 3 0.79074777  0.7320751
-    ## 4 0.63222426 -0.8420667
-    ## 5 0.84670813  1.5138804
+    ## 1 0.88300098  0.3430747
+    ## 2 0.39839256 -0.5223135
+    ## 3 0.01953404  0.9647045
+    ## 4 0.97093124  0.9963238
+    ## 5 0.38633763 -1.4469135
 
 Including Plots
 ---------------
