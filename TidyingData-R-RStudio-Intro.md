@@ -1,24 +1,15 @@
 BTEP-R-RStudio-Intro
 ================
-Ravi and Randy
+Drs. Sarangan Ravichandran and Randall Johnson
 February 26, 2017
 
-``` r
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
-print(getwd())
-```
-
-    ## [1] "H:/2017/BTEP1-TidyingData"
-
-Let us load the libraries
+Let us first load the libraries
 
 ``` r
+# if you dont have tidyverse then run the following line once 
 # install.packages("tidyverse")
 library(tidyverse) 
 ```
-
-    ## Warning: package 'tidyverse' was built under R version 3.2.5
 
     ## Loading tidyverse: ggplot2
     ## Loading tidyverse: tibble
@@ -27,39 +18,22 @@ library(tidyverse)
     ## Loading tidyverse: purrr
     ## Loading tidyverse: dplyr
 
-    ## Warning: package 'ggplot2' was built under R version 3.2.5
-
-    ## Warning: package 'tibble' was built under R version 3.2.5
-
-    ## Warning: package 'tidyr' was built under R version 3.2.5
-
-    ## Warning: package 'readr' was built under R version 3.2.5
-
-    ## Warning: package 'purrr' was built under R version 3.2.5
-
-    ## Warning: package 'dplyr' was built under R version 3.2.5
-
     ## Conflicts with tidy packages ----------------------------------------------
 
     ## filter(): dplyr, stats
     ## lag():    dplyr, stats
 
-Let us introduce R/R-Studio with a dataset.
--------------------------------------------
+Let us introduce R/R-Studio Data Import with a Import Dataset and Command-line options
+--------------------------------------------------------------------------------------
 
-Let us first read the data via RStudio drop-down option
+![](Images/RS-ImportDataset.png)
 
-![](Images/RS-ImportDataset.png) ![](Images/RS-ImportDataset1.png)
+The following few lines will explain how to read in a data file via R command-line
 
-We can also use R-command-line options to import a file.
+Please note that we will be using **readr** function for this section. Note that read\_csv is different than read.csv
 
-Import functions
-----------------
-
-We will be using function for this section. Note that read\_csv is different than read.csv
-
--   read\_csv() comma-sep files
--   read\_csv2() ; separated files
+-   read\_csv(), read\_csv2() \# read\_csv2 and read\_csv are same except for what options are default
+-   the returning objects from read\_csv and read.csv are different (DF vs tibbles)
 -   read\_tsv()
 -   read\_delim()
 
@@ -69,36 +43,7 @@ Let us do some examples
 Watch out how the column names are displayed and additional information that you get from read\_csv Also note the number of rows are displayed in read\_csv compared to read.csv
 
 ``` r
-read_csv("Data/WHO-2a.csv")
-```
-
-    ## Warning: Duplicated column names deduplicated: '2007-2013' =>
-    ## '2007-2013_1' [3]
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   Country = col_character(),
-    ##   `2007-2013` = col_double(),
-    ##   `2007-2013_1` = col_double()
-    ## )
-
-    ## # A tibble: 32 × 3
-    ##                             Country `2007-2013` `2007-2013_1`
-    ##                               <chr>       <dbl>         <dbl>
-    ## 1                           Bahamas        15.9           2.2
-    ## 2  Bolivia (Plurinational State of)         4.5           3.5
-    ## 3                            Brazil        11.3            NA
-    ## 4                      Burkina Faso         2.9           2.2
-    ## 5                           Burundi         2.8           1.7
-    ## 6                             China         1.4           1.6
-    ## 7                          Colombia         3.1            NA
-    ## 8                             Congo        11.5           6.5
-    ## 9                      Cook Islands         4.5            NA
-    ## 10 Democratic Republic of the Congo         2.3           2.0
-    ## # ... with 22 more rows
-
-``` r
-read.csv("Data/WHO-2a.csv")
+(tcsv <- read.csv("Data/WHO-2a.csv"))  # traditional csv object
 ```
 
     ##                             Country X2007.2013 X2007.2013.1
@@ -134,6 +79,49 @@ read.csv("Data/WHO-2a.csv")
     ## 30            Sao Tome and Principe       13.8          2.4
     ## 31                          Ukraine        3.7          4.0
     ## 32                           Zambia        4.7           NA
+
+``` r
+(ncsv <- read_csv("Data/WHO-2a.csv"))  # new csv, tibble object
+```
+
+    ## Warning: Duplicated column names deduplicated: '2007-2013' =>
+    ## '2007-2013_1' [3]
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   Country = col_character(),
+    ##   `2007-2013` = col_double(),
+    ##   `2007-2013_1` = col_double()
+    ## )
+
+    ## # A tibble: 32 × 3
+    ##                             Country `2007-2013` `2007-2013_1`
+    ##                               <chr>       <dbl>         <dbl>
+    ## 1                           Bahamas        15.9           2.2
+    ## 2  Bolivia (Plurinational State of)         4.5           3.5
+    ## 3                            Brazil        11.3            NA
+    ## 4                      Burkina Faso         2.9           2.2
+    ## 5                           Burundi         2.8           1.7
+    ## 6                             China         1.4           1.6
+    ## 7                          Colombia         3.1            NA
+    ## 8                             Congo        11.5           6.5
+    ## 9                      Cook Islands         4.5            NA
+    ## 10 Democratic Republic of the Congo         2.3           2.0
+    ## # ... with 22 more rows
+
+See the difference in the returning objects' class
+
+``` r
+class(ncsv) # traditional csv function, read.csv 
+```
+
+    ## [1] "tbl_df"     "tbl"        "data.frame"
+
+``` r
+class(tcsv) # tidyverse read_csv
+```
+
+    ## [1] "data.frame"
 
 What happens if your dataset has a metadata (indicated by \# ) as the first line followed by the column names
 
@@ -178,34 +166,8 @@ Import Exercise-1
 
 What function would you use to read a file whose fields are separated by |
 
-For the rest of the section, we will use a Breast cancer dataset.
-
-``` r
-#wdbc <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", col_names = FALSE)
-
-wdbc <- read_csv("Data/wdbc.data", col_names = FALSE)
-```
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   .default = col_double(),
-    ##   X1 = col_integer(),
-    ##   X2 = col_character()
-    ## )
-
-    ## See spec(...) for full column specifications.
-
-``` r
-#wdbctry2 <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", header = FALSE)
-names(wdbc)
-```
-
-    ##  [1] "X1"  "X2"  "X3"  "X4"  "X5"  "X6"  "X7"  "X8"  "X9"  "X10" "X11"
-    ## [12] "X12" "X13" "X14" "X15" "X16" "X17" "X18" "X19" "X20" "X21" "X22"
-    ## [23] "X23" "X24" "X25" "X26" "X27" "X28" "X29" "X30" "X31" "X32"
-
-where you are?
-==============
+To find out where you are, use the getwd command
+------------------------------------------------
 
 ``` r
 getwd()
@@ -219,14 +181,14 @@ you can set a directory to go to by
 setwd("YOUR_DIR"")
 ```
 
-to get a detailed description of the attached packages and R session
-====================================================================
+To get a detailed description of the attached packages and R session
+--------------------------------------------------------------------
 
 ``` r
 sessionInfo()
 ```
 
-    ## R version 3.2.4 Revised (2016-03-16 r70336)
+    ## R version 3.3.2 (2016-10-31)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
     ## Running under: Windows 7 x64 (build 7601) Service Pack 1
     ## 
@@ -245,34 +207,17 @@ sessionInfo()
     ## [5] tibble_1.2      ggplot2_2.2.1   tidyverse_1.1.1
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_0.12.5      plyr_1.8.4       forcats_0.2.0    tools_3.2.4     
-    ##  [5] digest_0.6.9     jsonlite_1.3     lubridate_1.6.0  evaluate_0.10   
-    ##  [9] nlme_3.1-128     gtable_0.2.0     lattice_0.20-33  psych_1.6.12    
-    ## [13] DBI_0.4-1        yaml_2.1.13      parallel_3.2.4   haven_1.0.0     
-    ## [17] xml2_1.1.1       stringr_1.0.0    httr_1.2.1       knitr_1.15.1    
-    ## [21] hms_0.3          rprojroot_1.2    grid_3.2.4       R6_2.2.0        
-    ## [25] readxl_0.1.1     foreign_0.8-66   rmarkdown_1.3    modelr_0.1.0    
+    ##  [1] Rcpp_0.12.8      plyr_1.8.4       forcats_0.2.0    tools_3.3.2     
+    ##  [5] digest_0.6.11    jsonlite_1.2     lubridate_1.6.0  evaluate_0.10   
+    ##  [9] nlme_3.1-128     gtable_0.2.0     lattice_0.20-34  psych_1.6.12    
+    ## [13] DBI_0.5-1        yaml_2.1.14      parallel_3.3.2   haven_1.0.0     
+    ## [17] xml2_1.1.0       stringr_1.1.0    httr_1.2.1       knitr_1.15.1    
+    ## [21] hms_0.3          rprojroot_1.2    grid_3.3.2       R6_2.2.0        
+    ## [25] readxl_0.1.1     foreign_0.8-67   rmarkdown_1.3    modelr_0.1.0    
     ## [29] reshape2_1.4.2   magrittr_1.5     backports_1.0.5  scales_0.4.1    
     ## [33] htmltools_0.3.5  rvest_0.3.2      assertthat_0.1   mnormt_1.5-5    
-    ## [37] colorspace_1.3-2 stringi_1.0-1    lazyeval_0.2.0   munsell_0.4.3   
-    ## [41] broom_0.4.2
-
-Let us add column names
-
-``` r
-cnames <- c("ID", "Diagnosis", 
-            "radius", "Texture", "Perimeter", "area",
-            "smoothness", "compactness", "concavity", "concave_points",
-            "symmetry","fractaldim",
-            "radiusSE", "TextureSE", "PerimeterSE", "areaSE",
-            "smoothnessSE", "compactnessSE", "concavitySE", "concave_pointsSE",
-            "symmetrySE","fractaldimSE",
-            "radiusW", "TextureW", "PerimeterW", "areaW",
-            "smoothnessW", "compactnessW", "concavityW", "concave_pointsW",
-            "symmetryW","fractaldimW")
-
-names(wdbc) <- cnames
-```
+    ## [37] colorspace_1.3-2 stringi_1.1.2    lazyeval_0.2.0   munsell_0.4.3   
+    ## [41] broom_0.4.1
 
 Basic Usage
 
@@ -300,7 +245,7 @@ If you want to just display the code chunk but not the concerned R code, you nee
 
 Plotting in Rmd. If you want the users to see the plot but not the code, then do the following:
 
-Note the eval=FALSE (upper case; lower case will fail) ![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-8-1.png)
+Note the eval=FALSE (upper case; lower case will fail) ![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 If you want to display the R code without evualating, then use
 
@@ -348,6 +293,8 @@ knitr::kable(mtcars)
 | Ferrari Dino        |  19.7|    6|  145.0|  175|  3.62|  2.770|  15.50|    0|    1|     5|     6|
 | Maserati Bora       |  15.0|    8|  301.0|  335|  3.54|  3.570|  14.60|    0|    1|     5|     8|
 | Volvo 142E          |  21.4|    4|  121.0|  109|  4.11|  2.780|  18.60|    1|    1|     4|     2|
+
+In the tidyverse the commonly returning objects are not data.frame but tibbles. So, let us introduce tibble in the next section
 
 Tibble
 ------
@@ -412,10 +359,9 @@ as_tibble(df)
 
 you can coerce regular R data frame into tibble. Let us look at the R dataset, cars. Let us learn about cars datset
 
-    ## starting httpd help server ...
-
-    ##  done
-
+<pre> <code>
+  ?cars
+</code></pre>
 Let us find out what class cars object belongs to and how to convert cars data frame into tibbles object. Note that
 
 ``` r
@@ -503,18 +449,18 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                      a          b     c         d     e
-    ##                 <dttm>     <date> <int>     <dbl> <chr>
-    ## 1  2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
-    ## 2  2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
-    ## 3  2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
-    ## 4  2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
-    ## 5  2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
-    ## 6  2017-03-04 22:12:31 2017-03-26     6 0.6645248     a
-    ## 7  2017-03-04 21:06:10 2017-03-22     7 0.7076685     h
-    ## 8  2017-03-04 10:23:34 2017-03-17     8 0.4258284     n
-    ## 9  2017-03-04 05:59:57 2017-03-12     9 0.4196729     d
-    ## 10 2017-03-04 04:58:47 2017-03-29    10 0.5023242     x
+    ##                      a          b     c          d     e
+    ##                 <dttm>     <date> <int>      <dbl> <chr>
+    ## 1  2017-03-05 18:18:14 2017-04-03     1 0.33099759     q
+    ## 2  2017-03-06 03:16:24 2017-04-02     2 0.35856297     n
+    ## 3  2017-03-05 23:39:35 2017-03-15     3 0.03970580     s
+    ## 4  2017-03-06 12:45:42 2017-03-27     4 0.46966465     u
+    ## 5  2017-03-06 01:28:42 2017-03-30     5 0.90139823     v
+    ## 6  2017-03-06 00:08:44 2017-03-08     6 0.04192903     t
+    ## 7  2017-03-06 09:06:12 2017-03-28     7 0.02609339     r
+    ## 8  2017-03-05 20:58:51 2017-03-30     8 0.20830368     a
+    ## 9  2017-03-05 15:25:17 2017-03-24     9 0.25960711     d
+    ## 10 2017-03-05 15:18:39 2017-03-10    10 0.24017846     z
     ## # ... with 990 more rows
 
 You can change the defaults of tibble display with options.
@@ -525,14 +471,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
-    ## 2 2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
-    ## 3 2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
-    ## 4 2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
-    ## 5 2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
-    ## 6 2017-03-04 22:12:31 2017-03-26     6 0.6645248     a
+    ##                     a          b     c          d     e
+    ##                <dttm>     <date> <int>      <dbl> <chr>
+    ## 1 2017-03-05 18:18:14 2017-04-03     1 0.33099759     q
+    ## 2 2017-03-06 03:16:24 2017-04-02     2 0.35856297     n
+    ## 3 2017-03-05 23:39:35 2017-03-15     3 0.03970580     s
+    ## 4 2017-03-06 12:45:42 2017-03-27     4 0.46966465     u
+    ## 5 2017-03-06 01:28:42 2017-03-30     5 0.90139823     v
+    ## 6 2017-03-06 00:08:44 2017-03-08     6 0.04192903     t
     ## # ... with 994 more rows
 
 You can also use the following tibble option to show all columns
@@ -549,9 +495,9 @@ How to extract the columns or rows of tibble?
 head(t2$a)
 ```
 
-    ## [1] "2017-03-04 02:43:45 EST" "2017-03-03 23:43:57 EST"
-    ## [3] "2017-03-04 21:35:15 EST" "2017-03-04 16:54:13 EST"
-    ## [5] "2017-03-04 18:07:18 EST" "2017-03-04 22:12:31 EST"
+    ## [1] "2017-03-05 18:18:14 EST" "2017-03-06 03:16:24 EST"
+    ## [3] "2017-03-05 23:39:35 EST" "2017-03-06 12:45:42 EST"
+    ## [5] "2017-03-06 01:28:42 EST" "2017-03-06 00:08:44 EST"
 
 ``` r
 has_name(t2, "b")
@@ -574,14 +520,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
-    ## 2 2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
-    ## 3 2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
-    ## 4 2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
-    ## 5 2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
-    ## 6 2017-03-04 22:12:31 2017-03-26     6 0.6645248     a
+    ##                     a          b     c          d     e
+    ##                <dttm>     <date> <int>      <dbl> <chr>
+    ## 1 2017-03-05 18:18:14 2017-04-03     1 0.33099759     q
+    ## 2 2017-03-06 03:16:24 2017-04-02     2 0.35856297     n
+    ## 3 2017-03-05 23:39:35 2017-03-15     3 0.03970580     s
+    ## 4 2017-03-06 12:45:42 2017-03-27     4 0.46966465     u
+    ## 5 2017-03-06 01:28:42 2017-03-30     5 0.90139823     v
+    ## 6 2017-03-06 00:08:44 2017-03-08     6 0.04192903     t
     ## # ... with 994 more rows
 
 ``` r
@@ -593,15 +539,15 @@ t2
     print(aa); print(bb); print(cc); print(dd); print(ee)
 ```
 
-    ## [1] "2017-03-03"
+    ## [1] "2017-03-05"
 
-    ## [1] "2017-03-03 23:21:19 EST"
+    ## [1] "2017-03-05 15:08:26 EST"
 
     ## [1] 1
 
-    ## [1] 0.3309948
+    ## [1] 0.7010826
 
-    ## [1] "r"
+    ## [1] "t"
 
 ``` r
 t2 %>% 
@@ -617,12 +563,12 @@ t2 %>%
     ## # A tibble: 1,001 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
-    ## 2 2017-03-02 19:00:00 2017-03-04     1 0.3309948     r
-    ## 3 2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
-    ## 4 2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
-    ## 5 2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
-    ## 6 2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
+    ## 1 2017-03-05 18:18:14 2017-04-03     1 0.3309976     q
+    ## 2 2017-03-04 19:00:00 2017-03-05     1 0.7010826     t
+    ## 3 2017-03-06 03:16:24 2017-04-02     2 0.3585630     n
+    ## 4 2017-03-05 23:39:35 2017-03-15     3 0.0397058     s
+    ## 5 2017-03-06 12:45:42 2017-03-27     4 0.4696647     u
+    ## 6 2017-03-06 01:28:42 2017-03-30     5 0.9013982     v
     ## # ... with 995 more rows
 
 After the change
@@ -632,14 +578,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-04 02:43:45 2017-03-24     1 0.2024766     j
-    ## 2 2017-03-03 23:43:57 2017-03-10     2 0.5800707     q
-    ## 3 2017-03-04 21:35:15 2017-03-28     3 0.7919144     b
-    ## 4 2017-03-04 16:54:13 2017-03-18     4 0.9642997     w
-    ## 5 2017-03-04 18:07:18 2017-03-16     5 0.8886045     k
-    ## 6 2017-03-04 22:12:31 2017-03-26     6 0.6645248     a
+    ##                     a          b     c          d     e
+    ##                <dttm>     <date> <int>      <dbl> <chr>
+    ## 1 2017-03-05 18:18:14 2017-04-03     1 0.33099759     q
+    ## 2 2017-03-06 03:16:24 2017-04-02     2 0.35856297     n
+    ## 3 2017-03-05 23:39:35 2017-03-15     3 0.03970580     s
+    ## 4 2017-03-06 12:45:42 2017-03-27     4 0.46966465     u
+    ## 5 2017-03-06 01:28:42 2017-03-30     5 0.90139823     v
+    ## 6 2017-03-06 00:08:44 2017-03-08     6 0.04192903     t
     ## # ... with 994 more rows
 
 Subsetting
@@ -657,13 +603,13 @@ df <- tibble(
 df$x
 ```
 
-    ## [1] 0.88300098 0.39839256 0.01953404 0.97093124 0.38633763
+    ## [1] 0.3855661 0.2041797 0.7728640 0.7196939 0.8378507
 
 ``` r
 df[[1]]
 ```
 
-    ## [1] 0.88300098 0.39839256 0.01953404 0.97093124 0.38633763
+    ## [1] 0.3855661 0.2041797 0.7728640 0.7196939 0.8378507
 
 Can you use Tibble in a pipeline?
 
@@ -671,13 +617,13 @@ Can you use Tibble in a pipeline?
 df %>% .$x   
 ```
 
-    ## [1] 0.88300098 0.39839256 0.01953404 0.97093124 0.38633763
+    ## [1] 0.3855661 0.2041797 0.7728640 0.7196939 0.8378507
 
 ``` r
 df %>% .[["y"]]
 ```
 
-    ## [1]  0.3430747 -0.5223135  0.9647045  0.9963238 -1.4469135
+    ## [1]  0.17634897  0.83991999 -0.25626516 -1.89244030  0.03024849
 
 What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
 
@@ -685,12 +631,12 @@ What happens if tibble doesnt work with a package? Transform Tibble back to a da
 as.data.frame(df)
 ```
 
-    ##            x          y
-    ## 1 0.88300098  0.3430747
-    ## 2 0.39839256 -0.5223135
-    ## 3 0.01953404  0.9647045
-    ## 4 0.97093124  0.9963238
-    ## 5 0.38633763 -1.4469135
+    ##           x           y
+    ## 1 0.3855661  0.17634897
+    ## 2 0.2041797  0.83991999
+    ## 3 0.7728640 -0.25626516
+    ## 4 0.7196939 -1.89244030
+    ## 5 0.8378507  0.03024849
 
 Including Plots
 ---------------
@@ -726,3 +672,308 @@ Exercise 4 (based on Wickam's book)
 -----------------------------------
 
 Partial matching is a big issue with data.frame. df &lt;- data.frame(abc = 1, xyz = "a") df$x df\[, "xyz"\]
+
+Base R and Packages
+===================
+
+cran.r-project.org
+==================
+
+Base R and R core packages can be downloaded from
+=================================================
+
+Comprehensive R Archive Network (CRAN)
+======================================
+
+Available in Windows/Linux/Mac0
+===============================
+
+How to interact with R?
+=======================
+
+RGUI Deducer (preferred for the class) or RStudio
+=================================================
+
+Editor for R coding vi (linux) or vim or Emacs
+==============================================
+
+Key packages:
+=============
+
+foreign (to read other software files such as Stata)
+====================================================
+
+xlsk
+====
+
+XLConnect \# for xls files
+==========================
+
+install.packages("foreign") \# to install foreign package require(foreign) \# to load foreign package \#or library(foreign) help(package=foreign)
+
+to get a detailed description of the attached packages and R session
+====================================================================
+
+sessionInfo()
+
+R commands can be either typed or loaded from a file
+====================================================
+
+using source command
+====================
+
+case sensitive
+==============
+
+getwd() Getwd() \# correct command is getwd()
+
+setwd("c:") getwd() \# to check
+
+list.files() \# lists all files in the directory
+
+everything is an vector object in R
+===================================
+
+create a series of numbers using command line in R
+==================================================
+
+xx&lt;-scan() 1 2 3 4 5 7 8 9 10 \# end with an empty space
+
+getting help
+============
+
+?help ?scan
+
+another way to create a vector
+==============================
+
+Variable names no number, no underscore etc.
+============================================
+
+ages&lt;-c(1,2,3,4) ages
+
+ages+3 \# ages of kids after 3 years
+
+age&lt;-3 \# scalar is a zero vector age age +3
+
+age = 3 \# same as age&lt;-3
+
+don't mix numbers and character in a vector
+===========================================
+
+x&lt;-c("Brazil","Argentina","India")
+
+try mixing it with numbers
+==========================
+
+x&lt;-c("Brazil",10, "India")
+
+How to mix the character data and numerical data?
+=================================================
+
+Country&lt;-c("USA","Argentina","Mexico") PerCapitaIncome&lt;-c( 51749,11573, 9749) Data&lt;-data.frame(Country,PerCapitaIncome) States&lt;-c(50, 23,31) Data1&lt;-cbind(Data,States)
+
+Country&lt;-c("India") PerCapitaIncome&lt;-c(1450) States&lt;-c(28) Ndata&lt;-data.frame(Country,PerCapitaIncome,States) FinData&lt;-rbind(Data1,Ndata)
+
+IndiaSubset&lt;-subset(FinData,Country == "India") \#Write to a file write.csv(IndiaSubset,"IndiaSubset.csv")
+
+what happens; This is called coercing ; Not good.
+=================================================
+
+new\_age&lt;- age+3
+
+to list all objects created in R up to this point
+=================================================
+
+ls()
+
+How to input data?
+==================
+
+CSV (most common) but other types can be loaded
+===============================================
+
+read.csv("test.csv") CSVdat&lt;-read.csv("test.csv") CSVdat
+
+str(CSVdat) \# str function summary(CSVdat)
+
+how to read xls file?
+=====================
+
+????ADD
+=======
+
+can also read binary files
+==========================
+
+?readBin
+========
+
+What do you do with the data?
+=============================
+
+head(CSVdat) tail(CSVdat)
+
+colnames(CSVdat) names(CSVdat) \# same as colnames dim(CSVdat) \#dimension of the data class(CSVdat) summary(CSVdat)
+
+View(csv-dat) \# to edit the data
+
+R reads the datta and stores the data as data frames
+====================================================
+
+Which have the format like matrix
+=================================
+
+To extract or address a variables
+=================================
+
+object\[row,column\]
+====================
+
+CSVdat\[1,2\]
+
+CSVdat\[ ,2\] \# note the levels have already beeb \# populated CSVdat\[2, \]
+
+CSVdat$ID
+
+dim(CSVdat) \# dimention 5,3 \#Conditional statements \# CSVdat*I**D*\[*C**S**V**d**a**t*ID&gt;=3\] subset(CSVdat, ID&gt;=3) \# to carve out data with ID&gt;=3
+
+Concatenation
+=============
+
+sorting
+=======
+
+CSVdat1&lt;-read.csv("csv-data1.csv") CSVdat1\[order(CSVdat1$ID), \] \# attach(CSVdat1) ID \# what are the problems in attaching?
+
+sort one column
+===============
+
+CSVdat1\[order(AGE), \]
+
+let us sort by two variables one after another
+==============================================
+
+CSVdat1\[order(STATEID,AGE), \]
+
+why not reverse?
+================
+
+CSVdat1\[order(STATEID,-AGE), \]
+
+data types
+==========
+
+INF&lt;-3/0 \# Inf or -Inf -3/0
+
+diff between Inf and NA (not a number)
+======================================
+
+!is.na(Inf)
+
+what is then Inf?
+=================
+
+is.finite(INF) is.infinite(INF)
+
+x&lt;-c(1,2,3,4) x length(x) min(x) max(x)
+
+x\[1\] x\[2:3\]
+
+x&lt;-seq(1:10)
+
+descriptive Stats
+=================
+
+summary(data)
+
+Finally Cleaning up
+===================
+
+objects() \# what vars do you have in your env
+
+search() \#what is attached
+
+to remove, use rm(object)
+=========================
+
+detach(dataframe)
+
+coercion
+========
+
+x&lt;-seq(1:10) x sum(x) \# 55 sum(x&gt;5) \# 5 \#why? coercion x&gt;5 \# logical T or F \# this will be most cases coerced to numeric 0 or 1 \# (F F F F F T T T T T) \# (0 0 0 0 0 1 1 1 1 1) \# sum them sum(x&gt;5) \# you get 5 sum of 5 1s if you want the sum of their values
+
+sum(x\[x&gt;5\])
+
+tapply
+======
+
+tapply(X, FactorVar, function)
+==============================
+
+tapply(WHO*O**v**e**r*60, *W**H**O*Region, mean)
+
+Hands-on exercise using Wisconsin Breast Cancer dataset
+-------------------------------------------------------
+
+Now, let us read a slightly complicated Breast Cancer dataset. First let us use the import data set drop-down option
+
+![](Images/RS-ImportDataset.png) ![](Images/RS-ImportDataset1.png)
+
+``` r
+#wdbc <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", col_names = FALSE)
+
+wdbc <- read_csv("Data/wdbc.data", col_names = FALSE)
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   .default = col_double(),
+    ##   X1 = col_integer(),
+    ##   X2 = col_character()
+    ## )
+
+    ## See spec(...) for full column specifications.
+
+``` r
+#wdbctry2 <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", header = FALSE)
+names(wdbc)
+```
+
+    ##  [1] "X1"  "X2"  "X3"  "X4"  "X5"  "X6"  "X7"  "X8"  "X9"  "X10" "X11"
+    ## [12] "X12" "X13" "X14" "X15" "X16" "X17" "X18" "X19" "X20" "X21" "X22"
+    ## [23] "X23" "X24" "X25" "X26" "X27" "X28" "X29" "X30" "X31" "X32"
+
+Let us add column names
+
+``` r
+cnames <- c("ID", "Diagnosis", 
+            "radius", "Texture", "Perimeter", "area",
+            "smoothness", "compactness", "concavity", "concave_points",
+            "symmetry","fractaldim",
+            "radiusSE", "TextureSE", "PerimeterSE", "areaSE",
+            "smoothnessSE", "compactnessSE", "concavitySE", "concave_pointsSE",
+            "symmetrySE","fractaldimSE",
+            "radiusW", "TextureW", "PerimeterW", "areaW",
+            "smoothnessW", "compactnessW", "concavityW", "concave_pointsW",
+            "symmetryW","fractaldimW")
+
+names(wdbc) <- cnames
+```
+
+Let us find out how many samples we have in the dataset?
+
+``` r
+nrow(wdbc)
+```
+
+    ## [1] 569
+
+How many covariates are in the dataset? We can look at the Global environment (top right) window to get the information We can also find that out by typing the following command:
+
+``` r
+ncol(wdbc)
+```
+
+    ## [1] 32

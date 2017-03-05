@@ -5,7 +5,7 @@ February 26, 2017
 
     ## [1] "H:/2017/BTEP1-TidyingData"
 
-Let us load the libraries
+Let us load the libraries and do some cleanup
 
     ## Loading tidyverse: ggplot2
     ## Loading tidyverse: tibble
@@ -42,7 +42,7 @@ A window will pop-up asking you to choose the Title and Author and other informa
 
 You can also read in your previously created Rmd file.
 
-A quick mention about YAML.
+A quick mention about Yet Another Markup Language (YAML)
 
 YAML is a header section that renders your .Rmd file. It is almost like a CSS in HTML. YAML begins and ends with --- tags. YAML header is a section with key:Value pairs
 
