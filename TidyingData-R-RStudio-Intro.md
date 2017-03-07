@@ -357,6 +357,56 @@ as_tibble(df)
     ## 2    Peter Doe  23400 2007-03-25
     ## 3 Esther Julie  26800 2016-03-14
 
+Let us create a data.frame and a tibble.
+
+``` r
+df1 <- data.frame( Color = "Red")
+tb1 <-tibble(Color = "Red")
+```
+
+Exercise:
+---------
+
+If you type the following commmands, what will you get and explain your reasoning:
+
+``` r
+df1$C
+```
+
+    ## [1] Red
+    ## Levels: Red
+
+``` r
+tb1$C
+```
+
+    ## Warning: Unknown column 'C'
+
+    ## NULL
+
+``` r
+class(df1$Color)
+```
+
+    ## [1] "factor"
+
+``` r
+class(tb1$Color)
+```
+
+    ## [1] "character"
+
+Also, speculate on the type of object that you will get from each of these above two operations?
+
+The above explains traditional R data.frame is helpful in filling in the missing information. Also how data.frame modifies the variable type without asking (ex Character to Factor)
+
+Where can this go?
+------------------
+
+purr::map\_dbl(mtcars, mean) purrr:map\_dbl(mtcars, mean)
+
+tb1 &lt;- as.tibble( Color = "red") tb1$C
+
 you can coerce regular R data frame into tibble. Let us look at the R dataset, cars. Let us learn about cars datset
 
 <pre> <code>
@@ -449,18 +499,18 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                      a          b     c          d     e
-    ##                 <dttm>     <date> <int>      <dbl> <chr>
-    ## 1  2017-03-06 17:20:29 2017-03-14     1 0.91034187     y
-    ## 2  2017-03-07 10:21:39 2017-03-25     2 0.82095422     g
-    ## 3  2017-03-06 14:44:32 2017-03-12     3 0.06081037     d
-    ## 4  2017-03-06 21:47:59 2017-03-28     4 0.03439176     y
-    ## 5  2017-03-06 16:05:09 2017-03-28     5 0.26221651     q
-    ## 6  2017-03-07 06:11:50 2017-03-12     6 0.64396679     p
-    ## 7  2017-03-07 01:10:55 2017-03-23     7 0.41838772     u
-    ## 8  2017-03-06 13:16:22 2017-03-07     8 0.56141784     v
-    ## 9  2017-03-07 04:12:33 2017-03-27     9 0.54040962     v
-    ## 10 2017-03-06 13:42:40 2017-03-28    10 0.29763663     y
+    ##                      a          b     c         d     e
+    ##                 <dttm>     <date> <int>     <dbl> <chr>
+    ## 1  2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
+    ## 2  2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
+    ## 3  2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
+    ## 4  2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
+    ## 5  2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
+    ## 6  2017-03-08 11:39:54 2017-04-01     6 0.9643774     x
+    ## 7  2017-03-08 03:50:25 2017-03-08     7 0.4103859     o
+    ## 8  2017-03-08 07:23:59 2017-03-18     8 0.3323651     c
+    ## 9  2017-03-07 18:57:25 2017-03-23     9 0.3904016     l
+    ## 10 2017-03-07 21:31:24 2017-03-20    10 0.8256226     c
     ## # ... with 990 more rows
 
 You can change the defaults of tibble display with options.
@@ -471,14 +521,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c          d     e
-    ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-06 17:20:29 2017-03-14     1 0.91034187     y
-    ## 2 2017-03-07 10:21:39 2017-03-25     2 0.82095422     g
-    ## 3 2017-03-06 14:44:32 2017-03-12     3 0.06081037     d
-    ## 4 2017-03-06 21:47:59 2017-03-28     4 0.03439176     y
-    ## 5 2017-03-06 16:05:09 2017-03-28     5 0.26221651     q
-    ## 6 2017-03-07 06:11:50 2017-03-12     6 0.64396679     p
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
+    ## 2 2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
+    ## 3 2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
+    ## 4 2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
+    ## 5 2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
+    ## 6 2017-03-08 11:39:54 2017-04-01     6 0.9643774     x
     ## # ... with 994 more rows
 
 You can also use the following tibble option to show all columns
@@ -495,9 +545,9 @@ How to extract the columns or rows of tibble?
 head(t2$a)
 ```
 
-    ## [1] "2017-03-06 17:20:29 EST" "2017-03-07 10:21:39 EST"
-    ## [3] "2017-03-06 14:44:32 EST" "2017-03-06 21:47:59 EST"
-    ## [5] "2017-03-06 16:05:09 EST" "2017-03-07 06:11:50 EST"
+    ## [1] "2017-03-08 08:53:10 EST" "2017-03-08 15:55:24 EST"
+    ## [3] "2017-03-08 07:21:56 EST" "2017-03-08 01:32:42 EST"
+    ## [5] "2017-03-08 15:43:00 EST" "2017-03-08 11:39:54 EST"
 
 ``` r
 has_name(t2, "b")
@@ -520,14 +570,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c          d     e
-    ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-06 17:20:29 2017-03-14     1 0.91034187     y
-    ## 2 2017-03-07 10:21:39 2017-03-25     2 0.82095422     g
-    ## 3 2017-03-06 14:44:32 2017-03-12     3 0.06081037     d
-    ## 4 2017-03-06 21:47:59 2017-03-28     4 0.03439176     y
-    ## 5 2017-03-06 16:05:09 2017-03-28     5 0.26221651     q
-    ## 6 2017-03-07 06:11:50 2017-03-12     6 0.64396679     p
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
+    ## 2 2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
+    ## 3 2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
+    ## 4 2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
+    ## 5 2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
+    ## 6 2017-03-08 11:39:54 2017-04-01     6 0.9643774     x
     ## # ... with 994 more rows
 
 ``` r
@@ -539,15 +589,15 @@ t2
     print(aa); print(bb); print(cc); print(dd); print(ee)
 ```
 
-    ## [1] "2017-03-06"
+    ## [1] "2017-03-07"
 
-    ## [1] "2017-03-06 10:32:53 EST"
+    ## [1] "2017-03-07 17:52:07 EST"
 
     ## [1] 1
 
-    ## [1] 0.9267156
+    ## [1] 0.7915565
 
-    ## [1] "d"
+    ## [1] "j"
 
 ``` r
 t2 %>% 
@@ -561,14 +611,14 @@ t2 %>%
 ```
 
     ## # A tibble: 1,001 × 5
-    ##                     a          b     c          d     e
-    ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-06 17:20:29 2017-03-14     1 0.91034187     y
-    ## 2 2017-03-05 19:00:00 2017-03-06     1 0.92671561     d
-    ## 3 2017-03-07 10:21:39 2017-03-25     2 0.82095422     g
-    ## 4 2017-03-06 14:44:32 2017-03-12     3 0.06081037     d
-    ## 5 2017-03-06 21:47:59 2017-03-28     4 0.03439176     y
-    ## 6 2017-03-06 16:05:09 2017-03-28     5 0.26221651     q
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
+    ## 2 2017-03-06 19:00:00 2017-03-07     1 0.7915565     j
+    ## 3 2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
+    ## 4 2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
+    ## 5 2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
+    ## 6 2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
     ## # ... with 995 more rows
 
 After the change
@@ -578,14 +628,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c          d     e
-    ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-06 17:20:29 2017-03-14     1 0.91034187     y
-    ## 2 2017-03-07 10:21:39 2017-03-25     2 0.82095422     g
-    ## 3 2017-03-06 14:44:32 2017-03-12     3 0.06081037     d
-    ## 4 2017-03-06 21:47:59 2017-03-28     4 0.03439176     y
-    ## 5 2017-03-06 16:05:09 2017-03-28     5 0.26221651     q
-    ## 6 2017-03-07 06:11:50 2017-03-12     6 0.64396679     p
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
+    ## 2 2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
+    ## 3 2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
+    ## 4 2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
+    ## 5 2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
+    ## 6 2017-03-08 11:39:54 2017-04-01     6 0.9643774     x
     ## # ... with 994 more rows
 
 Subsetting
@@ -603,13 +653,13 @@ df <- tibble(
 df$x
 ```
 
-    ## [1] 0.7481171 0.9716237 0.5388791 0.7087651 0.9401897
+    ## [1] 0.4680699 0.9938051 0.7469239 0.2628325 0.7365345
 
 ``` r
 df[[1]]
 ```
 
-    ## [1] 0.7481171 0.9716237 0.5388791 0.7087651 0.9401897
+    ## [1] 0.4680699 0.9938051 0.7469239 0.2628325 0.7365345
 
 Can you use Tibble in a pipeline?
 
@@ -617,13 +667,13 @@ Can you use Tibble in a pipeline?
 df %>% .$x   
 ```
 
-    ## [1] 0.7481171 0.9716237 0.5388791 0.7087651 0.9401897
+    ## [1] 0.4680699 0.9938051 0.7469239 0.2628325 0.7365345
 
 ``` r
 df %>% .[["y"]]
 ```
 
-    ## [1] -0.13700007  1.03485399 -0.36850566 -0.40163757  0.03615211
+    ## [1] -0.8048695 -1.3749390 -0.8351197 -1.0765826  0.2061120
 
 What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
 
@@ -631,12 +681,12 @@ What happens if tibble doesnt work with a package? Transform Tibble back to a da
 as.data.frame(df)
 ```
 
-    ##           x           y
-    ## 1 0.7481171 -0.13700007
-    ## 2 0.9716237  1.03485399
-    ## 3 0.5388791 -0.36850566
-    ## 4 0.7087651 -0.40163757
-    ## 5 0.9401897  0.03615211
+    ##           x          y
+    ## 1 0.4680699 -0.8048695
+    ## 2 0.9938051 -1.3749390
+    ## 3 0.7469239 -0.8351197
+    ## 4 0.2628325 -1.0765826
+    ## 5 0.7365345  0.2061120
 
 Including Plots
 ---------------
@@ -673,48 +723,46 @@ Exercise 4 (based on Wickam's book)
 
 Partial matching is a big issue with data.frame. df &lt;- data.frame(abc = 1, xyz = "a") df$x df\[, "xyz"\]
 
-Base R and Packages
-===================
+R
+-
 
-cran.r-project.org
-==================
+-   R is a Dynamic programming language
+-   Different from other languages such as C, modern Fortran, Java
+-   Require compilation
 
-Base R and R core packages can be downloaded from
-=================================================
+Availability
+------------
 
-Comprehensive R Archive Network (CRAN)
-======================================
+-   Base R and R core packages can be downloaded from
+-   Comprehensive R Archive Network (CRAN)
+-   Available in Windows/Linux/Mac0
+-   cran.r-project.org
 
-Available in Windows/Linux/Mac0
-===============================
+-   How to interact with R?
+-   RGUI Deducer (preferred for the class) or RStudio
 
-How to interact with R?
-=======================
+Installing/Using a package in R
+-------------------------------
 
-RGUI Deducer (preferred for the class) or RStudio
-=================================================
+-   R comes with core packages (basic). There are several packages available for R (Ex. Tidyverse)
 
-Editor for R coding vi (linux) or vim or Emacs
-==============================================
+-   How can I install a package?
 
-Key packages:
-=============
+<code> install.packages("foreign") \# to install foreign package </code>
 
-foreign (to read other software files such as Stata)
-====================================================
+-   After installation, you have load the package, using the following command
+    <pre> <code> 
+    library(foreign) 
+    help(package=foreign)
+    </code> </pre>
 
-xlsk
-====
+After using a package, you can
+<pre> detach(foreign) </pre>
+to remove a package from the workspace.
 
-XLConnect \# for xls files
-==========================
-
-install.packages("foreign") \# to install foreign package require(foreign) \# to load foreign package \#or library(foreign) help(package=foreign)
-
+Use
+<pre> SessionInfo() </pre>
 to get a detailed description of the attached packages and R session
-====================================================================
-
-sessionInfo()
 
 R commands can be either typed or loaded from a file
 ====================================================
@@ -722,22 +770,72 @@ R commands can be either typed or loaded from a file
 using source command
 ====================
 
-case sensitive
-==============
+``` r
+getwd() # case sensititve
+```
 
-getwd() Getwd() \# correct command is getwd()
+    ## [1] "H:/2017/BTEP1-TidyingData"
 
-setwd("c:") getwd() \# to check
+``` r
+#setwd("YOUR-DIR")
+```
 
-list.files() \# lists all files in the directory
+to list the files in the directory
+----------------------------------
 
-everything is an vector object in R
-===================================
+``` r
+list.files() # lists all files in the directory
+```
+
+    ##  [1] "BTEP-Class-TidyingData-05-16-2017.md"
+    ##  [2] "Data"                                
+    ##  [3] "Images"                              
+    ##  [4] "MyStuff"                             
+    ##  [5] "R-RStudio-InstallationInstrns"       
+    ##  [6] "Readme"                              
+    ##  [7] "README.md"                           
+    ##  [8] "TidyingData-Date-Time.md"            
+    ##  [9] "TidyingData-Date-Time.Rmd"           
+    ## [10] "TidyingData-figure"                  
+    ## [11] "TidyingData-Handson.md"              
+    ## [12] "TidyingData-Handson.Rmd"             
+    ## [13] "TidyingData-R-RStudio-Intro.md"      
+    ## [14] "TidyingData-R-RStudio-Intro.Rmd"     
+    ## [15] "TidyingData-R-RStudio-Intro_files"   
+    ## [16] "TidyingData-RegEx.md"                
+    ## [17] "TidyingData-RegEx.Rmd"               
+    ## [18] "TidyingData-Rmd-Intro.md"            
+    ## [19] "TidyingData-Rmd-Intro.Rmd"           
+    ## [20] "TidyingData.md"                      
+    ## [21] "TidyingData.Rpres"
+
+Everything is an vector object in R
+-----------------------------------
 
 create a series of numbers using command line in R
-==================================================
+--------------------------------------------------
 
-xx&lt;-scan() 1 2 3 4 5 7 8 9 10 \# end with an empty space
+``` r
+aa <- 22.7
+
+aa = 1 # DO not use not standard
+
+aa + 2
+```
+
+    ## [1] 3
+
+``` r
+sqrt(aa+1)
+```
+
+    ## [1] 1.414214
+
+``` r
+aa/3
+```
+
+    ## [1] 0.3333333
 
 getting help
 ============

@@ -383,121 +383,122 @@ df$x
 df[, "xyz"]
 
 
-# Base R and Packages
-# cran.r-project.org 
-# Base R and R core packages can be downloaded from 
-# Comprehensive R Archive Network (CRAN)
-# Available in Windows/Linux/Mac0
+## R 
 
+- R is a Dynamic programming language
+- Different from other languages such as C, modern Fortran, Java
+- Require compilation 
 
-# How to interact with R? 
-# RGUI Deducer (preferred for the class) or RStudio 
-# Editor for R coding vi (linux) or vim or Emacs 
+## Availability 
 
+- Base R and R core packages can be downloaded from 
+- Comprehensive R Archive Network (CRAN)
+- Available in Windows/Linux/Mac0
+- cran.r-project.org 
 
+- How to interact with R? 
+- RGUI Deducer (preferred for the class) or RStudio 
 
+## Installing/Using a package in R
 
-# Key packages: 
-# foreign (to read other software files such as Stata)
+- R comes with core packages (basic). There are several 
+  packages available for R (Ex. Tidyverse)
+  
+- How can I install a package? 
 
+<code>  install.packages("foreign")  # to install foreign package </code>
 
-# xlsk 
-# XLConnect  # for xls files
-
-
-install.packages("foreign")  # to install foreign package
-require(foreign)  # to load foreign package
-#or
+- After installation, you have load the package, using the following command
+<pre> <code> 
 library(foreign) 
 help(package=foreign)
+</code> </pre>
 
+After using a package, you can <pre> detach(foreign) </pre> to remove a package from the 
+workspace.
 
-# to get a detailed description of the attached packages and R session 
-sessionInfo()
-
+Use <pre> SessionInfo() </pre> to get a detailed description of the attached packages and R session
 
 #R commands can be either typed or loaded from a file
 # using source command 
 
 
-# case sensitive 
-getwd() 
-Getwd()  # correct command is getwd() 
+```{r}
+getwd() # case sensititve
+#setwd("YOUR-DIR")
+```
 
+## to list the files in the directory
 
-setwd("c:\downloads")
-getwd()  # to check 
-
-
+```{r}
 list.files() # lists all files in the directory
+```
 
 
-# everything is an vector object in R
-#  create a series of numbers using command line in R
-xx<-scan()
- 1 2 3 4 5 7 8 9 10 
-# end with an empty space
+## Everything is an vector object in R
+- Create a series of numbers using command line in R
+- Variable names should not contain number, no underscore etc. 
+- Don't mix numbers and character in a vector
+   - If you mix coercion (un expected outcomes)
 
 
-#getting help
+```{r}
+aa <- 22.7
 
+aa = 1 # DO not use not standard
 
-?help 
-?scan
+aa + 2
+sqrt(aa+1)
+aa/3
 
-
-
-
-# another way to create a vector
-# Variable names no number, no underscore etc. 
-ages<-c(1,2,3,4)
+ages<-c(1,2,3,4) # another way to create vectors
 ages
 
-
 ages+3   # ages of kids after 3 years 
-
-
-age<-3    # scalar is a zero vector
+         # scalar is a zero vector
 age
-age +3 
+ 
+
+```
 
 
-age = 3  # same as age<-3
+## Getting help
 
+<code> 
+?help 
+?hist
+</code>
 
-# don't mix numbers and character in a vector
-
+## What happens when you mix variables in a single vector?
 
 x<-c("Brazil","Argentina","India")
-
-
-# try mixing it with numbers
-
-
 x<-c("Brazil",10, "India") 
 
 
-# How to mix the character data and numerical data?
+How to mix the character data and numerical data?
 
-
+```{r}
 Country<-c("USA","Argentina","Mexico")
 PerCapitaIncome<-c(  51749,11573, 9749)
-Data<-data.frame(Country,PerCapitaIncome)
+Data<-tibble(Country,PerCapitaIncome)
 States<-c(50, 23,31)
-Data1<-cbind(Data,States)
+Data1 <- bind_cols(x = Data, y = tibble(States))  # equivalent to cbind 
+```
 
+Let us add a row (equivalent to rbind)
 
+```{r}
 Country<-c("India")
 PerCapitaIncome<-c(1450)
 States<-c(28)
-Ndata<-data.frame(Country,PerCapitaIncome,States)
-FinData<-rbind(Data1,Ndata)
+Ndata<-tibble(Country,PerCapitaIncome,States)
+FinData<-bind_rows(Data1,Ndata)
+```
 
 
 IndiaSubset<-subset(FinData,Country == "India") 
 #Write to a file
 write.csv(IndiaSubset,"IndiaSubset.csv")
-
 
 
 
@@ -684,8 +685,6 @@ sum(x[x>5])
 
 #  tapply(X, FactorVar, function) 
 tapply(WHO$Over60, WHO$Region, mean)
-
-
 
 
 ## Hands-on exercise using Wisconsin Breast Cancer dataset
