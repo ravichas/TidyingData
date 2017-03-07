@@ -91,8 +91,38 @@ names(timelt)
 lapply(timelt, function(x) print(x))
 ```
 
+ ## How can we use the time? 
+ 
+```{r}
+ timenow <- Sys.time()
+timenow
+timenow - 30 # 30 seconds earlier 
+
+```
+Be careful with time data that are used for numerical calculations. 
+
+
+# How to store Time in different formats and use it at a later time or using a differnt software?
+
+Two commands that can help us accomplish this, strftime and strptime.
+
+strftime: converts a time data and convert it to a string
+strptime: converts a sting and convert it to Date/time format suitable for R calculations
+```{r}
+string_timenow <- strftime(timenow, "%Y-%m-%d %H:%M:%S")  #"2017-03-07 15:52:03 EST"
+string_timenow
+class(string_timenow)
+class(timenow)
+typeof(string_timenow)
+(Posixct_timenow <- strptime(string_timenow,"%Y-%m-%d %H:%M:%S" ))
+class(Posixct_timenow)
+```
+
+
+
  
  ## Reference
  https://www.stat.berkeley.edu/classes/s133/dates.html 
  
  http://www.cyclismo.org/tutorial/R/time.html
+

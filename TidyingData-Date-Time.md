@@ -125,7 +125,7 @@ Let us see how we can use these two data types:
 (timext <- Sys.time())
 ```
 
-    ## [1] "2017-03-07 15:34:46 EST"
+    ## [1] "2017-03-07 16:02:47 EST"
 
 ``` r
 class(timext)
@@ -143,13 +143,13 @@ typeof(timext)
 cat(timext, "\n")
 ```
 
-    ## 1488918887
+    ## 1488920567
 
 ``` r
 (timelt <- as.POSIXlt(timext) )
 ```
 
-    ## [1] "2017-03-07 15:34:46 EST"
+    ## [1] "2017-03-07 16:02:47 EST"
 
 ``` r
 typeof(timelt)
@@ -167,9 +167,9 @@ names(timelt)
 lapply(timelt, function(x) print(x))
 ```
 
-    ## [1] 46.57737
-    ## [1] 34
-    ## [1] 15
+    ## [1] 47.37043
+    ## [1] 2
+    ## [1] 16
     ## [1] 7
     ## [1] 2
     ## [1] 117
@@ -180,13 +180,13 @@ lapply(timelt, function(x) print(x))
     ## [1] -18000
 
     ## $sec
-    ## [1] 46.57737
+    ## [1] 47.37043
     ## 
     ## $min
-    ## [1] 34
+    ## [1] 2
     ## 
     ## $hour
-    ## [1] 15
+    ## [1] 16
     ## 
     ## $mday
     ## [1] 7
@@ -211,6 +211,67 @@ lapply(timelt, function(x) print(x))
     ## 
     ## $gmtoff
     ## [1] -18000
+
+\#\# How can we use the time?
+
+``` r
+ timenow <- Sys.time()
+timenow
+```
+
+    ## [1] "2017-03-07 16:02:47 EST"
+
+``` r
+timenow - 30 # 30 seconds earlier 
+```
+
+    ## [1] "2017-03-07 16:02:17 EST"
+
+Be careful with time data that are used for numerical calculations.
+
+How to store Time in different formats and use it at a later time or using a differnt software?
+===============================================================================================
+
+Two commands that can help us accomplish this, strftime and strptime.
+
+strftime: converts a time data and convert it to a string strptime: converts a sting and convert it to Date/time format suitable for R calculations
+
+``` r
+string_timenow <- strftime(timenow, "%Y-%m-%d %H:%M:%S")  #"2017-03-07 15:52:03 EST"
+string_timenow
+```
+
+    ## [1] "2017-03-07 16:02:47"
+
+``` r
+class(string_timenow)
+```
+
+    ## [1] "character"
+
+``` r
+class(timenow)
+```
+
+    ## [1] "POSIXct" "POSIXt"
+
+``` r
+typeof(string_timenow)
+```
+
+    ## [1] "character"
+
+``` r
+(Posixct_timenow <- strptime(string_timenow,"%Y-%m-%d %H:%M:%S" ))
+```
+
+    ## [1] "2017-03-07 16:02:47 EST"
+
+``` r
+class(Posixct_timenow)
+```
+
+    ## [1] "POSIXlt" "POSIXt"
 
 \#\# Reference <https://www.stat.berkeley.edu/classes/s133/dates.html>
 
