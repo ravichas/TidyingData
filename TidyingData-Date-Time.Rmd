@@ -1,7 +1,7 @@
 ---
 title: "BTEP-DateTime"
 author: "Drs. Sarangan Ravichandran and Randall Johnson"
-date: "February 26, 2017"
+date: "February 26, 2017" 
 output: github_document
 ---
 
