@@ -3,9 +3,14 @@ BTEP Rmd Intro
 Drs.S. Ravichandran and Randall Johnson
 February 26, 2017
 
-    ## [1] "H:/2017/BTEP1-TidyingData"
-
 Let us load the libraries and do some cleanup
+
+``` r
+# will clean up the history
+rm(list=ls(all=TRUE))
+#install.packages("tidyverse")
+library(tidyverse) 
+```
 
     ## Loading tidyverse: ggplot2
     ## Loading tidyverse: tibble
@@ -48,6 +53,15 @@ YAML is a header section that renders your .Rmd file. It is almost like a CSS in
 
 example:
 
+``` r
+---
+title: "BTEPDataTidyingClass"
+author: "Ravi & Randy"
+date: "June 10, 2017"
+output: html_document
+---
+```
+
 Rmd format help is available within RStudio. You can find the CheatSheets here,
 
 ![](Images/RS-CheatSheets.png)
@@ -82,6 +96,13 @@ Table
 
 -   Rmd files can provide a nice Table layout.
 
+``` r
+knitr::kable(
+  diamonds[1:4, ], 
+  caption = "Example of knitr kable"
+)
+```
+
 |  carat| cut     | color | clarity |  depth|  table|  price|     x|     y|     z|
 |------:|:--------|:------|:--------|------:|------:|------:|-----:|-----:|-----:|
 |   0.23| Ideal   | E     | SI2     |   61.5|     55|    326|  3.95|  3.98|  2.43|
@@ -90,6 +111,10 @@ Table
 |   0.29| Premium | I     | VS2     |   62.4|     58|    334|  4.20|  4.23|  2.63|
 
 Compare this to the traditional table
+
+``` r
+diamonds[1:5,]
+```
 
     ## # A tibble: 5 × 10
     ##   carat     cut color clarity depth table price     x     y     z

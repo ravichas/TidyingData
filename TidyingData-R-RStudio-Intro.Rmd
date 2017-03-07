@@ -164,6 +164,43 @@ as_tibble(df)
 
 ```
 
+Let us create a data.frame and a tibble. 
+
+```{r}
+df1 <- data.frame( Color = "Red")
+tb1 <-tibble(Color = "Red")
+```
+
+## Exercise: 
+
+If you type the following commmands, what will you get and 
+explain your reasoning:
+
+```{r}
+df1$C
+tb1$C
+
+class(df1$Color)
+class(tb1$Color)
+```
+
+Also, speculate on the type of object that you will get from 
+each of these above two operations? 
+
+The above explains traditional R data.frame is helpful in 
+filling in the missing information. Also how data.frame modifies
+the variable type without asking (ex Character to Factor)
+
+
+## Where can this go?
+
+purr::map_dbl(mtcars, mean)
+purrr:map_dbl(mtcars, mean)
+
+tb1 <- as.tibble( Color = "red")
+tb1$C  
+
+
 you can coerce regular R data frame into tibble. Let us look at the R dataset, cars.
 Let us learn about cars datset 
 

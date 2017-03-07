@@ -1,0 +1,124 @@
+---
+title: "BTEP-RegEx"
+author: "Drs. Sarangan Ravichandran and Randall Johnson"
+date: "February 26, 2017"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
+```
+
+## What is a Regex?
+
+- Was originally developed for PERL
+- Regular Expressions help us identify patterns in text. 
+- Cross-platform compatible
+- Speed up calculations
+
+## How do they work?
+
+
+
+##  Example 1
+
+```{r}
+x <- c("BCR_613", "")
+```
+
+Example for using Grep
+
+```{r}
+
+IDS <-	c("NP_004`318.3", "XP_003317181.1", "XP_002798337.1", "XP_848654.2", "NP_001074881.1", "XP_228091.6", "XP_415244.3", "NP_001123792.1", "XP_005161278")
+
+grepids <- grep(pattern = "NP", x = IDS)
+
+IDS[grepids]
+
+MIDS <-	c("NP_004`318.3", "XP_003317181.1", "XP_002798337.1", "XP_848654.2", "np_001074881.1", "XP_228091.6", "XP_415244.3", "NP_001123792.1", "XP_005161278")
+
+
+grepmids <- grep("NP", MIDS, ignore.case = FALSE)
+IDS[grepmids]
+
+grepmids <- grep("NP", MIDS, ignore.case = TRUE)
+IDS[grepmids]
+
+```
+
+## What is grepl?
+
+```{r}
+grepl("NP", MIDS, ignore.case = TRUE) 
+```
+
+
+
+## What are sub and gsub functions? 
+
+```{r}
+species <- c("Arabidopsis_thaliana", "Bos_taurus", "Caenorhabditis_elegans", "Danio_rerio", 
+             "Dictyostelium_discoideum", "Drosophila_melanogaster", "Escherichia_coli",
+             "Homo_sapiens", "Mus_musculus", "Mycoplasma_pneumoniae",
+             "Oryza_sativa","Plasmodium_falciparum","Pneumocystis_carinii","Rattus_norvegicus",
+             "Saccharmomyces_cerevisiae","Schizosaccharomyces_pombe","Takifugu_rubripes","Xenopus_laevis",
+             "Zea_mays")
+species
+```
+
+```{r}
+
+sub("_", " ", species)
+```
+## Let us look at what happens when we add a new species.
+```{r}
+mspecies <- c(species, "Hepatitis_C_Virus")
+mspecies
+grep(pattern="g.cus", mspecies)
+```
+Let us use the substitute, sub, command on the modified string?
+
+```{r}
+sub("_", " ", mspecies)
+```
+
+What happened? 
+
+sub will only modify the first occurance of the pattern. To modify all occurances in a string,
+use gsub
+
+```{r}
+gsub("_", " ", mspecies)
+```
+
+
+## Can we look for a word in each strings? 
+
+-regexpr returns the position in the string of the pattern. It will also return the length of 
+the pattern matched.
+
+```{r}
+regexpr("sa", mspecies)
+```
+
+## Exercise: 
+
+- Find out what regexec and  gregexpr
+
+
+## You can combine regex keywords 
+
+```{r}
+grep("sapiens|sativa", mspecies)
+```
+
+```{r}
+mylist <- c("b*taurus", "C*elegans", "D*rerio", 
+             "H*sapiens", "M*musculus", "R*norvegicus")
+
+grep("H*sapiens", mspecies, ignore.case = TRUE)
+```
+
+Note that <code>\\</code> is used for escapting a character
