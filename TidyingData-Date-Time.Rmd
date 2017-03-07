@@ -66,7 +66,7 @@ Negative numebrs indicate seconds before this time.
 
 - Type of vector
 
-```{r kable}
+```{r kable1}
 Position <- 1:9
 Value <- c("seconds","minutes","hours","day of the month (1-31)", "month of the year (0-11)", 
            "years since 1900", "day of the week (0: Sunday - 6: Saturday)", "Day of the year (0-365)",
@@ -81,18 +81,18 @@ Let us see how we can use these two data types:
 
 ```{r}
 (timext <- Sys.time())
-class(time)
-typeof(time)
-cat(time, "\n")
+class(timext)
+typeof(timext)
+cat(timext, "\n")
 
 (timelt <- as.POSIXlt(timext) )
 typeof(timelt)
 names(timelt)
-timelt[[1]]
 lapply(timelt, function(x) print(x))
 ```
 
  
  ## Reference
  https://www.stat.berkeley.edu/classes/s133/dates.html 
+ 
  http://www.cyclismo.org/tutorial/R/time.html
