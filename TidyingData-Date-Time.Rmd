@@ -1,0 +1,98 @@
+---
+title: "BTEP-DateTime"
+author: "Drs. Sarangan Ravichandran and Randall Johnson"
+date: "February 26, 2017"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
+```
+Let us load the libraries
+```{r loadlibraries}
+library(tidyverse) 
+```
+
+
+## Date & Times in R
+
+Dates and Times are very important. 
+Routinely used in expression (gene) data
+
+
+```{r}
+D1 <- as.Date('1920-6-16')
+class(D1)
+
+D2 <- as.Date('2017/03/07')
+class(D2)
+
+## Current Date from System 
+Sys.Date()
+
+```
+
+If you use <cod> ?as.date </code>, you will see the formats that 
+the function takes. 
+```{r kable}
+Code <- c("%d", "%m","%b","%B","%y","%Y")
+Value <- c("Day of the month (decimal numeber)", "Month(decimal number)", "Month (abbreviation)",
+           "Month(full name)", "Year (2 digit)", "Year (4 digit)")
+library(knitr)
+tibble1 <- tibble(Code, Value)
+kable(tibble1)
+
+```
+
+The function <pre> <code> as.Date </code> </pre> expects the date to be in the - separated format. 
+If it is not, then we should use the following format
+
+```{r}
+as.Date('03/07/2017', format='%m/%d/%Y')
+as.Date('March 07, 2017', format='%B %d, %Y')
+```
+
+Let us look to see how R stores the data internally.
+Two different datatypes that deal with Time and Date variables: 
+
+## POSIXct
+
+Will provide you the number of seconds that has been elapsed since January 1, 1970. 
+
+Negative numebrs indicate seconds before this time. 
+
+## POSIXlt
+
+- Type of vector
+
+```{r kable}
+Position <- 1:9
+Value <- c("seconds","minutes","hours","day of the month (1-31)", "month of the year (0-11)", 
+           "years since 1900", "day of the week (0: Sunday - 6: Saturday)", "Day of the year (0-365)",
+           "Daylight savings indicator (Positive/Negative: Yes/No")
+library(knitr)
+tibble2 <- tibble(Position, Value)
+kable(tibble2)
+
+```
+
+Let us see how we can use these two data types:
+
+```{r}
+(timext <- Sys.time())
+class(time)
+typeof(time)
+cat(time, "\n")
+
+(timelt <- as.POSIXlt(timext) )
+typeof(timelt)
+names(timelt)
+timelt[[1]]
+lapply(timelt, function(x) print(x))
+```
+
+ 
+ ## Reference
+ https://www.stat.berkeley.edu/classes/s133/dates.html 
+ http://www.cyclismo.org/tutorial/R/time.html
