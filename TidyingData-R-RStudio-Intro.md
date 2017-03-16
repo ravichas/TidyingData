@@ -3,12 +3,22 @@ BTEP-R-RStudio-Intro
 Drs. Sarangan Ravichandran and Randall Johnson
 February 26, 2017
 
-Let us first load the libraries
+### Cleaning up
+
+Let us clean up the environment. This will clear all the variables and start fresh
+
+``` r
+rm(list = ls())
+```
+
+### Loading the libraries
+
+Let us first load the libraries needed for the workshop
 
 ``` r
 # if you dont have tidyverse then run the following line once 
-# install.packages("tidyverse")
-library(tidyverse) 
+# install.packages(c("tidyverse", "knitr"))
+library(tidyverse)
 ```
 
     ## Loading tidyverse: ggplot2
@@ -23,8 +33,19 @@ library(tidyverse)
     ## filter(): dplyr, stats
     ## lag():    dplyr, stats
 
+``` r
+library(knitr)
+```
+
+### Quick tour of RStudio
+
+We will be using RStudio as the main software for the workshp. Let us do a quick live tour of RStudio.
+
+![](Images/RStudioIntro.png)
+
+### Getting the data inside R via RStudio
+
 Let us introduce R/R-Studio Data Import with a Import Dataset and Command-line options
---------------------------------------------------------------------------------------
 
 ![](Images/RS-ImportDataset.png)
 
@@ -109,7 +130,7 @@ Watch out how the column names are displayed and additional information that you
     ## 10 Democratic Republic of the Congo         2.3           2.0
     ## # ... with 22 more rows
 
-See the difference in the returning objects' class
+See the difference in the returning objects' class. We will return to the data.frame and tbl\_df later.
 
 ``` r
 class(ncsv) # traditional csv function, read.csv 
@@ -154,8 +175,7 @@ read_csv("Data/WHO-2a.csv", comment = "#")
     ## 10 Democratic Republic of the Congo         2.3           2.0
     ## # ... with 22 more rows
 
-Why we insist on using readr::read\_csv than read.csv?
-------------------------------------------------------
+### Why we insist on using readr::read\_csv than read.csv?
 
 -   Speed (~ 10x)
 -   output from readr is Tibbles (we talked about earlier)
@@ -203,23 +223,547 @@ sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ## [1] dplyr_0.5.0     purrr_0.2.2     readr_1.0.0     tidyr_0.6.1    
-    ## [5] tibble_1.2      ggplot2_2.2.1   tidyverse_1.1.1
+    ## [1] knitr_1.15.1    dplyr_0.5.0     purrr_0.2.2     readr_1.0.0    
+    ## [5] tidyr_0.6.1     tibble_1.2      ggplot2_2.2.1   tidyverse_1.1.1
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] Rcpp_0.12.8      plyr_1.8.4       forcats_0.2.0    tools_3.3.2     
     ##  [5] digest_0.6.11    jsonlite_1.2     lubridate_1.6.0  evaluate_0.10   
     ##  [9] nlme_3.1-128     gtable_0.2.0     lattice_0.20-34  psych_1.6.12    
     ## [13] DBI_0.5-1        yaml_2.1.14      parallel_3.3.2   haven_1.0.0     
-    ## [17] xml2_1.1.0       stringr_1.1.0    httr_1.2.1       knitr_1.15.1    
-    ## [21] hms_0.3          rprojroot_1.2    grid_3.3.2       R6_2.2.0        
-    ## [25] readxl_0.1.1     foreign_0.8-67   rmarkdown_1.3    modelr_0.1.0    
-    ## [29] reshape2_1.4.2   magrittr_1.5     backports_1.0.5  scales_0.4.1    
-    ## [33] htmltools_0.3.5  rvest_0.3.2      assertthat_0.1   mnormt_1.5-5    
-    ## [37] colorspace_1.3-2 stringi_1.1.2    lazyeval_0.2.0   munsell_0.4.3   
-    ## [41] broom_0.4.1
+    ## [17] xml2_1.1.0       stringr_1.1.0    httr_1.2.1       hms_0.3         
+    ## [21] rprojroot_1.2    grid_3.3.2       R6_2.2.0         readxl_0.1.1    
+    ## [25] foreign_0.8-67   rmarkdown_1.3    modelr_0.1.0     reshape2_1.4.2  
+    ## [29] magrittr_1.5     backports_1.0.5  scales_0.4.1     htmltools_0.3.5 
+    ## [33] rvest_0.3.2      assertthat_0.1   mnormt_1.5-5     colorspace_1.3-2
+    ## [37] stringi_1.1.2    lazyeval_0.2.0   munsell_0.4.3    broom_0.4.1
 
-Basic Usage
+### R basics
+
+-   R is a language?
+-   Dynamic programming language
+-   Do not need compilation.
+-   Different from other languages such as C, modern Fortran, Java that require compilation
+
+### Availability
+
+-   Base R and R core packages can be downloaded from
+-   Comprehensive R Archive Network (CRAN)
+-   Available in Windows/Linux/Mac0
+-   cran.r-project.org
+-   How to interact with R?
+-   RGUI RStudio (preferred for the class)
+
+### RStudio basics
+
+-   RStudio is a RGUI
+-   It started that way, now it is much more than a GUI
+-   R is the main program
+
+### simple calculator
+
+2 \* 3
+
+if R doesnt recognize a code, it displays a + and waits for you
+
+type the following in command prompt, you will get a error message. Explain why you
+
+``` r
+2 *  
+```
+
+``` r
+- run the following line. you will get an error message. Why? 
+Error: unexpected input in "10 % 5" 
+
+10 % 5 
+```
+
+### Everything is an vector object in R
+
+-   Variable names should not contain number, no underscore etc.
+-   Don't mix numbers and character in a vector
+-   If you mix coercion (un expected outcomes)
+
+``` r
+aa <- 22.7
+
+aa = 1 # DO not use not standard
+
+aa + 2
+```
+
+    ## [1] 3
+
+``` r
+sqrt(aa+1)
+```
+
+    ## [1] 1.414214
+
+``` r
+aa/3
+```
+
+    ## [1] 0.3333333
+
+``` r
+ages<-c(1,2,3,4) # another way to create vectors
+ages
+```
+
+    ## [1] 1 2 3 4
+
+``` r
+ages+3   # ages of kids after 3 years 
+```
+
+    ## [1] 4 5 6 7
+
+``` r
+         # scalar is a zero vector
+ages
+```
+
+    ## [1] 1 2 3 4
+
+RStudio environment pane now displays the variable.
+
+### What are acceptable and not acceptable variable names
+
+| No    | Yes  |
+|:------|:-----|
+| 1run  | run1 |
+| b$    | b    |
+| ^mean | mean |
+| !var1 | var1 |
+
+### Variable names are case-sensitive and can be
+
+    over-written 
+
+``` r
+var1 <- 2
+VAR1 <- 1 
+(var1 <- 100) # overwrite 
+```
+
+    ## [1] 100
+
+### List the variables (you can also use the Global Environment pane in RStudio for this)
+
+``` r
+ls() # to see what variables you have so far
+```
+
+    ## [1] "aa"   "ages" "df"   "ncsv" "No"   "tcsv" "var1" "VAR1" "Yes"
+
+``` r
+list.files()  # to see the list of files
+```
+
+    ##  [1] "BTEP-Class-TidyingData-05-16-2017.md"
+    ##  [2] "Data"                                
+    ##  [3] "Images"                              
+    ##  [4] "MyStuff"                             
+    ##  [5] "R-RStudio-InstallationInstrns"       
+    ##  [6] "Readme"                              
+    ##  [7] "README.md"                           
+    ##  [8] "TidyingData-Date-Time.md"            
+    ##  [9] "TidyingData-Date-Time.Rmd"           
+    ## [10] "TidyingData-figure"                  
+    ## [11] "TidyingData-Handson.md"              
+    ## [12] "TidyingData-Handson.Rmd"             
+    ## [13] "TidyingData-R-RStudio-Intro.md"      
+    ## [14] "TidyingData-R-RStudio-Intro.Rmd"     
+    ## [15] "TidyingData-R-RStudio-Intro_files"   
+    ## [16] "TidyingData-RegEx.md"                
+    ## [17] "TidyingData-RegEx.Rmd"               
+    ## [18] "TidyingData-Rmd-Intro.md"            
+    ## [19] "TidyingData-Rmd-Intro.Rmd"           
+    ## [20] "TidyingData.md"                      
+    ## [21] "TidyingData.Rpres"
+
+Data analysis without a die?
+============================
+
+``` r
+die <- 1:6 # 6 sided die
+```
+
+Math with die
+=============
+
+Notice the vector math
+
+``` r
+die + 2
+```
+
+    ## [1] 3 4 5 6 7 8
+
+``` r
+die/2
+```
+
+    ## [1] 0.5 1.0 1.5 2.0 2.5 3.0
+
+``` r
+die * die
+```
+
+    ## [1]  1  4  9 16 25 36
+
+### Let us watch out for recycling in
+
+``` r
+die + 1:2
+```
+
+    ## [1] 2 4 4 6 6 8
+
+### Built-in function
+
+``` r
+sum(die)
+```
+
+    ## [1] 21
+
+``` r
+mean(die)
+```
+
+    ## [1] 3.5
+
+### How to get help in R?
+
+``` r
+?sum
+```
+
+### Stored constants
+
+``` r
+pi # not PI
+```
+
+    ## [1] 3.141593
+
+### let us round numbers
+
+``` r
+round(pi, 10) # what happened here
+```
+
+    ## [1] 3.141593
+
+``` r
+round(pi, 2)
+```
+
+    ## [1] 3.14
+
+``` r
+round(pi, digits = 9)
+```
+
+    ## [1] 3.141593
+
+### How to find the arguments for a built-in function
+
+``` r
+args(round)
+```
+
+    ## function (x, digits = 0) 
+    ## NULL
+
+``` r
+args(plot)
+```
+
+    ## function (x, y, ...) 
+    ## NULL
+
+### Exercise 2: Find out what the function sample does?
+
+let us sample a die by rolling 3 times
+
+### What is the issue with the following command?
+
+``` r
+sample(die, size = 7)
+```
+
+### Can we change the default of sample function?
+
+``` r
+p <- c(rep(0.01,5), 0.95)
+sample(x = die, size = 10, replace = TRUE, prob = p)
+```
+
+    ##  [1] 6 6 6 6 6 6 6 6 6 6
+
+### Do we always have to use the arguments name? What if we dont?
+
+``` r
+sample(die, 10, replace = TRUE)
+```
+
+    ##  [1] 4 2 1 4 5 3 1 6 3 1
+
+``` r
+sample(die, 10, TRUE) #  define them explicitely
+```
+
+    ##  [1] 1 1 6 5 3 2 3 4 3 1
+
+``` r
+sample(x = die, size = 6, replace = TRUE)
+```
+
+    ## [1] 3 4 5 4 4 3
+
+### Let us roll the die multiple times
+
+``` r
+# First roll
+sample(x = die, size = 2, replace = TRUE) # def prob
+```
+
+    ## [1] 6 6
+
+``` r
+# one more roll
+sample(x = die, size = 2, replace = TRUE) # def prob
+```
+
+    ## [1] 6 6
+
+### Random numbers
+
+``` r
+unif_rand <- runif(10)
+args(round)
+```
+
+    ## function (x, digits = 0) 
+    ## NULL
+
+### Function in R
+
+-   Function constructor (like C++) has three parts
+-   1.  name
+-   1.  body (of code)
+-   1.  arguments
+-   function() { \#\#\# }
+
+### Let us build a function
+
+``` r
+dist <- function(a, b) {
+  distsq <- sum( (b - a)^2 )
+  sqrt(distsq)
+}
+```
+
+Let us call the function with inputs
+
+``` r
+a <- c(1,2)
+b <- c(3,3)
+
+dist(a,b)
+```
+
+    ## [1] 2.236068
+
+### Now let us turn the following lines into a function in RStudion
+
+``` r
+#Use RStudio to turn the following line into a function called dist2
+
+distsq <- sum( (b - a)^2 )
+sqrt(distsq)
+```
+
+    ## [1] 2.236068
+
+### Installing and using packages in R
+
+-   R comes with core packages (basic). There are several packages available for R (Ex. Tidyverse)
+-   How can I install a package? <code>install.packages("foreign") \# to install foreign package </code>
+-   After installation, you have load the package, using the following command
+    <pre> <code> 
+    library(foreign) 
+    help(package=foreign)
+    </code> </pre>
+
+After using a package, use
+<pre>detach(foreign)</pre>
+to remove a package (ex. foreign package) from the workspace.
+
+Use
+<pre> SessionInfo() </pre>
+to get a detailed description of the attached packages and R session. R commands can be either typed or loaded from a file using source command.
+
+Here is an example of installing a package called randomForest and updating package(s)
+
+``` r
+install.packages("randomForest")
+library(randomForest)
+## multiple packages
+update.packages(c("randomForest","tidyverse"))
+```
+
+### Debugging in R
+
+``` r
+mysum <- function(a,b) {
+  sum( (bb - a)^2 )
+}
+
+dist <- function(a, b) {
+  distsq <- mysum(a,b)
+  sqrt(distsq)
+}
+
+# use of RStudio bebug or traceback function
+dist(a,b)
+```
+
+### Data types in R
+
+-   six basic types of atomic vectors:
+-   doubles, integers, characters, logicals, complex, and raw
+-   last two are not very important and we will not discuss further
+
+``` r
+complex(1,2)
+```
+
+    ## [1] 2+0i
+
+``` r
+raw(2) # bytes of numbers
+```
+
+    ## [1] 00 00
+
+### Integer variables
+
+``` r
+ia <- 1L 
+ia1 <- 1
+class(ia)
+```
+
+    ## [1] "integer"
+
+``` r
+typeof(ia)
+```
+
+    ## [1] "integer"
+
+``` r
+class(ia1)
+```
+
+    ## [1] "numeric"
+
+``` r
+typeof(ia1)
+```
+
+    ## [1] "double"
+
+### Double variables
+
+``` r
+ra <- runif(10)
+typeof(ra)
+```
+
+    ## [1] "double"
+
+``` r
+class(ra)
+```
+
+    ## [1] "numeric"
+
+### Character variables
+
+``` r
+ca <- c("Tom", "cat")
+typeof(ca)
+```
+
+    ## [1] "character"
+
+``` r
+class(ca)
+```
+
+    ## [1] "character"
+
+### Let us talk about attributes
+
+``` r
+ia <- 1L 
+names(ia) <- "id"
+ia
+```
+
+    ## id 
+    ##  1
+
+### Other types, matrix
+
+``` r
+M <- matrix(1:6, 3, 2)
+dim(M)
+```
+
+    ## [1] 3 2
+
+``` r
+args(matrix)
+```
+
+    ## function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL) 
+    ## NULL
+
+### plots
+
+``` r
+x <- runif(1000)
+hist(x)
+```
+
+![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-37-1.png)
+
+``` r
+hist(x, main = "Histogram of Uniform Random Numbers")
+```
+
+![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-37-2.png)
+
+``` r
+boxplot(x, col = "red")
+```
+
+![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-37-3.png)
+
+### Read and Write, compressed file
+
+write.csv(lcancer, file = bzfile("data/lcaner.csv.bz2"), row.names = FALSE)
+
+### Some useful functions
+
+Let us use the cars dataset to show some important R commands
 
 ``` r
 summary(cars)
@@ -233,66 +777,277 @@ summary(cars)
     ##  3rd Qu.:19.0   3rd Qu.: 56.00  
     ##  Max.   :25.0   Max.   :120.00
 
-If you want to just display the code chunk but not the concerned R code, you need "echo = FALSE"
-
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
-
-Plotting in Rmd. If you want the users to see the plot but not the code, then do the following:
-
-Note the eval=FALSE (upper case; lower case will fail) ![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-9-1.png)
-
-If you want to display the R code without evualating, then use
-
 ``` r
-summary(cars)
+str(cars)
 ```
 
-What about additional formating when displaying the contens of a table? Note the **asis** option
+    ## 'data.frame':    50 obs. of  2 variables:
+    ##  $ speed: num  4 4 7 7 8 9 10 10 10 11 ...
+    ##  $ dist : num  2 10 4 22 16 10 18 26 34 17 ...
+
+### Single bracket
 
 ``` r
-knitr::kable(mtcars)
+cars[1,]
 ```
 
-|                     |   mpg|  cyl|   disp|   hp|  drat|     wt|   qsec|   vs|   am|  gear|  carb|
-|---------------------|-----:|----:|------:|----:|-----:|------:|------:|----:|----:|-----:|-----:|
-| Mazda RX4           |  21.0|    6|  160.0|  110|  3.90|  2.620|  16.46|    0|    1|     4|     4|
-| Mazda RX4 Wag       |  21.0|    6|  160.0|  110|  3.90|  2.875|  17.02|    0|    1|     4|     4|
-| Datsun 710          |  22.8|    4|  108.0|   93|  3.85|  2.320|  18.61|    1|    1|     4|     1|
-| Hornet 4 Drive      |  21.4|    6|  258.0|  110|  3.08|  3.215|  19.44|    1|    0|     3|     1|
-| Hornet Sportabout   |  18.7|    8|  360.0|  175|  3.15|  3.440|  17.02|    0|    0|     3|     2|
-| Valiant             |  18.1|    6|  225.0|  105|  2.76|  3.460|  20.22|    1|    0|     3|     1|
-| Duster 360          |  14.3|    8|  360.0|  245|  3.21|  3.570|  15.84|    0|    0|     3|     4|
-| Merc 240D           |  24.4|    4|  146.7|   62|  3.69|  3.190|  20.00|    1|    0|     4|     2|
-| Merc 230            |  22.8|    4|  140.8|   95|  3.92|  3.150|  22.90|    1|    0|     4|     2|
-| Merc 280            |  19.2|    6|  167.6|  123|  3.92|  3.440|  18.30|    1|    0|     4|     4|
-| Merc 280C           |  17.8|    6|  167.6|  123|  3.92|  3.440|  18.90|    1|    0|     4|     4|
-| Merc 450SE          |  16.4|    8|  275.8|  180|  3.07|  4.070|  17.40|    0|    0|     3|     3|
-| Merc 450SL          |  17.3|    8|  275.8|  180|  3.07|  3.730|  17.60|    0|    0|     3|     3|
-| Merc 450SLC         |  15.2|    8|  275.8|  180|  3.07|  3.780|  18.00|    0|    0|     3|     3|
-| Cadillac Fleetwood  |  10.4|    8|  472.0|  205|  2.93|  5.250|  17.98|    0|    0|     3|     4|
-| Lincoln Continental |  10.4|    8|  460.0|  215|  3.00|  5.424|  17.82|    0|    0|     3|     4|
-| Chrysler Imperial   |  14.7|    8|  440.0|  230|  3.23|  5.345|  17.42|    0|    0|     3|     4|
-| Fiat 128            |  32.4|    4|   78.7|   66|  4.08|  2.200|  19.47|    1|    1|     4|     1|
-| Honda Civic         |  30.4|    4|   75.7|   52|  4.93|  1.615|  18.52|    1|    1|     4|     2|
-| Toyota Corolla      |  33.9|    4|   71.1|   65|  4.22|  1.835|  19.90|    1|    1|     4|     1|
-| Toyota Corona       |  21.5|    4|  120.1|   97|  3.70|  2.465|  20.01|    1|    0|     3|     1|
-| Dodge Challenger    |  15.5|    8|  318.0|  150|  2.76|  3.520|  16.87|    0|    0|     3|     2|
-| AMC Javelin         |  15.2|    8|  304.0|  150|  3.15|  3.435|  17.30|    0|    0|     3|     2|
-| Camaro Z28          |  13.3|    8|  350.0|  245|  3.73|  3.840|  15.41|    0|    0|     3|     4|
-| Pontiac Firebird    |  19.2|    8|  400.0|  175|  3.08|  3.845|  17.05|    0|    0|     3|     2|
-| Fiat X1-9           |  27.3|    4|   79.0|   66|  4.08|  1.935|  18.90|    1|    1|     4|     1|
-| Porsche 914-2       |  26.0|    4|  120.3|   91|  4.43|  2.140|  16.70|    0|    1|     5|     2|
-| Lotus Europa        |  30.4|    4|   95.1|  113|  3.77|  1.513|  16.90|    1|    1|     5|     2|
-| Ford Pantera L      |  15.8|    8|  351.0|  264|  4.22|  3.170|  14.50|    0|    1|     5|     4|
-| Ferrari Dino        |  19.7|    6|  145.0|  175|  3.62|  2.770|  15.50|    0|    1|     5|     6|
-| Maserati Bora       |  15.0|    8|  301.0|  335|  3.54|  3.570|  14.60|    0|    1|     5|     8|
-| Volvo 142E          |  21.4|    4|  121.0|  109|  4.11|  2.780|  18.60|    1|    1|     4|     2|
+    ##   speed dist
+    ## 1     4    2
+
+``` r
+cars[1:5,]
+```
+
+    ##   speed dist
+    ## 1     4    2
+    ## 2     4   10
+    ## 3     7    4
+    ## 4     7   22
+    ## 5     8   16
+
+``` r
+cars[1,]
+```
+
+    ##   speed dist
+    ## 1     4    2
+
+``` r
+cars[,1] # vector
+```
+
+    ##  [1]  4  4  7  7  8  9 10 10 10 11 11 12 12 12 12 13 13 13 13 14 14 14 14
+    ## [24] 15 15 15 16 16 17 17 17 18 18 18 18 19 19 19 20 20 20 20 20 22 23 24
+    ## [47] 24 24 24 25
+
+``` r
+class(cars[,1])
+```
+
+    ## [1] "numeric"
+
+``` r
+class(cars)
+```
+
+    ## [1] "data.frame"
+
+``` r
+nrow(cars)
+```
+
+    ## [1] 50
+
+``` r
+length(cars$speed)
+```
+
+    ## [1] 50
+
+``` r
+min_speed <- min(cars$speed)
+min_speed
+```
+
+    ## [1] 4
+
+``` r
+max(cars$speed)
+```
+
+    ## [1] 25
+
+``` r
+cars[min_speed,] # can be easily done using dplyr
+```
+
+    ##   speed dist
+    ## 4     7   22
+
+``` r
+filter(cars, speed > 10)
+```
+
+    ##    speed dist
+    ## 1     11   17
+    ## 2     11   28
+    ## 3     12   14
+    ## 4     12   20
+    ## 5     12   24
+    ## 6     12   28
+    ## 7     13   26
+    ## 8     13   34
+    ## 9     13   34
+    ## 10    13   46
+    ## 11    14   26
+    ## 12    14   36
+    ## 13    14   60
+    ## 14    14   80
+    ## 15    15   20
+    ## 16    15   26
+    ## 17    15   54
+    ## 18    16   32
+    ## 19    16   40
+    ## 20    17   32
+    ## 21    17   40
+    ## 22    17   50
+    ## 23    18   42
+    ## 24    18   56
+    ## 25    18   76
+    ## 26    18   84
+    ## 27    19   36
+    ## 28    19   46
+    ## 29    19   68
+    ## 30    20   32
+    ## 31    20   48
+    ## 32    20   52
+    ## 33    20   56
+    ## 34    20   64
+    ## 35    22   66
+    ## 36    23   54
+    ## 37    24   70
+    ## 38    24   92
+    ## 39    24   93
+    ## 40    24  120
+    ## 41    25   85
+
+### Accessing values in data frames
+
+``` r
+names(cars)
+```
+
+    ## [1] "speed" "dist"
+
+``` r
+cars$speed # vector
+```
+
+    ##  [1]  4  4  7  7  8  9 10 10 10 11 11 12 12 12 12 13 13 13 13 14 14 14 14
+    ## [24] 15 15 15 16 16 17 17 17 18 18 18 18 19 19 19 20 20 20 20 20 22 23 24
+    ## [47] 24 24 24 25
+
+``` r
+cars$dist 
+```
+
+    ##  [1]   2  10   4  22  16  10  18  26  34  17  28  14  20  24  28  26  34
+    ## [18]  34  46  26  36  60  80  20  26  54  32  40  32  40  50  42  56  76
+    ## [35]  84  36  46  68  32  48  52  56  64  66  54  70  92  93 120  85
+
+If you noticed that data.frame has unique data type for each column. If I want to create an object with mixed types. What I need is a list
+
+``` r
+mylist <- list(a = 1:10, b = LETTERS[1:10], c = 11:20L)
+mylist
+```
+
+    ## $a
+    ##  [1]  1  2  3  4  5  6  7  8  9 10
+    ## 
+    ## $b
+    ##  [1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"
+    ## 
+    ## $c
+    ##  [1] 11 12 13 14 15 16 17 18 19 20
+
+``` r
+mylist[[1]]
+```
+
+    ##  [1]  1  2  3  4  5  6  7  8  9 10
+
+``` r
+mylist$a
+```
+
+    ##  [1]  1  2  3  4  5  6  7  8  9 10
+
+### Not commonly used data types
+
+``` r
+INF<-3/0 # Inf or -Inf 
+-3/0 
+```
+
+    ## [1] -Inf
+
+``` r
+#diff between Inf and NA (not a number) 
+!is.na(Inf)
+```
+
+    ## [1] TRUE
+
+``` r
+# what is then Inf?
+is.finite(INF)
+```
+
+    ## [1] FALSE
+
+``` r
+is.infinite(INF)
+```
+
+    ## [1] TRUE
+
+### coercion
+
+``` r
+x<-seq(1:10)
+x
+```
+
+    ##  [1]  1  2  3  4  5  6  7  8  9 10
+
+``` r
+sum(x) # 55
+```
+
+    ## [1] 55
+
+``` r
+sum(x>5) # 5
+```
+
+    ## [1] 5
+
+``` r
+#why? coercion
+x>5  # logical T or F
+```
+
+    ##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
+
+``` r
+# sum them 
+sum(x>5) # you get 5 sum of  5 1s 
+```
+
+    ## [1] 5
+
+``` r
+#if you want the sum of their values
+
+sum(x[x>5])
+```
+
+    ## [1] 40
+
+### some very useful functions
+
+-tapply, sapply, lapply
+
+Finally Cleaning up
+===================
+
+``` r
+objects() # what vars do you have in your env
+search() #what is attached
+#to remove, use rm(object)
+detach(dataframe) 
+```
 
 In the tidyverse the commonly returning objects are not data.frame but tibbles. So, let us introduce tibble in the next section
 
@@ -499,18 +1254,18 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                      a          b     c         d     e
-    ##                 <dttm>     <date> <int>     <dbl> <chr>
-    ## 1  2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
-    ## 2  2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
-    ## 3  2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
-    ## 4  2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
-    ## 5  2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
-    ## 6  2017-03-08 11:39:54 2017-04-01     6 0.9643774     x
-    ## 7  2017-03-08 03:50:25 2017-03-08     7 0.4103859     o
-    ## 8  2017-03-08 07:23:59 2017-03-18     8 0.3323651     c
-    ## 9  2017-03-07 18:57:25 2017-03-23     9 0.3904016     l
-    ## 10 2017-03-07 21:31:24 2017-03-20    10 0.8256226     c
+    ##                      a          b     c          d     e
+    ##                 <dttm>     <date> <int>      <dbl> <chr>
+    ## 1  2017-03-17 07:02:05 2017-04-14     1 0.78616462     f
+    ## 2  2017-03-17 16:17:17 2017-03-26     2 0.69303793     c
+    ## 3  2017-03-17 11:31:37 2017-03-27     3 0.85835132     h
+    ## 4  2017-03-17 00:06:52 2017-03-20     4 0.96325269     s
+    ## 5  2017-03-17 10:43:41 2017-03-30     5 0.41142750     f
+    ## 6  2017-03-17 18:28:28 2017-03-19     6 0.07265530     k
+    ## 7  2017-03-17 14:09:00 2017-03-31     7 0.03062797     w
+    ## 8  2017-03-17 18:49:26 2017-03-23     8 0.44911918     k
+    ## 9  2017-03-16 20:30:02 2017-04-06     9 0.15825730     l
+    ## 10 2017-03-17 14:11:09 2017-03-23    10 0.28191674     z
     ## # ... with 990 more rows
 
 You can change the defaults of tibble display with options.
@@ -523,12 +1278,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
-    ## 2 2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
-    ## 3 2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
-    ## 4 2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
-    ## 5 2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
-    ## 6 2017-03-08 11:39:54 2017-04-01     6 0.9643774     x
+    ## 1 2017-03-17 07:02:05 2017-04-14     1 0.7861646     f
+    ## 2 2017-03-17 16:17:17 2017-03-26     2 0.6930379     c
+    ## 3 2017-03-17 11:31:37 2017-03-27     3 0.8583513     h
+    ## 4 2017-03-17 00:06:52 2017-03-20     4 0.9632527     s
+    ## 5 2017-03-17 10:43:41 2017-03-30     5 0.4114275     f
+    ## 6 2017-03-17 18:28:28 2017-03-19     6 0.0726553     k
     ## # ... with 994 more rows
 
 You can also use the following tibble option to show all columns
@@ -545,9 +1300,9 @@ How to extract the columns or rows of tibble?
 head(t2$a)
 ```
 
-    ## [1] "2017-03-08 08:53:10 EST" "2017-03-08 15:55:24 EST"
-    ## [3] "2017-03-08 07:21:56 EST" "2017-03-08 01:32:42 EST"
-    ## [5] "2017-03-08 15:43:00 EST" "2017-03-08 11:39:54 EST"
+    ## [1] "2017-03-17 07:02:05 EDT" "2017-03-17 16:17:17 EDT"
+    ## [3] "2017-03-17 11:31:37 EDT" "2017-03-17 00:06:52 EDT"
+    ## [5] "2017-03-17 10:43:41 EDT" "2017-03-17 18:28:28 EDT"
 
 ``` r
 has_name(t2, "b")
@@ -572,12 +1327,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
-    ## 2 2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
-    ## 3 2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
-    ## 4 2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
-    ## 5 2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
-    ## 6 2017-03-08 11:39:54 2017-04-01     6 0.9643774     x
+    ## 1 2017-03-17 07:02:05 2017-04-14     1 0.7861646     f
+    ## 2 2017-03-17 16:17:17 2017-03-26     2 0.6930379     c
+    ## 3 2017-03-17 11:31:37 2017-03-27     3 0.8583513     h
+    ## 4 2017-03-17 00:06:52 2017-03-20     4 0.9632527     s
+    ## 5 2017-03-17 10:43:41 2017-03-30     5 0.4114275     f
+    ## 6 2017-03-17 18:28:28 2017-03-19     6 0.0726553     k
     ## # ... with 994 more rows
 
 ``` r
@@ -589,15 +1344,15 @@ t2
     print(aa); print(bb); print(cc); print(dd); print(ee)
 ```
 
-    ## [1] "2017-03-07"
+    ## [1] "2017-03-16"
 
-    ## [1] "2017-03-07 17:52:07 EST"
+    ## [1] "2017-03-16 19:09:23 EDT"
 
     ## [1] 1
 
-    ## [1] 0.7915565
+    ## [1] 0.2026842
 
-    ## [1] "j"
+    ## [1] "r"
 
 ``` r
 t2 %>% 
@@ -613,12 +1368,12 @@ t2 %>%
     ## # A tibble: 1,001 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
-    ## 2 2017-03-06 19:00:00 2017-03-07     1 0.7915565     j
-    ## 3 2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
-    ## 4 2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
-    ## 5 2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
-    ## 6 2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
+    ## 1 2017-03-17 07:02:05 2017-04-14     1 0.7861646     f
+    ## 2 2017-03-15 20:00:00 2017-03-16     1 0.2026842     r
+    ## 3 2017-03-17 16:17:17 2017-03-26     2 0.6930379     c
+    ## 4 2017-03-17 11:31:37 2017-03-27     3 0.8583513     h
+    ## 5 2017-03-17 00:06:52 2017-03-20     4 0.9632527     s
+    ## 6 2017-03-17 10:43:41 2017-03-30     5 0.4114275     f
     ## # ... with 995 more rows
 
 After the change
@@ -630,12 +1385,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c         d     e
     ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-08 08:53:10 2017-04-02     1 0.3487937     z
-    ## 2 2017-03-08 15:55:24 2017-03-21     2 0.9993539     i
-    ## 3 2017-03-08 07:21:56 2017-03-09     3 0.2024225     v
-    ## 4 2017-03-08 01:32:42 2017-04-05     4 0.6391088     k
-    ## 5 2017-03-08 15:43:00 2017-04-05     5 0.1434796     h
-    ## 6 2017-03-08 11:39:54 2017-04-01     6 0.9643774     x
+    ## 1 2017-03-17 07:02:05 2017-04-14     1 0.7861646     f
+    ## 2 2017-03-17 16:17:17 2017-03-26     2 0.6930379     c
+    ## 3 2017-03-17 11:31:37 2017-03-27     3 0.8583513     h
+    ## 4 2017-03-17 00:06:52 2017-03-20     4 0.9632527     s
+    ## 5 2017-03-17 10:43:41 2017-03-30     5 0.4114275     f
+    ## 6 2017-03-17 18:28:28 2017-03-19     6 0.0726553     k
     ## # ... with 994 more rows
 
 Subsetting
@@ -653,13 +1408,13 @@ df <- tibble(
 df$x
 ```
 
-    ## [1] 0.4680699 0.9938051 0.7469239 0.2628325 0.7365345
+    ## [1] 0.9384040 0.2006147 0.4134491 0.8307822 0.1673071
 
 ``` r
 df[[1]]
 ```
 
-    ## [1] 0.4680699 0.9938051 0.7469239 0.2628325 0.7365345
+    ## [1] 0.9384040 0.2006147 0.4134491 0.8307822 0.1673071
 
 Can you use Tibble in a pipeline?
 
@@ -667,13 +1422,13 @@ Can you use Tibble in a pipeline?
 df %>% .$x   
 ```
 
-    ## [1] 0.4680699 0.9938051 0.7469239 0.2628325 0.7365345
+    ## [1] 0.9384040 0.2006147 0.4134491 0.8307822 0.1673071
 
 ``` r
 df %>% .[["y"]]
 ```
 
-    ## [1] -0.8048695 -1.3749390 -0.8351197 -1.0765826  0.2061120
+    ## [1]  0.03798768 -0.37686415  0.64345789  0.53371357  0.96717667
 
 What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
 
@@ -681,12 +1436,12 @@ What happens if tibble doesnt work with a package? Transform Tibble back to a da
 as.data.frame(df)
 ```
 
-    ##           x          y
-    ## 1 0.4680699 -0.8048695
-    ## 2 0.9938051 -1.3749390
-    ## 3 0.7469239 -0.8351197
-    ## 4 0.2628325 -1.0765826
-    ## 5 0.7365345  0.2061120
+    ##           x           y
+    ## 1 0.9384040  0.03798768
+    ## 2 0.2006147 -0.37686415
+    ## 3 0.4134491  0.64345789
+    ## 4 0.8307822  0.53371357
+    ## 5 0.1673071  0.96717667
 
 Including Plots
 ---------------
@@ -725,50 +1480,6 @@ Partial matching is a big issue with data.frame. df &lt;- data.frame(abc = 1, xy
 
 R
 -
-
--   R is a Dynamic programming language
--   Different from other languages such as C, modern Fortran, Java
--   Require compilation
-
-Availability
-------------
-
--   Base R and R core packages can be downloaded from
--   Comprehensive R Archive Network (CRAN)
--   Available in Windows/Linux/Mac0
--   cran.r-project.org
-
--   How to interact with R?
--   RGUI Deducer (preferred for the class) or RStudio
-
-Installing/Using a package in R
--------------------------------
-
--   R comes with core packages (basic). There are several packages available for R (Ex. Tidyverse)
-
--   How can I install a package?
-
-<code> install.packages("foreign") \# to install foreign package </code>
-
--   After installation, you have load the package, using the following command
-    <pre> <code> 
-    library(foreign) 
-    help(package=foreign)
-    </code> </pre>
-
-After using a package, you can
-<pre> detach(foreign) </pre>
-to remove a package from the workspace.
-
-Use
-<pre> SessionInfo() </pre>
-to get a detailed description of the attached packages and R session
-
-R commands can be either typed or loaded from a file
-====================================================
-
-using source command
-====================
 
 ``` r
 getwd() # case sensititve
@@ -809,141 +1520,6 @@ list.files() # lists all files in the directory
     ## [20] "TidyingData.md"                      
     ## [21] "TidyingData.Rpres"
 
-Everything is an vector object in R
------------------------------------
-
-create a series of numbers using command line in R
---------------------------------------------------
-
-``` r
-aa <- 22.7
-
-aa = 1 # DO not use not standard
-
-aa + 2
-```
-
-    ## [1] 3
-
-``` r
-sqrt(aa+1)
-```
-
-    ## [1] 1.414214
-
-``` r
-aa/3
-```
-
-    ## [1] 0.3333333
-
-getting help
-============
-
-?help ?scan
-
-another way to create a vector
-==============================
-
-Variable names no number, no underscore etc.
-============================================
-
-ages&lt;-c(1,2,3,4) ages
-
-ages+3 \# ages of kids after 3 years
-
-age&lt;-3 \# scalar is a zero vector age age +3
-
-age = 3 \# same as age&lt;-3
-
-don't mix numbers and character in a vector
-===========================================
-
-x&lt;-c("Brazil","Argentina","India")
-
-try mixing it with numbers
-==========================
-
-x&lt;-c("Brazil",10, "India")
-
-How to mix the character data and numerical data?
-=================================================
-
-Country&lt;-c("USA","Argentina","Mexico") PerCapitaIncome&lt;-c( 51749,11573, 9749) Data&lt;-data.frame(Country,PerCapitaIncome) States&lt;-c(50, 23,31) Data1&lt;-cbind(Data,States)
-
-Country&lt;-c("India") PerCapitaIncome&lt;-c(1450) States&lt;-c(28) Ndata&lt;-data.frame(Country,PerCapitaIncome,States) FinData&lt;-rbind(Data1,Ndata)
-
-IndiaSubset&lt;-subset(FinData,Country == "India") \#Write to a file write.csv(IndiaSubset,"IndiaSubset.csv")
-
-what happens; This is called coercing ; Not good.
-=================================================
-
-new\_age&lt;- age+3
-
-to list all objects created in R up to this point
-=================================================
-
-ls()
-
-How to input data?
-==================
-
-CSV (most common) but other types can be loaded
-===============================================
-
-read.csv("test.csv") CSVdat&lt;-read.csv("test.csv") CSVdat
-
-str(CSVdat) \# str function summary(CSVdat)
-
-how to read xls file?
-=====================
-
-????ADD
-=======
-
-can also read binary files
-==========================
-
-?readBin
-========
-
-What do you do with the data?
-=============================
-
-head(CSVdat) tail(CSVdat)
-
-colnames(CSVdat) names(CSVdat) \# same as colnames dim(CSVdat) \#dimension of the data class(CSVdat) summary(CSVdat)
-
-View(csv-dat) \# to edit the data
-
-R reads the datta and stores the data as data frames
-====================================================
-
-Which have the format like matrix
-=================================
-
-To extract or address a variables
-=================================
-
-object\[row,column\]
-====================
-
-CSVdat\[1,2\]
-
-CSVdat\[ ,2\] \# note the levels have already beeb \# populated CSVdat\[2, \]
-
-CSVdat$ID
-
-dim(CSVdat) \# dimention 5,3 \#Conditional statements \# CSVdat*I**D*\[*C**S**V**d**a**t*ID&gt;=3\] subset(CSVdat, ID&gt;=3) \# to carve out data with ID&gt;=3
-
-Concatenation
-=============
-
-sorting
-=======
-
-CSVdat1&lt;-read.csv("csv-data1.csv") CSVdat1\[order(CSVdat1$ID), \] \# attach(CSVdat1) ID \# what are the problems in attaching?
-
 sort one column
 ===============
 
@@ -958,59 +1534,6 @@ why not reverse?
 ================
 
 CSVdat1\[order(STATEID,-AGE), \]
-
-data types
-==========
-
-INF&lt;-3/0 \# Inf or -Inf -3/0
-
-diff between Inf and NA (not a number)
-======================================
-
-!is.na(Inf)
-
-what is then Inf?
-=================
-
-is.finite(INF) is.infinite(INF)
-
-x&lt;-c(1,2,3,4) x length(x) min(x) max(x)
-
-x\[1\] x\[2:3\]
-
-x&lt;-seq(1:10)
-
-descriptive Stats
-=================
-
-summary(data)
-
-Finally Cleaning up
-===================
-
-objects() \# what vars do you have in your env
-
-search() \#what is attached
-
-to remove, use rm(object)
-=========================
-
-detach(dataframe)
-
-coercion
-========
-
-x&lt;-seq(1:10) x sum(x) \# 55 sum(x&gt;5) \# 5 \#why? coercion x&gt;5 \# logical T or F \# this will be most cases coerced to numeric 0 or 1 \# (F F F F F T T T T T) \# (0 0 0 0 0 1 1 1 1 1) \# sum them sum(x&gt;5) \# you get 5 sum of 5 1s if you want the sum of their values
-
-sum(x\[x&gt;5\])
-
-tapply
-======
-
-tapply(X, FactorVar, function)
-==============================
-
-tapply(WHO*O**v**e**r*60, *W**H**O*Region, mean)
 
 Hands-on exercise using Wisconsin Breast Cancer dataset
 -------------------------------------------------------

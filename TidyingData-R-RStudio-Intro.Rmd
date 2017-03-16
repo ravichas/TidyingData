@@ -4,20 +4,38 @@ author: "Drs. Sarangan Ravichandran and Randall Johnson"
 date: "February 26, 2017"
 output: github_document
 ---
-
+### Cleaning up
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
 ```
+Let us clean up the environment. This will clear all the variables
+and start fresh
 
-Let us first load the libraries
-```{r loadlibraries}
-# if you dont have tidyverse then run the following line once 
-# install.packages("tidyverse")
-library(tidyverse) 
+```{r CleanSlate}
+rm(list = ls())
 ```
 
-## Let us introduce R/R-Studio Data Import with a Import Dataset and Command-line options
+### Loading the libraries
+
+Let us first load the libraries needed for the workshop
+```{r loadlibraries}
+# if you dont have tidyverse then run the following line once 
+# install.packages(c("tidyverse", "knitr"))
+library(tidyverse)
+library(knitr)
+```
+
+### Quick tour of RStudio
+We will be using RStudio as the main software for the workshp. 
+Let us do a quick live tour of RStudio. 
+
+
+![](Images/RStudioIntro.png)
+
+### Getting the data inside R via RStudio
+
+Let us introduce R/R-Studio Data Import with a Import Dataset and Command-line options
 
 
 ![](Images/RS-ImportDataset.png)
@@ -46,7 +64,8 @@ Also note the number of rows are displayed in read_csv compared to read.csv
 
 ```
 
-See the difference in the returning objects' class
+See the difference in the returning objects' class. 
+We will return to the data.frame and tbl_df later.
 
 ```{r}
 class(ncsv) # traditional csv function, read.csv 
@@ -59,7 +78,7 @@ What happens if your dataset has a metadata (indicated by \# ) as the first line
 read_csv("Data/WHO-2a.csv", comment = "#")
 ```
 
-## Why we insist on using readr::read_csv than read.csv?
+### Why we insist on using readr::read_csv than read.csv?
 
 - Speed (~ 10x)
 - output from readr is Tibbles (we talked about earlier)
@@ -82,45 +101,423 @@ setwd("YOUR_DIR"")
 ```
 
 
-
 ## To get a detailed description of the attached packages and R session 
 
 ```{r}
 sessionInfo()
 ```
 
+### R basics
+
+- R is a language? 
+- Dynamic programming language
+- Do not need compilation.
+- Different from other languages such as C, modern Fortran, Java that require compilation
+
+### Availability 
+- Base R and R core packages can be downloaded from 
+- Comprehensive R Archive Network (CRAN)
+- Available in Windows/Linux/Mac0
+- cran.r-project.org 
+- How to interact with R? 
+- RGUI RStudio (preferred for the class) 
+
+### RStudio basics 
+
+- RStudio is a RGUI
+- It started that way, now it is much more than a GUI
+- R is the main program 
+
+### simple calculator
+
+2 * 3  
+
+if R doesnt recognize a code, it displays a + and waits for you 
+
+type the following in command prompt, you will get a error message. 
+Explain why you 
+ 
+```{r, eval=FALSE}
+2 *  
+```
+
+```{r, eval=FALSE}
+- run the following line. you will get an error message. Why? 
+Error: unexpected input in "10 % 5" 
+
+10 % 5 
+```
+
+### Everything is an vector object in R
+- Variable names should not contain number, no underscore etc. 
+- Don't mix numbers and character in a vector
+   - If you mix coercion (un expected outcomes)
+
+```{r}
+aa <- 22.7
+
+aa = 1 # DO not use not standard
+
+aa + 2
+sqrt(aa+1)
+aa/3
+
+ages<-c(1,2,3,4) # another way to create vectors
+ages
+
+ages+3   # ages of kids after 3 years 
+         # scalar is a zero vector
+ages
+ 
+```
 
 
-Basic Usage
+RStudio environment pane now displays the variable.
+
+### What are acceptable and not acceptable variable names
+
+```{r echo = FALSE, results = 'asis'}
+No = c("1run", "b$", "^mean", "!var1" )
+Yes = c("run1", "b", "mean", "var1")
+df <- data_frame(No, Yes)
+kable(df, caption = "Acceptable (Yes) and non-acceptable (No) Variable Names")
+```
+
+### Variable names are case-sensitive and can be 
+    over-written 
+
+```{r}
+var1 <- 2
+VAR1 <- 1 
+(var1 <- 100) # overwrite 
+```
+
+### List the variables (you can also use the Global Environment pane in RStudio for this)
+```{r}
+ls() # to see what variables you have so far
+list.files()  # to see the list of files
+```
+
+# Data analysis without a die? 
+```{r}
+die <- 1:6 # 6 sided die
+```
+
+# Math with die
+
+Notice the vector math
+```{r}
+die + 2
+die/2
+
+die * die
+```
+
+### Let us watch out for recycling in
+```{r}
+die + 1:2
+```
+
+
+### Built-in function 
+
+```{r}
+sum(die)
+mean(die)
+```
+
+### How to get help in R?
+
+```{r, eval = FALSE}
+?sum
+```
+
+### Stored constants
+```{r}
+pi # not PI
+```
+
+### let us round numbers
+```{r}
+round(pi, 10) # what happened here
+round(pi, 2)
+round(pi, digits = 9)
+```
+
+ 
+
+### How to find the arguments for a built-in function 
+```{r}
+args(round)
+args(plot)
+```
+
+### Exercise 2: Find out what the function sample does?
+let us sample a die by rolling 3 times
+
+### What is the issue with the following command?
+
+```{r, eval = FALSE}
+sample(die, size = 7)
+```
+
+### Can we change the default of sample function? 
+```{r}
+p <- c(rep(0.01,5), 0.95)
+sample(x = die, size = 10, replace = TRUE, prob = p)
+```
+
+
+### Do we always have to use the arguments name? What if we dont? 
+```{r}
+sample(die, 10, replace = TRUE)
+sample(die, 10, TRUE) #  define them explicitely
+sample(x = die, size = 6, replace = TRUE)
+```
+
+### Let us roll the die multiple times
+```{r}
+# First roll
+sample(x = die, size = 2, replace = TRUE) # def prob
+# one more roll
+sample(x = die, size = 2, replace = TRUE) # def prob
+```
+
+### Random numbers
+```{r}
+unif_rand <- runif(10)
+args(round)
+```
+
+
+### Function in R
+
+- Function constructor (like C++) has three parts
+- a) name 
+- b) body (of code)
+- c) arguments 
+- function() {  ### }
+
+### Let us build a function
+```{r}
+dist <- function(a, b) {
+  distsq <- sum( (b - a)^2 )
+  sqrt(distsq)
+}
+```
+Let us call the function with inputs
+
+```{r}
+a <- c(1,2)
+b <- c(3,3)
+
+dist(a,b)
+```
+
+### Now let us turn the following lines into a function in RStudion
+
+```{r}
+#Use RStudio to turn the following line into a function called dist2
+
+distsq <- sum( (b - a)^2 )
+sqrt(distsq)
+
+```
+
+### Installing and using packages in R
+
+- R comes with core packages (basic). There are several 
+  packages available for R (Ex. Tidyverse)
+- How can I install a package? 
+<code>install.packages("foreign") # to install foreign package </code>
+- After installation, you have load the package, using the following command
+<pre> <code> 
+library(foreign) 
+help(package=foreign)
+</code> </pre>
+
+After using a package, use <pre>detach(foreign)</pre> to remove a package (ex. foreign package) from the workspace.
+
+Use <pre> SessionInfo() </pre> to get a detailed description of the attached packages and R session. R commands can be either typed or loaded from a file
+using source command. 
+
+Here is an example of installing a package called randomForest and updating package(s)
+
+```{r, eval = FALSE}
+install.packages("randomForest")
+library(randomForest)
+## multiple packages
+update.packages(c("randomForest","tidyverse"))
+
+```
+
+### Debugging in R 
+```{r, eval = FALSE}
+mysum <- function(a,b) {
+  sum( (bb - a)^2 )
+}
+
+dist <- function(a, b) {
+  distsq <- mysum(a,b)
+  sqrt(distsq)
+}
+
+# use of RStudio bebug or traceback function
+dist(a,b)
+```
+
+
+### Data types in R
+- six basic types of atomic vectors:
+- doubles, integers, characters, logicals, complex, and raw
+- last two are not very important and we will not discuss further
+
+```{r}
+complex(1,2)
+raw(2) # bytes of numbers
+```
+
+### Integer variables
+```{r}
+ia <- 1L 
+ia1 <- 1
+class(ia)
+typeof(ia)
+
+class(ia1)
+typeof(ia1)
+```
+
+### Double variables
+
+```{r}
+ra <- runif(10)
+typeof(ra)
+class(ra)
+```
+
+### Character variables
+
+```{r}
+ca <- c("Tom", "cat")
+typeof(ca)
+class(ca)
+```
+
+### Let us talk about attributes
+```{r}
+ia <- 1L 
+names(ia) <- "id"
+ia
+```
+
+### Other types, matrix
+```{r}
+M <- matrix(1:6, 3, 2)
+dim(M)
+args(matrix)
+```
+
+### plots 
+
+```{r}
+x <- runif(1000)
+hist(x)
+hist(x, main = "Histogram of Uniform Random Numbers")
+boxplot(x, col = "red")
+```
+
+###Read and Write, compressed file
+write.csv(lcancer, file = bzfile("data/lcaner.csv.bz2"), row.names = FALSE)
+
+### Some useful functions
+
+Let us use the cars dataset to show some important R commands
 
 ```{r}
 summary(cars)
+str(cars)
 ```
 
-If you want to just display the code chunk but not the concerned R code, 
-you need "echo = FALSE" 
-```{r, echo=FALSE}
-summary(cars)
+### Single bracket
+```{r}
+cars[1,]
+cars[1:5,]
+cars[1,]
+cars[,1] # vector
+class(cars[,1])
+class(cars)
+nrow(cars)
+length(cars$speed)
+min_speed <- min(cars$speed)
+min_speed
+max(cars$speed)
+cars[min_speed,] # can be easily done using dplyr
+filter(cars, speed > 10)
+```
+### Accessing values in data frames
+
+```{r}
+names(cars)
+cars$speed # vector
+cars$dist 
 ```
 
-Plotting in Rmd. If you want the users to see the plot but not the code,
-then do the following:
+If you noticed that data.frame has unique data type for each column.
+If I want to create an object with mixed types. What I need is a list
 
-Note the eval=FALSE (upper case; lower case will fail)
-```{r, echo=FALSE}
-plot(cars)
+```{r}
+mylist <- list(a = 1:10, b = LETTERS[1:10], c = 11:20L)
+mylist
+mylist[[1]]
+mylist$a
 ```
 
-If you want to display the R code without evualating, then use
-```{r, eval=FALSE}
-summary(cars)
+
+### Not commonly used data types
+```{r}
+INF<-3/0 # Inf or -Inf 
+-3/0 
+#diff between Inf and NA (not a number) 
+!is.na(Inf)
+
+# what is then Inf?
+is.finite(INF)
+is.infinite(INF)
 ```
 
-What about additional formating when displaying the contens of a table? 
-Note the **asis** option
-```{r, results='asis'}
-knitr::kable(mtcars)
+
+###coercion
+```{r}
+x<-seq(1:10)
+x
+sum(x) # 55
+sum(x>5) # 5
+#why? coercion
+x>5  # logical T or F
+# sum them 
+sum(x>5) # you get 5 sum of  5 1s 
+#if you want the sum of their values
+
+sum(x[x>5])
 ```
+
+### some very useful functions
+
+-tapply, sapply, lapply
+
+
+
+#Finally Cleaning up
+
+```{r, eval = FALSE }
+objects() # what vars do you have in your env
+search() #what is attached
+#to remove, use rm(object)
+detach(dataframe) 
+```
+
+ 
 
 In the tidyverse the commonly returning objects are not data.frame but tibbles.
 So, let us introduce tibble in the next section 
@@ -383,308 +780,8 @@ df$x
 df[, "xyz"]
 
 
-## R 
 
-- R is a Dynamic programming language
-- Different from other languages such as C, modern Fortran, Java
-- Require compilation 
 
-## Availability 
-
-- Base R and R core packages can be downloaded from 
-- Comprehensive R Archive Network (CRAN)
-- Available in Windows/Linux/Mac0
-- cran.r-project.org 
-
-- How to interact with R? 
-- RGUI Deducer (preferred for the class) or RStudio 
-
-## Installing/Using a package in R
-
-- R comes with core packages (basic). There are several 
-  packages available for R (Ex. Tidyverse)
-  
-- How can I install a package? 
-
-<code>  install.packages("foreign")  # to install foreign package </code>
-
-- After installation, you have load the package, using the following command
-<pre> <code> 
-library(foreign) 
-help(package=foreign)
-</code> </pre>
-
-After using a package, you can <pre> detach(foreign) </pre> to remove a package from the 
-workspace.
-
-Use <pre> SessionInfo() </pre> to get a detailed description of the attached packages and R session
-
-#R commands can be either typed or loaded from a file
-# using source command 
-
-
-```{r}
-getwd() # case sensititve
-#setwd("YOUR-DIR")
-```
-
-## to list the files in the directory
-
-```{r}
-list.files() # lists all files in the directory
-```
-
-
-## Everything is an vector object in R
-- Create a series of numbers using command line in R
-- Variable names should not contain number, no underscore etc. 
-- Don't mix numbers and character in a vector
-   - If you mix coercion (un expected outcomes)
-
-
-```{r}
-aa <- 22.7
-
-aa = 1 # DO not use not standard
-
-aa + 2
-sqrt(aa+1)
-aa/3
-
-ages<-c(1,2,3,4) # another way to create vectors
-ages
-
-ages+3   # ages of kids after 3 years 
-         # scalar is a zero vector
-age
- 
-
-```
-
-
-## Getting help
-
-<code> 
-?help 
-?hist
-</code>
-
-## What happens when you mix variables in a single vector?
-
-x<-c("Brazil","Argentina","India")
-x<-c("Brazil",10, "India") 
-
-
-How to mix the character data and numerical data?
-
-```{r}
-Country<-c("USA","Argentina","Mexico")
-PerCapitaIncome<-c(  51749,11573, 9749)
-Data<-tibble(Country,PerCapitaIncome)
-States<-c(50, 23,31)
-Data1 <- bind_cols(x = Data, y = tibble(States))  # equivalent to cbind 
-```
-
-Let us add a row (equivalent to rbind)
-
-```{r}
-Country<-c("India")
-PerCapitaIncome<-c(1450)
-States<-c(28)
-Ndata<-tibble(Country,PerCapitaIncome,States)
-FinData<-bind_rows(Data1,Ndata)
-```
-
-
-IndiaSubset<-subset(FinData,Country == "India") 
-#Write to a file
-write.csv(IndiaSubset,"IndiaSubset.csv")
-
-
-
-# what happens; This is called coercing ; Not good. 
-
-
-new_age<- age+3
-
-
-# to list all objects created in R up to this point
-ls()
-
-
-# How to input data?
-
-
-# CSV (most common) but other types can be loaded
-
-
-read.csv("test.csv")
-CSVdat<-read.csv("test.csv")
-CSVdat
-
-
-str(CSVdat)  # str function
-summary(CSVdat)
-
-
-# how to read xls file? 
-#????ADD 
-
-
-# can also read binary files 
-# ?readBin 
-
-
-#What do you do with the data? 
-
-
-head(CSVdat)
-tail(CSVdat)
-
-
-colnames(CSVdat) 
-names(CSVdat)  # same as colnames 
-dim(CSVdat)     #dimension of the data
-class(CSVdat)
-summary(CSVdat)
-
-
-
-
-View(csv-dat) # to edit the data 
-
-
-# R reads the datta and stores the data as data frames
-# Which have the format like matrix 
-# To extract or address a variables 
-# object[row,column] 
-
-
-CSVdat[1,2]
-
-
-CSVdat[ ,2]   # note the levels have already beeb 
-                      # populated
-CSVdat[2, ]
-
-
-CSVdat$ID
-
-
-dim(CSVdat) # dimention 5,3
-#Conditional statements
-# 
-CSVdat$ID[CSVdat$ID>=3] 
-subset(CSVdat, ID>=3) # to carve out data with ID>=3
-
-
-# Concatenation 
-
-
-#sorting 
-CSVdat1<-read.csv("csv-data1.csv")
-CSVdat1[order(CSVdat1$ID), ] 
-# attach(CSVdat1)
-ID 
-# what are the problems in attaching?
-
-
-# sort one column
-CSVdat1[order(AGE), ] 
-
-
-# let us sort by two variables one after another
-CSVdat1[order(STATEID,AGE), ]
-
-
-# why not reverse?
-CSVdat1[order(STATEID,-AGE), ]
-
-
-#data types
-INF<-3/0 # Inf or -Inf 
--3/0 
-
-
-#diff between Inf and NA (not a number) 
-
-
-!is.na(Inf)
-
-
-# what is then Inf?
-is.finite(INF)
-is.infinite(INF)
-
-
-x<-c(1,2,3,4)
-x
-length(x) 
-min(x)
-max(x)
-
-
-x[1]
-x[2:3]
-
-
-x<-seq(1:10)
-
-
-
-
-# descriptive Stats
-
-
-summary(data)
-
-
-
-
-
-
-#Finally Cleaning up
-
-
-objects() # what vars do you have in your env
-
-
-search() #what is attached
-
-
-#to remove, use rm(object)
-detach(dataframe) 
-
-
-
-
-
-
-#coercion
-
-
-x<-seq(1:10)
-x
-sum(x) # 55
-sum(x>5) # 5
-#why? coercion
-x>5  # logical T or F
-         # this will be most cases coerced to numeric 0 or 1 
-#  (F F F F F T T T T T)
-#  (0 0 0 0 0 1 1 1 1  1) 
-# sum them 
-sum(x>5) # you get 5 sum of  5 1s 
-if you want the sum of their values
-
-
-sum(x[x>5])
-
-
-#tapply
-
-
-#  tapply(X, FactorVar, function) 
-tapply(WHO$Over60, WHO$Region, mean)
 
 
 ## Hands-on exercise using Wisconsin Breast Cancer dataset
