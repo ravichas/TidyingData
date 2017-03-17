@@ -7,12 +7,14 @@ output: github_document
 ### Cleaning up
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
 ```
-Let us clean up the environment. This will clear all the variables
-and start fresh
+Let us clean up the environment and set a working directory. 
+This will clear all the variables and start fresh. If you want to 
+follow on, then we suggest you to run the 
+following line. 
 
-```{r CleanSlate}
+```{r CleanSetRoot, eval = FALSE}
+setwd("H:/2017/BTEP1-TidyingData")
 rm(list = ls())
 ```
 
@@ -28,8 +30,17 @@ library(knitr)
 
 ### Quick tour of RStudio
 We will be using RStudio as the main software for the workshp. 
-Let us do a quick live tour of RStudio. 
+Let us do a quick live tour of RStudio. We will cover the following useful tools accessible throug RStudio. 
 
+#### Tools
+- Pane (View --> Pane)
+- Tools --> Install Packages
+- Tools --> Global Options
+- Session --> Set Working Directory
+- Optons --> R Session 
+- File --> Import DataSet
+
+(RAVI CHANGE THE FIGURE TO THE NEW PANE SETUP)
 
 ![](Images/RStudioIntro.png)
 
@@ -81,22 +92,17 @@ read_csv("Data/WHO-2a.csv", comment = "#")
 ### Why we insist on using readr::read_csv than read.csv?
 
 - Speed (~ 10x)
-- output from readr is Tibbles (we talked about earlier)
+- Output from readr is Tibbles (we will expand on this later)
 - Base R taps into OS where it is executed. But readr functions are OS independent and
   hence reproducible
   
-## Import Exercise-1
+### Import Exercise-1 (Hint: To find out where you are, use the getwd command) 
+For this exercise, we will be using the data set, nss15.tsv, downloaded from
+https://www.cpsc.gov
 
-What function would you use to read a file whose fields are separated by \|
-
-## To find out where you are, use the getwd command 
-
-```{r}
-getwd()
-```
-
-you can set a directory to go to by 
+you can get and set a working directory by the following commands: 
 ```{r, eval = FALSE}
+getwd()
 setwd("YOUR_DIR"")
 ```
 

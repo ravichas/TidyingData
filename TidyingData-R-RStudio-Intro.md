@@ -5,9 +5,10 @@ February 26, 2017
 
 ### Cleaning up
 
-Let us clean up the environment. This will clear all the variables and start fresh
+Let us clean up the environment and set a working directory. This will clear all the variables and start fresh. If you want to follow on, then we suggest you to run the following line.
 
 ``` r
+setwd("H:/2017/BTEP1-TidyingData")
 rm(list = ls())
 ```
 
@@ -21,12 +22,26 @@ Let us first load the libraries needed for the workshop
 library(tidyverse)
 ```
 
+    ## Warning: package 'tidyverse' was built under R version 3.2.5
+
     ## Loading tidyverse: ggplot2
     ## Loading tidyverse: tibble
     ## Loading tidyverse: tidyr
     ## Loading tidyverse: readr
     ## Loading tidyverse: purrr
     ## Loading tidyverse: dplyr
+
+    ## Warning: package 'ggplot2' was built under R version 3.2.5
+
+    ## Warning: package 'tibble' was built under R version 3.2.5
+
+    ## Warning: package 'tidyr' was built under R version 3.2.5
+
+    ## Warning: package 'readr' was built under R version 3.2.5
+
+    ## Warning: package 'purrr' was built under R version 3.2.5
+
+    ## Warning: package 'dplyr' was built under R version 3.2.5
 
     ## Conflicts with tidy packages ----------------------------------------------
 
@@ -39,7 +54,18 @@ library(knitr)
 
 ### Quick tour of RStudio
 
-We will be using RStudio as the main software for the workshp. Let us do a quick live tour of RStudio.
+We will be using RStudio as the main software for the workshp. Let us do a quick live tour of RStudio. We will cover the following useful tools accessible throug RStudio.
+
+#### Tools
+
+-   Pane (View --&gt; Pane)
+-   Tools --&gt; Install Packages
+-   Tools --&gt; Global Options
+-   Session --&gt; Set Working Directory
+-   Optons --&gt; R Session
+-   File --&gt; Import DataSet
+
+(RAVI CHANGE THE FIGURE TO THE NEW PANE SETUP)
 
 ![](Images/RStudioIntro.png)
 
@@ -178,26 +204,17 @@ read_csv("Data/WHO-2a.csv", comment = "#")
 ### Why we insist on using readr::read\_csv than read.csv?
 
 -   Speed (~ 10x)
--   output from readr is Tibbles (we talked about earlier)
+-   Output from readr is Tibbles (we will expand on this later)
 -   Base R taps into OS where it is executed. But readr functions are OS independent and hence reproducible
 
-Import Exercise-1
------------------
+### Import Exercise-1 (Hint: To find out where you are, use the getwd command)
 
-What function would you use to read a file whose fields are separated by |
+For this exercise, we will be using the data set, nss15.tsv, downloaded from <https://www.cpsc.gov>
 
-To find out where you are, use the getwd command
-------------------------------------------------
+you can get and set a working directory by the following commands:
 
 ``` r
 getwd()
-```
-
-    ## [1] "H:/2017/BTEP1-TidyingData"
-
-you can set a directory to go to by
-
-``` r
 setwd("YOUR_DIR"")
 ```
 
@@ -208,7 +225,7 @@ To get a detailed description of the attached packages and R session
 sessionInfo()
 ```
 
-    ## R version 3.3.2 (2016-10-31)
+    ## R version 3.2.4 Revised (2016-03-16 r70336)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
     ## Running under: Windows 7 x64 (build 7601) Service Pack 1
     ## 
@@ -227,16 +244,16 @@ sessionInfo()
     ## [5] tidyr_0.6.1     tibble_1.2      ggplot2_2.2.1   tidyverse_1.1.1
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_0.12.8      plyr_1.8.4       forcats_0.2.0    tools_3.3.2     
-    ##  [5] digest_0.6.11    jsonlite_1.2     lubridate_1.6.0  evaluate_0.10   
-    ##  [9] nlme_3.1-128     gtable_0.2.0     lattice_0.20-34  psych_1.6.12    
-    ## [13] DBI_0.5-1        yaml_2.1.14      parallel_3.3.2   haven_1.0.0     
-    ## [17] xml2_1.1.0       stringr_1.1.0    httr_1.2.1       hms_0.3         
-    ## [21] rprojroot_1.2    grid_3.3.2       R6_2.2.0         readxl_0.1.1    
-    ## [25] foreign_0.8-67   rmarkdown_1.3    modelr_0.1.0     reshape2_1.4.2  
+    ##  [1] Rcpp_0.12.5      plyr_1.8.4       forcats_0.2.0    tools_3.2.4     
+    ##  [5] digest_0.6.9     jsonlite_1.3     lubridate_1.6.0  evaluate_0.10   
+    ##  [9] nlme_3.1-128     gtable_0.2.0     lattice_0.20-33  psych_1.6.12    
+    ## [13] DBI_0.4-1        yaml_2.1.13      parallel_3.2.4   haven_1.0.0     
+    ## [17] xml2_1.1.1       stringr_1.0.0    httr_1.2.1       hms_0.3         
+    ## [21] rprojroot_1.2    grid_3.2.4       R6_2.2.0         readxl_0.1.1    
+    ## [25] foreign_0.8-66   rmarkdown_1.3    modelr_0.1.0     reshape2_1.4.2  
     ## [29] magrittr_1.5     backports_1.0.5  scales_0.4.1     htmltools_0.3.5 
     ## [33] rvest_0.3.2      assertthat_0.1   mnormt_1.5-5     colorspace_1.3-2
-    ## [37] stringi_1.1.2    lazyeval_0.2.0   munsell_0.4.3    broom_0.4.1
+    ## [37] stringi_1.0-1    lazyeval_0.2.0   munsell_0.4.3    broom_0.4.2
 
 ### R basics
 
@@ -511,19 +528,19 @@ sample(x = die, size = 10, replace = TRUE, prob = p)
 sample(die, 10, replace = TRUE)
 ```
 
-    ##  [1] 4 2 1 4 5 3 1 6 3 1
+    ##  [1] 5 4 4 5 3 5 4 3 4 6
 
 ``` r
 sample(die, 10, TRUE) #  define them explicitely
 ```
 
-    ##  [1] 1 1 6 5 3 2 3 4 3 1
+    ##  [1] 6 4 5 5 4 2 5 4 1 1
 
 ``` r
 sample(x = die, size = 6, replace = TRUE)
 ```
 
-    ## [1] 3 4 5 4 4 3
+    ## [1] 5 3 3 3 5 4
 
 ### Let us roll the die multiple times
 
@@ -532,14 +549,14 @@ sample(x = die, size = 6, replace = TRUE)
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 6 6
+    ## [1] 4 2
 
 ``` r
 # one more roll
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 6 6
+    ## [1] 3 4
 
 ### Random numbers
 
@@ -743,19 +760,19 @@ x <- runif(1000)
 hist(x)
 ```
 
-![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-37-1.png)
+![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-36-1.png)
 
 ``` r
 hist(x, main = "Histogram of Uniform Random Numbers")
 ```
 
-![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-37-2.png)
+![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-36-2.png)
 
 ``` r
 boxplot(x, col = "red")
 ```
 
-![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-37-3.png)
+![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/unnamed-chunk-36-3.png)
 
 ### Read and Write, compressed file
 
@@ -1256,16 +1273,16 @@ t2
     ## # A tibble: 1,000 × 5
     ##                      a          b     c          d     e
     ##                 <dttm>     <date> <int>      <dbl> <chr>
-    ## 1  2017-03-17 07:02:05 2017-04-14     1 0.78616462     f
-    ## 2  2017-03-17 16:17:17 2017-03-26     2 0.69303793     c
-    ## 3  2017-03-17 11:31:37 2017-03-27     3 0.85835132     h
-    ## 4  2017-03-17 00:06:52 2017-03-20     4 0.96325269     s
-    ## 5  2017-03-17 10:43:41 2017-03-30     5 0.41142750     f
-    ## 6  2017-03-17 18:28:28 2017-03-19     6 0.07265530     k
-    ## 7  2017-03-17 14:09:00 2017-03-31     7 0.03062797     w
-    ## 8  2017-03-17 18:49:26 2017-03-23     8 0.44911918     k
-    ## 9  2017-03-16 20:30:02 2017-04-06     9 0.15825730     l
-    ## 10 2017-03-17 14:11:09 2017-03-23    10 0.28191674     z
+    ## 1  2017-03-17 20:33:02 2017-03-28     1 0.37367215     y
+    ## 2  2017-03-17 13:29:24 2017-03-30     2 0.07077651     r
+    ## 3  2017-03-18 08:31:13 2017-03-19     3 0.93388953     t
+    ## 4  2017-03-18 00:11:59 2017-04-06     4 0.69126013     i
+    ## 5  2017-03-18 06:19:48 2017-03-18     5 0.28321155     n
+    ## 6  2017-03-17 23:38:00 2017-04-07     6 0.53813618     v
+    ## 7  2017-03-18 05:39:32 2017-04-11     7 0.81118813     r
+    ## 8  2017-03-17 21:29:44 2017-04-08     8 0.80416111     o
+    ## 9  2017-03-17 20:39:10 2017-03-31     9 0.07275306     c
+    ## 10 2017-03-17 12:52:39 2017-04-07    10 0.85718708     f
     ## # ... with 990 more rows
 
 You can change the defaults of tibble display with options.
@@ -1276,14 +1293,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-17 07:02:05 2017-04-14     1 0.7861646     f
-    ## 2 2017-03-17 16:17:17 2017-03-26     2 0.6930379     c
-    ## 3 2017-03-17 11:31:37 2017-03-27     3 0.8583513     h
-    ## 4 2017-03-17 00:06:52 2017-03-20     4 0.9632527     s
-    ## 5 2017-03-17 10:43:41 2017-03-30     5 0.4114275     f
-    ## 6 2017-03-17 18:28:28 2017-03-19     6 0.0726553     k
+    ##                     a          b     c          d     e
+    ##                <dttm>     <date> <int>      <dbl> <chr>
+    ## 1 2017-03-17 20:33:02 2017-03-28     1 0.37367215     y
+    ## 2 2017-03-17 13:29:24 2017-03-30     2 0.07077651     r
+    ## 3 2017-03-18 08:31:13 2017-03-19     3 0.93388953     t
+    ## 4 2017-03-18 00:11:59 2017-04-06     4 0.69126013     i
+    ## 5 2017-03-18 06:19:48 2017-03-18     5 0.28321155     n
+    ## 6 2017-03-17 23:38:00 2017-04-07     6 0.53813618     v
     ## # ... with 994 more rows
 
 You can also use the following tibble option to show all columns
@@ -1300,9 +1317,9 @@ How to extract the columns or rows of tibble?
 head(t2$a)
 ```
 
-    ## [1] "2017-03-17 07:02:05 EDT" "2017-03-17 16:17:17 EDT"
-    ## [3] "2017-03-17 11:31:37 EDT" "2017-03-17 00:06:52 EDT"
-    ## [5] "2017-03-17 10:43:41 EDT" "2017-03-17 18:28:28 EDT"
+    ## [1] "2017-03-17 20:33:02 EDT" "2017-03-17 13:29:24 EDT"
+    ## [3] "2017-03-18 08:31:13 EDT" "2017-03-18 00:11:59 EDT"
+    ## [5] "2017-03-18 06:19:48 EDT" "2017-03-17 23:38:00 EDT"
 
 ``` r
 has_name(t2, "b")
@@ -1325,14 +1342,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-17 07:02:05 2017-04-14     1 0.7861646     f
-    ## 2 2017-03-17 16:17:17 2017-03-26     2 0.6930379     c
-    ## 3 2017-03-17 11:31:37 2017-03-27     3 0.8583513     h
-    ## 4 2017-03-17 00:06:52 2017-03-20     4 0.9632527     s
-    ## 5 2017-03-17 10:43:41 2017-03-30     5 0.4114275     f
-    ## 6 2017-03-17 18:28:28 2017-03-19     6 0.0726553     k
+    ##                     a          b     c          d     e
+    ##                <dttm>     <date> <int>      <dbl> <chr>
+    ## 1 2017-03-17 20:33:02 2017-03-28     1 0.37367215     y
+    ## 2 2017-03-17 13:29:24 2017-03-30     2 0.07077651     r
+    ## 3 2017-03-18 08:31:13 2017-03-19     3 0.93388953     t
+    ## 4 2017-03-18 00:11:59 2017-04-06     4 0.69126013     i
+    ## 5 2017-03-18 06:19:48 2017-03-18     5 0.28321155     n
+    ## 6 2017-03-17 23:38:00 2017-04-07     6 0.53813618     v
     ## # ... with 994 more rows
 
 ``` r
@@ -1344,15 +1361,15 @@ t2
     print(aa); print(bb); print(cc); print(dd); print(ee)
 ```
 
-    ## [1] "2017-03-16"
+    ## [1] "2017-03-17"
 
-    ## [1] "2017-03-16 19:09:23 EDT"
+    ## [1] "2017-03-17 09:59:59 EDT"
 
     ## [1] 1
 
-    ## [1] 0.2026842
+    ## [1] 0.07890564
 
-    ## [1] "r"
+    ## [1] "x"
 
 ``` r
 t2 %>% 
@@ -1366,14 +1383,14 @@ t2 %>%
 ```
 
     ## # A tibble: 1,001 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-17 07:02:05 2017-04-14     1 0.7861646     f
-    ## 2 2017-03-15 20:00:00 2017-03-16     1 0.2026842     r
-    ## 3 2017-03-17 16:17:17 2017-03-26     2 0.6930379     c
-    ## 4 2017-03-17 11:31:37 2017-03-27     3 0.8583513     h
-    ## 5 2017-03-17 00:06:52 2017-03-20     4 0.9632527     s
-    ## 6 2017-03-17 10:43:41 2017-03-30     5 0.4114275     f
+    ##                     a          b     c          d     e
+    ##                <dttm>     <date> <int>      <dbl> <chr>
+    ## 1 2017-03-17 20:33:02 2017-03-28     1 0.37367215     y
+    ## 2 2017-03-16 20:00:00 2017-03-17     1 0.07890564     x
+    ## 3 2017-03-17 13:29:24 2017-03-30     2 0.07077651     r
+    ## 4 2017-03-18 08:31:13 2017-03-19     3 0.93388953     t
+    ## 5 2017-03-18 00:11:59 2017-04-06     4 0.69126013     i
+    ## 6 2017-03-18 06:19:48 2017-03-18     5 0.28321155     n
     ## # ... with 995 more rows
 
 After the change
@@ -1383,14 +1400,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-03-17 07:02:05 2017-04-14     1 0.7861646     f
-    ## 2 2017-03-17 16:17:17 2017-03-26     2 0.6930379     c
-    ## 3 2017-03-17 11:31:37 2017-03-27     3 0.8583513     h
-    ## 4 2017-03-17 00:06:52 2017-03-20     4 0.9632527     s
-    ## 5 2017-03-17 10:43:41 2017-03-30     5 0.4114275     f
-    ## 6 2017-03-17 18:28:28 2017-03-19     6 0.0726553     k
+    ##                     a          b     c          d     e
+    ##                <dttm>     <date> <int>      <dbl> <chr>
+    ## 1 2017-03-17 20:33:02 2017-03-28     1 0.37367215     y
+    ## 2 2017-03-17 13:29:24 2017-03-30     2 0.07077651     r
+    ## 3 2017-03-18 08:31:13 2017-03-19     3 0.93388953     t
+    ## 4 2017-03-18 00:11:59 2017-04-06     4 0.69126013     i
+    ## 5 2017-03-18 06:19:48 2017-03-18     5 0.28321155     n
+    ## 6 2017-03-17 23:38:00 2017-04-07     6 0.53813618     v
     ## # ... with 994 more rows
 
 Subsetting
@@ -1408,13 +1425,13 @@ df <- tibble(
 df$x
 ```
 
-    ## [1] 0.9384040 0.2006147 0.4134491 0.8307822 0.1673071
+    ## [1] 0.68644175 0.38068551 0.82176092 0.08160103 0.91616824
 
 ``` r
 df[[1]]
 ```
 
-    ## [1] 0.9384040 0.2006147 0.4134491 0.8307822 0.1673071
+    ## [1] 0.68644175 0.38068551 0.82176092 0.08160103 0.91616824
 
 Can you use Tibble in a pipeline?
 
@@ -1422,13 +1439,13 @@ Can you use Tibble in a pipeline?
 df %>% .$x   
 ```
 
-    ## [1] 0.9384040 0.2006147 0.4134491 0.8307822 0.1673071
+    ## [1] 0.68644175 0.38068551 0.82176092 0.08160103 0.91616824
 
 ``` r
 df %>% .[["y"]]
 ```
 
-    ## [1]  0.03798768 -0.37686415  0.64345789  0.53371357  0.96717667
+    ## [1] -0.2970344 -1.5851513 -2.2524340  1.4741555  0.2507609
 
 What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
 
@@ -1436,12 +1453,12 @@ What happens if tibble doesnt work with a package? Transform Tibble back to a da
 as.data.frame(df)
 ```
 
-    ##           x           y
-    ## 1 0.9384040  0.03798768
-    ## 2 0.2006147 -0.37686415
-    ## 3 0.4134491  0.64345789
-    ## 4 0.8307822  0.53371357
-    ## 5 0.1673071  0.96717667
+    ##            x          y
+    ## 1 0.68644175 -0.2970344
+    ## 2 0.38068551 -1.5851513
+    ## 3 0.82176092 -2.2524340
+    ## 4 0.08160103  1.4741555
+    ## 5 0.91616824  0.2507609
 
 Including Plots
 ---------------
@@ -1477,63 +1494,6 @@ Exercise 4 (based on Wickam's book)
 -----------------------------------
 
 Partial matching is a big issue with data.frame. df &lt;- data.frame(abc = 1, xyz = "a") df$x df\[, "xyz"\]
-
-R
--
-
-``` r
-getwd() # case sensititve
-```
-
-    ## [1] "H:/2017/BTEP1-TidyingData"
-
-``` r
-#setwd("YOUR-DIR")
-```
-
-to list the files in the directory
-----------------------------------
-
-``` r
-list.files() # lists all files in the directory
-```
-
-    ##  [1] "BTEP-Class-TidyingData-05-16-2017.md"
-    ##  [2] "Data"                                
-    ##  [3] "Images"                              
-    ##  [4] "MyStuff"                             
-    ##  [5] "R-RStudio-InstallationInstrns"       
-    ##  [6] "Readme"                              
-    ##  [7] "README.md"                           
-    ##  [8] "TidyingData-Date-Time.md"            
-    ##  [9] "TidyingData-Date-Time.Rmd"           
-    ## [10] "TidyingData-figure"                  
-    ## [11] "TidyingData-Handson.md"              
-    ## [12] "TidyingData-Handson.Rmd"             
-    ## [13] "TidyingData-R-RStudio-Intro.md"      
-    ## [14] "TidyingData-R-RStudio-Intro.Rmd"     
-    ## [15] "TidyingData-R-RStudio-Intro_files"   
-    ## [16] "TidyingData-RegEx.md"                
-    ## [17] "TidyingData-RegEx.Rmd"               
-    ## [18] "TidyingData-Rmd-Intro.md"            
-    ## [19] "TidyingData-Rmd-Intro.Rmd"           
-    ## [20] "TidyingData.md"                      
-    ## [21] "TidyingData.Rpres"
-
-sort one column
-===============
-
-CSVdat1\[order(AGE), \]
-
-let us sort by two variables one after another
-==============================================
-
-CSVdat1\[order(STATEID,AGE), \]
-
-why not reverse?
-================
-
-CSVdat1\[order(STATEID,-AGE), \]
 
 Hands-on exercise using Wisconsin Breast Cancer dataset
 -------------------------------------------------------
