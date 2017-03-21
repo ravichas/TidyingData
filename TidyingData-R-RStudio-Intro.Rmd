@@ -33,14 +33,13 @@ We will be using RStudio as the main software for the workshp.
 Let us do a quick live tour of RStudio. We will cover the following useful tools accessible throug RStudio. 
 
 #### Tools
-- Pane (View --> Pane)
+- Pane (View --> Pane); Option that we are using is "Console on Right"
 - Tools --> Install Packages
 - Tools --> Global Options
 - Session --> Set Working Directory
 - Optons --> R Session 
 - File --> Import DataSet
 
-(RAVI CHANGE THE FIGURE TO THE NEW PANE SETUP)
 
 ![](Images/RStudioIntro.png)
 
@@ -523,6 +522,29 @@ search() #what is attached
 detach(dataframe) 
 ```
 
+ 
+### Hands-on Exercise
+
+The datset that we will be using comes from the  
+National Electronic Injury Surveillance System (NEISS)
+https://www.cpsc.gov/research--statistics/neiss-injury-data 
+Here is a short description of the data file from the NEISS. 
+
+*"Each record (case) is separated by a carriage return/line feed, and the
+fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
+
+Before you read in the data, please take a look at the following two files: **NEISS_SAS_formats.txt** and **NEISS_SAS_variance.txt** 
+These two files will act as the codebook for the data. 
+
+Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data**. 
+
+
+Hint: Use the File --> Import --> Data DataSet option to read the file. 
+To remind the data is in a tab-separated format.
+
+Hint: Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
+
+ 
  
 
 In the tidyverse the commonly returning objects are not data.frame but tibbles.
