@@ -504,7 +504,7 @@ p <- c(rep(0.01,5), 0.95)
 sample(x = die, size = 10, replace = TRUE, prob = p)
 ```
 
-    ##  [1] 6 6 6 6 6 6 6 3 6 6
+    ##  [1] 6 6 6 6 6 6 6 6 6 6
 
 ### Do we always have to use the arguments name? What if we dont?
 
@@ -512,19 +512,19 @@ sample(x = die, size = 10, replace = TRUE, prob = p)
 sample(die, 10, replace = TRUE)
 ```
 
-    ##  [1] 2 3 4 2 5 5 6 4 1 2
+    ##  [1] 6 4 3 3 6 4 2 5 4 4
 
 ``` r
 sample(die, 10, TRUE) #  define them explicitely
 ```
 
-    ##  [1] 6 3 1 4 4 2 1 6 6 2
+    ##  [1] 6 1 1 4 3 2 6 3 3 4
 
 ``` r
 sample(x = die, size = 6, replace = TRUE)
 ```
 
-    ## [1] 5 4 2 4 2 4
+    ## [1] 1 3 5 2 2 3
 
 ### Let us roll the die multiple times
 
@@ -540,7 +540,7 @@ sample(x = die, size = 2, replace = TRUE) # def prob
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 1 3
+    ## [1] 5 5
 
 ### Random numbers
 
@@ -1050,19 +1050,7 @@ search() #what is attached
 detach(dataframe) 
 ```
 
-### Hands-on Exercise
-
-The datset that we will be using was obtained from National Electronic Injury Surveillance System (NEISS). Here is a short description of the data file from the NEISS.
-
-*"Each record (case) is separated by a carriage return/line feed, and the fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
-
-Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data**.
-
-Hint: Use the File --&gt; Import --&gt; Data DataSet option to read the file. To remind the data is in a tab-separated format.
-
-Hint: Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
-
-In the tidyverse the commonly returning objects are not data.frame but tibbles. So, let us introduce tibble in the next section
+In the tidyverse the commonly returning objects are not data.frame but tibbles. So, let us introduce tibble in this section.
 
 Tibble
 ------
@@ -1269,16 +1257,16 @@ t2
     ## # A tibble: 1,000 × 5
     ##                      a          b     c          d     e
     ##                 <dttm>     <date> <int>      <dbl> <chr>
-    ## 1  2017-03-22 10:05:12 2017-04-03     1 0.76925142     d
-    ## 2  2017-03-22 17:13:51 2017-04-02     2 0.50886344     i
-    ## 3  2017-03-22 01:31:44 2017-03-24     3 0.61139209     t
-    ## 4  2017-03-22 08:41:06 2017-04-03     4 0.04921682     w
-    ## 5  2017-03-22 06:12:47 2017-03-22     5 0.74385280     n
-    ## 6  2017-03-21 22:47:26 2017-03-23     6 0.55197831     g
-    ## 7  2017-03-22 00:24:11 2017-04-10     7 0.73087685     z
-    ## 8  2017-03-21 22:41:58 2017-04-02     8 0.63581064     y
-    ## 9  2017-03-22 03:00:52 2017-04-12     9 0.31260412     k
-    ## 10 2017-03-22 04:30:59 2017-04-01    10 0.67709081     g
+    ## 1  2017-03-23 02:16:51 2017-04-10     1 0.45916691     y
+    ## 2  2017-03-22 16:30:06 2017-03-28     2 0.36354433     p
+    ## 3  2017-03-22 19:30:55 2017-03-24     3 0.88450692     b
+    ## 4  2017-03-22 16:00:10 2017-04-08     4 0.07851846     b
+    ## 5  2017-03-23 08:00:59 2017-03-24     5 0.25655558     u
+    ## 6  2017-03-22 15:17:22 2017-04-17     6 0.29870471     e
+    ## 7  2017-03-23 08:04:27 2017-04-15     7 0.98890314     m
+    ## 8  2017-03-22 22:40:57 2017-04-04     8 0.66024471     t
+    ## 9  2017-03-23 04:07:07 2017-04-04     9 0.84927565     w
+    ## 10 2017-03-22 11:26:53 2017-04-12    10 0.49800310     l
     ## # ... with 990 more rows
 
 You can change the defaults of tibble display with options.
@@ -1291,12 +1279,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c          d     e
     ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-22 10:05:12 2017-04-03     1 0.76925142     d
-    ## 2 2017-03-22 17:13:51 2017-04-02     2 0.50886344     i
-    ## 3 2017-03-22 01:31:44 2017-03-24     3 0.61139209     t
-    ## 4 2017-03-22 08:41:06 2017-04-03     4 0.04921682     w
-    ## 5 2017-03-22 06:12:47 2017-03-22     5 0.74385280     n
-    ## 6 2017-03-21 22:47:26 2017-03-23     6 0.55197831     g
+    ## 1 2017-03-23 02:16:51 2017-04-10     1 0.45916691     y
+    ## 2 2017-03-22 16:30:06 2017-03-28     2 0.36354433     p
+    ## 3 2017-03-22 19:30:55 2017-03-24     3 0.88450692     b
+    ## 4 2017-03-22 16:00:10 2017-04-08     4 0.07851846     b
+    ## 5 2017-03-23 08:00:59 2017-03-24     5 0.25655558     u
+    ## 6 2017-03-22 15:17:22 2017-04-17     6 0.29870471     e
     ## # ... with 994 more rows
 
 You can also use the following tibble option to show all columns
@@ -1313,9 +1301,9 @@ How to extract the columns or rows of tibble?
 head(t2$a)
 ```
 
-    ## [1] "2017-03-22 10:05:12 EDT" "2017-03-22 17:13:51 EDT"
-    ## [3] "2017-03-22 01:31:44 EDT" "2017-03-22 08:41:06 EDT"
-    ## [5] "2017-03-22 06:12:47 EDT" "2017-03-21 22:47:26 EDT"
+    ## [1] "2017-03-23 02:16:51 EDT" "2017-03-22 16:30:06 EDT"
+    ## [3] "2017-03-22 19:30:55 EDT" "2017-03-22 16:00:10 EDT"
+    ## [5] "2017-03-23 08:00:59 EDT" "2017-03-22 15:17:22 EDT"
 
 ``` r
 has_name(t2, "b")
@@ -1340,12 +1328,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c          d     e
     ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-22 10:05:12 2017-04-03     1 0.76925142     d
-    ## 2 2017-03-22 17:13:51 2017-04-02     2 0.50886344     i
-    ## 3 2017-03-22 01:31:44 2017-03-24     3 0.61139209     t
-    ## 4 2017-03-22 08:41:06 2017-04-03     4 0.04921682     w
-    ## 5 2017-03-22 06:12:47 2017-03-22     5 0.74385280     n
-    ## 6 2017-03-21 22:47:26 2017-03-23     6 0.55197831     g
+    ## 1 2017-03-23 02:16:51 2017-04-10     1 0.45916691     y
+    ## 2 2017-03-22 16:30:06 2017-03-28     2 0.36354433     p
+    ## 3 2017-03-22 19:30:55 2017-03-24     3 0.88450692     b
+    ## 4 2017-03-22 16:00:10 2017-04-08     4 0.07851846     b
+    ## 5 2017-03-23 08:00:59 2017-03-24     5 0.25655558     u
+    ## 6 2017-03-22 15:17:22 2017-04-17     6 0.29870471     e
     ## # ... with 994 more rows
 
 ``` r
@@ -1357,15 +1345,15 @@ t2
     print(aa); print(bb); print(cc); print(dd); print(ee)
 ```
 
-    ## [1] "2017-03-21"
+    ## [1] "2017-03-22"
 
-    ## [1] "2017-03-21 18:38:29 EDT"
+    ## [1] "2017-03-22 09:37:08 EDT"
 
     ## [1] 1
 
-    ## [1] 0.7573428
+    ## [1] 0.8802539
 
-    ## [1] "w"
+    ## [1] "i"
 
 ``` r
 t2 %>% 
@@ -1381,12 +1369,12 @@ t2 %>%
     ## # A tibble: 1,001 × 5
     ##                     a          b     c          d     e
     ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-22 10:05:12 2017-04-03     1 0.76925142     d
-    ## 2 2017-03-20 20:00:00 2017-03-21     1 0.75734281     w
-    ## 3 2017-03-22 17:13:51 2017-04-02     2 0.50886344     i
-    ## 4 2017-03-22 01:31:44 2017-03-24     3 0.61139209     t
-    ## 5 2017-03-22 08:41:06 2017-04-03     4 0.04921682     w
-    ## 6 2017-03-22 06:12:47 2017-03-22     5 0.74385280     n
+    ## 1 2017-03-23 02:16:51 2017-04-10     1 0.45916691     y
+    ## 2 2017-03-21 20:00:00 2017-03-22     1 0.88025387     i
+    ## 3 2017-03-22 16:30:06 2017-03-28     2 0.36354433     p
+    ## 4 2017-03-22 19:30:55 2017-03-24     3 0.88450692     b
+    ## 5 2017-03-22 16:00:10 2017-04-08     4 0.07851846     b
+    ## 6 2017-03-23 08:00:59 2017-03-24     5 0.25655558     u
     ## # ... with 995 more rows
 
 After the change
@@ -1398,12 +1386,12 @@ t2
     ## # A tibble: 1,000 × 5
     ##                     a          b     c          d     e
     ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-22 10:05:12 2017-04-03     1 0.76925142     d
-    ## 2 2017-03-22 17:13:51 2017-04-02     2 0.50886344     i
-    ## 3 2017-03-22 01:31:44 2017-03-24     3 0.61139209     t
-    ## 4 2017-03-22 08:41:06 2017-04-03     4 0.04921682     w
-    ## 5 2017-03-22 06:12:47 2017-03-22     5 0.74385280     n
-    ## 6 2017-03-21 22:47:26 2017-03-23     6 0.55197831     g
+    ## 1 2017-03-23 02:16:51 2017-04-10     1 0.45916691     y
+    ## 2 2017-03-22 16:30:06 2017-03-28     2 0.36354433     p
+    ## 3 2017-03-22 19:30:55 2017-03-24     3 0.88450692     b
+    ## 4 2017-03-22 16:00:10 2017-04-08     4 0.07851846     b
+    ## 5 2017-03-23 08:00:59 2017-03-24     5 0.25655558     u
+    ## 6 2017-03-22 15:17:22 2017-04-17     6 0.29870471     e
     ## # ... with 994 more rows
 
 Subsetting
@@ -1421,13 +1409,13 @@ df <- tibble(
 df$x
 ```
 
-    ## [1] 0.3959168 0.8992638 0.1737559 0.4818886 0.6151525
+    ## [1] 0.5943860 0.3927596 0.9933660 0.2225172 0.4055647
 
 ``` r
 df[[1]]
 ```
 
-    ## [1] 0.3959168 0.8992638 0.1737559 0.4818886 0.6151525
+    ## [1] 0.5943860 0.3927596 0.9933660 0.2225172 0.4055647
 
 Can you use Tibble in a pipeline?
 
@@ -1435,13 +1423,13 @@ Can you use Tibble in a pipeline?
 df %>% .$x   
 ```
 
-    ## [1] 0.3959168 0.8992638 0.1737559 0.4818886 0.6151525
+    ## [1] 0.5943860 0.3927596 0.9933660 0.2225172 0.4055647
 
 ``` r
 df %>% .[["y"]]
 ```
 
-    ## [1]  1.0193496 -2.5852909  0.7430652  0.9640858 -0.9354788
+    ## [1]  0.2218775 -0.9143368 -1.4144202 -0.6028054  0.9161316
 
 What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
 
@@ -1450,26 +1438,11 @@ as.data.frame(df)
 ```
 
     ##           x          y
-    ## 1 0.3959168  1.0193496
-    ## 2 0.8992638 -2.5852909
-    ## 3 0.1737559  0.7430652
-    ## 4 0.4818886  0.9640858
-    ## 5 0.6151525 -0.9354788
-
-Including Plots
----------------
-
-You can also embed plots, for example:
-
-![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/pressure-1.png)
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-``` r
-with(cars, plot(speed,dist))
-```
-
-![cars](TidyingData-R-RStudio-Intro_files/figure-markdown_github/cars-1.png)
+    ## 1 0.5943860  0.2218775
+    ## 2 0.3927596 -0.9143368
+    ## 3 0.9933660 -1.4144202
+    ## 4 0.2225172 -0.6028054
+    ## 5 0.4055647  0.9161316
 
 Tibble Exercise 1
 -----------------
@@ -1490,6 +1463,37 @@ Exercise 4 (based on Wickam's book)
 -----------------------------------
 
 Partial matching is a big issue with data.frame. df &lt;- data.frame(abc = 1, xyz = "a") df$x df\[, "xyz"\]
+
+### Hands-on Exercise
+
+The datset that we will be using comes from the
+National Electronic Injury Surveillance System (NEISS) <https://www.cpsc.gov/research--statistics/neiss-injury-data> Here is a short description of the data file from the NEISS.
+
+*"Each record (case) is separated by a carriage return/line feed, and the fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
+
+Before you read in the data, please take a look at the following two files: **NEISS\_SAS\_formats.txt** and **NEISS\_SAS\_variance.txt** These two files will act as the codebook for the data.
+
+Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
+
+Hint: Use the File --&gt; Import --&gt; Data DataSet option to read the file. To remind the data is in a tab-separated format.
+
+Hint: Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
+
+Hint: Please watch out for any warnings or issues while R/Rstudio is reading the files. If you spot any errors, think of how to fix it. After fixing the problems (if any), go back and read the file.
+
+Answer the following questions.
+
+-   How many cases are reported in this dataset?
+-   How many covariates this dataset has?
+-   Access CPSC Case \# 150620565 and report the following things: What is the age of the patient? What is the Race, weight, Stratum, Sex, Race and Diagnosis
+-   How many are more than 100 years old?
+-   How many cases were taken to **Children's Hospital**? From the reported cases, get the CPSC case number and age for the 20th entry.
+-   Report the number of cases for the month of May? Tell us how many cases were reported for May 13 - May 16, 2015? Use this information to answer the following questions.
+
+1.  What hospitals were the cases went to (provide a table)?
+2.  How many were children ( &lt; 5 years)?
+3.  provide the proportion of male/female?
+4.  What was the race distribution?
 
 Hands-on exercise using Wisconsin Breast Cancer dataset
 -------------------------------------------------------
@@ -1554,3 +1558,21 @@ ncol(wdbc)
 ```
 
     ## [1] 32
+
+\#xtra Ignore for the moment
+----------------------------
+
+Including Plots
+---------------
+
+You can also embed plots, for example:
+
+![](TidyingData-R-RStudio-Intro_files/figure-markdown_github/pressure-1.png)
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+``` r
+with(cars, plot(speed,dist))
+```
+
+![cars](TidyingData-R-RStudio-Intro_files/figure-markdown_github/cars-1.png)
