@@ -26,6 +26,7 @@ Let us first load the libraries needed for the workshop
 # install.packages(c("tidyverse", "knitr"))
 library(tidyverse)
 library(knitr)
+library(lubridate)
 ```
 
 ### Quick tour of RStudio
