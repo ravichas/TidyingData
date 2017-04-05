@@ -9,7 +9,6 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
 ```
-
 Let us load the libraries and do some cleanup
 ```{r loadlibraries}
 # will clean up the history
