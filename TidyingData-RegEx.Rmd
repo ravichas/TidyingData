@@ -10,24 +10,24 @@ knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
 ```
 
-## What is a Regex?
+### What is a Regex?
 
 - Was originally developed for PERL
 - Regular Expressions help us identify patterns in text. 
 - Cross-platform compatible
 - Speed up calculations
 
-## How do they work?
+### How do they work?
 
 
 
-##  Example 1
+###  Example 1
 
 ```{r}
 x <- c("BCR_613", "")
 ```
 
-Example for using Grep
+### Example for using Grep
 
 ```{r}
 
@@ -48,7 +48,7 @@ IDS[grepmids]
 
 ```
 
-## What is grepl?
+### What is grepl?
 
 ```{r}
 grepl("NP", MIDS, ignore.case = TRUE) 
@@ -56,7 +56,7 @@ grepl("NP", MIDS, ignore.case = TRUE)
 
 
 
-## What are sub and gsub functions? 
+### What are sub and gsub functions? 
 
 ```{r}
 species <- c("Arabidopsis_thaliana", "Bos_taurus", "Caenorhabditis_elegans", "Danio_rerio", 
@@ -94,7 +94,7 @@ gsub("_", " ", mspecies)
 ```
 
 
-## Can we look for a word in each strings? 
+### Can we look for a word in each strings? 
 
 -regexpr returns the position in the string of the pattern. It will also return the length of 
 the pattern matched.
@@ -103,7 +103,7 @@ the pattern matched.
 regexpr("sa", mspecies)
 ```
 
-## Exercise: 
+### <span style="color:green">RegEx Exercise-1</span> 
 
 - Find out what regexec and  gregexpr
 

@@ -3,25 +3,22 @@ BTEP-RegEx
 Drs. Sarangan Ravichandran and Randall Johnson
 February 26, 2017
 
-What is a Regex?
-----------------
+### What is a Regex?
 
 -   Was originally developed for PERL
 -   Regular Expressions help us identify patterns in text.
 -   Cross-platform compatible
 -   Speed up calculations
 
-How do they work?
------------------
+### How do they work?
 
-Example 1
----------
+### Example 1
 
 ``` r
 x <- c("BCR_613", "")
 ```
 
-Example for using Grep
+### Example for using Grep
 
 ``` r
 IDS <-  c("NP_004`318.3", "XP_003317181.1", "XP_002798337.1", "XP_848654.2", "NP_001074881.1", "XP_228091.6", "XP_415244.3", "NP_001123792.1", "XP_005161278")
@@ -50,8 +47,7 @@ IDS[grepmids]
 
     ## [1] "NP_004`318.3"   "NP_001074881.1" "NP_001123792.1"
 
-What is grepl?
---------------
+### What is grepl?
 
 ``` r
 grepl("NP", MIDS, ignore.case = TRUE) 
@@ -59,8 +55,7 @@ grepl("NP", MIDS, ignore.case = TRUE)
 
     ## [1]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE
 
-What are sub and gsub functions?
---------------------------------
+### What are sub and gsub functions?
 
 ``` r
 species <- c("Arabidopsis_thaliana", "Bos_taurus", "Caenorhabditis_elegans", "Danio_rerio", 
@@ -159,8 +154,7 @@ gsub("_", " ", mspecies)
     ## [17] "Takifugu rubripes"         "Xenopus laevis"           
     ## [19] "Zea mays"                  "Hepatitis C Virus"
 
-Can we look for a word in each strings?
----------------------------------------
+### Can we look for a word in each strings?
 
 -regexpr returns the position in the string of the pattern. It will also return the length of the pattern matched.
 
@@ -174,8 +168,7 @@ regexpr("sa", mspecies)
     ## attr(,"useBytes")
     ## [1] TRUE
 
-Exercise:
----------
+### <span style="color:green">RegEx Exercise-1</span>
 
 -   Find out what regexec and gregexpr
 

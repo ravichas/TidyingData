@@ -536,17 +536,19 @@ list.files()  # to see the list of files
     ##  [8] "TidyingData-Date-Time.md"            
     ##  [9] "TidyingData-Date-Time.Rmd"           
     ## [10] "TidyingData-figure"                  
-    ## [11] "TidyingData-Handson.md"              
-    ## [12] "TidyingData-Handson.Rmd"             
-    ## [13] "TidyingData-R-RStudio-Intro.md"      
-    ## [14] "TidyingData-R-RStudio-Intro.Rmd"     
-    ## [15] "TidyingData-R-RStudio-Intro_files"   
-    ## [16] "TidyingData-RegEx.md"                
-    ## [17] "TidyingData-RegEx.Rmd"               
-    ## [18] "TidyingData-Rmd-Intro.md"            
-    ## [19] "TidyingData-Rmd-Intro.Rmd"           
-    ## [20] "TidyingData.md"                      
-    ## [21] "TidyingData.Rpres"
+    ## [11] "TidyingData-FinalExercise.md"        
+    ## [12] "TidyingData-FinalExercise.Rmd"       
+    ## [13] "TidyingData-Handson.md"              
+    ## [14] "TidyingData-Handson.Rmd"             
+    ## [15] "TidyingData-R-RStudio-Intro.md"      
+    ## [16] "TidyingData-R-RStudio-Intro.Rmd"     
+    ## [17] "TidyingData-R-RStudio-Intro_files"   
+    ## [18] "TidyingData-RegEx.md"                
+    ## [19] "TidyingData-RegEx.Rmd"               
+    ## [20] "TidyingData-Rmd-Intro.md"            
+    ## [21] "TidyingData-Rmd-Intro.Rmd"           
+    ## [22] "TidyingData.md"                      
+    ## [23] "TidyingData.Rpres"
 
 ### For the following section, let us use a 6-sided die and do some Data analysis.
 
@@ -667,7 +669,7 @@ p <- c(rep(0.01,5), 0.95)
 sample(x = die, size = 10, replace = TRUE, prob = p)
 ```
 
-    ##  [1] 6 6 6 6 6 6 6 6 6 6
+    ##  [1] 3 6 6 6 1 6 2 6 6 6
 
 ### Do we always have to use the arguments name? What if we dont?
 
@@ -675,19 +677,19 @@ sample(x = die, size = 10, replace = TRUE, prob = p)
 sample(die, 10, replace = TRUE)
 ```
 
-    ##  [1] 5 3 1 2 5 5 2 2 6 2
+    ##  [1] 6 2 6 6 5 2 6 6 6 1
 
 ``` r
 sample(die, 10, TRUE) #  define them explicitely
 ```
 
-    ##  [1] 2 3 5 1 2 1 1 5 6 4
+    ##  [1] 1 5 6 4 5 5 5 1 1 2
 
 ``` r
 sample(x = die, size = 6, replace = TRUE)
 ```
 
-    ## [1] 2 6 4 4 4 1
+    ## [1] 2 2 4 4 4 6
 
 ### Let us roll the die multiple times
 
@@ -696,14 +698,14 @@ sample(x = die, size = 6, replace = TRUE)
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 4 6
+    ## [1] 1 2
 
 ``` r
 # one more roll
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 5 3
+    ## [1] 3 1
 
 ### Random numbers
 
@@ -1087,7 +1089,7 @@ If we want to sum up the columns, you can use apply function. Let us first learn
 apply(X, 2, sum)
 ```
 
-    ## [1] -1.0139043  0.8894208  0.8702647 -3.5298921  3.1438362
+    ## [1]  2.7879604  0.0297876 -4.9674364 -1.7466591 -2.1556055
 
 ### <span style="color:green">Apply Exercise-1</span>
 
@@ -1115,13 +1117,13 @@ lapply(MyList,"[",2, 1)
 ```
 
     ## [[1]]
-    ## [1] -0.8592187
+    ## [1] 1.352609
     ## 
     ## [[2]]
-    ## [1] 0.3392001
+    ## [1] 0.5347535
     ## 
     ## [[3]]
-    ## [1] -1.396934
+    ## [1] -1.919493
 
 ##### sapply
 
@@ -1135,19 +1137,19 @@ sapply(MyList,"[", 2, 1, simplify= F) # returns a List
 ```
 
     ## [[1]]
-    ## [1] -0.8592187
+    ## [1] 1.352609
     ## 
     ## [[2]]
-    ## [1] 0.3392001
+    ## [1] 0.5347535
     ## 
     ## [[3]]
-    ## [1] -1.396934
+    ## [1] -1.919493
 
 ``` r
 sapply(MyList,"[", 2, 1, simplify= T) # returns a vector
 ```
 
-    ## [1] -0.8592187  0.3392001 -1.3969337
+    ## [1]  1.3526090  0.5347535 -1.9194934
 
 #### tapply
 
@@ -1359,18 +1361,18 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                      a          b     c           d     e
-    ##                 <dttm>     <date> <int>       <dbl> <chr>
-    ## 1  2017-04-06 01:09:01 2017-04-19     1 0.009086495     g
-    ## 2  2017-04-05 22:30:32 2017-05-04     2 0.440109836     a
-    ## 3  2017-04-06 05:27:53 2017-04-21     3 0.947143349     d
-    ## 4  2017-04-05 13:36:26 2017-05-04     4 0.929894972     s
-    ## 5  2017-04-05 18:48:11 2017-04-12     5 0.162738675     o
-    ## 6  2017-04-06 02:56:37 2017-04-25     6 0.449350214     q
-    ## 7  2017-04-06 02:15:11 2017-04-24     7 0.162374943     l
-    ## 8  2017-04-06 09:49:55 2017-04-22     8 0.964598085     j
-    ## 9  2017-04-06 10:43:32 2017-04-22     9 0.587073023     d
-    ## 10 2017-04-06 09:29:44 2017-04-06    10 0.395749250     s
+    ##                      a          b     c         d     e
+    ##                 <dttm>     <date> <int>     <dbl> <chr>
+    ## 1  2017-04-05 16:36:11 2017-04-19     1 0.9965048     i
+    ## 2  2017-04-06 04:19:20 2017-04-29     2 0.2140365     c
+    ## 3  2017-04-06 09:00:15 2017-04-25     3 0.9348257     i
+    ## 4  2017-04-05 19:51:34 2017-04-11     4 0.2751016     w
+    ## 5  2017-04-05 20:32:22 2017-04-16     5 0.5474192     l
+    ## 6  2017-04-06 08:57:49 2017-04-23     6 0.9029126     o
+    ## 7  2017-04-05 21:18:28 2017-04-07     7 0.1805694     b
+    ## 8  2017-04-05 20:35:08 2017-05-03     8 0.1167494     f
+    ## 9  2017-04-05 14:30:55 2017-04-29     9 0.5523014     p
+    ## 10 2017-04-05 18:57:59 2017-04-05    10 0.6139396     i
     ## # ... with 990 more rows
 
 You can change the defaults of tibble display with options.
@@ -1381,14 +1383,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c           d     e
-    ##                <dttm>     <date> <int>       <dbl> <chr>
-    ## 1 2017-04-06 01:09:01 2017-04-19     1 0.009086495     g
-    ## 2 2017-04-05 22:30:32 2017-05-04     2 0.440109836     a
-    ## 3 2017-04-06 05:27:53 2017-04-21     3 0.947143349     d
-    ## 4 2017-04-05 13:36:26 2017-05-04     4 0.929894972     s
-    ## 5 2017-04-05 18:48:11 2017-04-12     5 0.162738675     o
-    ## 6 2017-04-06 02:56:37 2017-04-25     6 0.449350214     q
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-04-05 16:36:11 2017-04-19     1 0.9965048     i
+    ## 2 2017-04-06 04:19:20 2017-04-29     2 0.2140365     c
+    ## 3 2017-04-06 09:00:15 2017-04-25     3 0.9348257     i
+    ## 4 2017-04-05 19:51:34 2017-04-11     4 0.2751016     w
+    ## 5 2017-04-05 20:32:22 2017-04-16     5 0.5474192     l
+    ## 6 2017-04-06 08:57:49 2017-04-23     6 0.9029126     o
     ## # ... with 994 more rows
 
 You can also use the following tibble option to show all columns
@@ -1405,9 +1407,9 @@ How to extract the columns or rows of tibble?
 head(t2$a)
 ```
 
-    ## [1] "2017-04-06 01:09:01 EDT" "2017-04-05 22:30:32 EDT"
-    ## [3] "2017-04-06 05:27:53 EDT" "2017-04-05 13:36:26 EDT"
-    ## [5] "2017-04-05 18:48:11 EDT" "2017-04-06 02:56:37 EDT"
+    ## [1] "2017-04-05 16:36:11 EDT" "2017-04-06 04:19:20 EDT"
+    ## [3] "2017-04-06 09:00:15 EDT" "2017-04-05 19:51:34 EDT"
+    ## [5] "2017-04-05 20:32:22 EDT" "2017-04-06 08:57:49 EDT"
 
 ``` r
 has_name(t2, "b")
@@ -1430,14 +1432,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c           d     e
-    ##                <dttm>     <date> <int>       <dbl> <chr>
-    ## 1 2017-04-06 01:09:01 2017-04-19     1 0.009086495     g
-    ## 2 2017-04-05 22:30:32 2017-05-04     2 0.440109836     a
-    ## 3 2017-04-06 05:27:53 2017-04-21     3 0.947143349     d
-    ## 4 2017-04-05 13:36:26 2017-05-04     4 0.929894972     s
-    ## 5 2017-04-05 18:48:11 2017-04-12     5 0.162738675     o
-    ## 6 2017-04-06 02:56:37 2017-04-25     6 0.449350214     q
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-04-05 16:36:11 2017-04-19     1 0.9965048     i
+    ## 2 2017-04-06 04:19:20 2017-04-29     2 0.2140365     c
+    ## 3 2017-04-06 09:00:15 2017-04-25     3 0.9348257     i
+    ## 4 2017-04-05 19:51:34 2017-04-11     4 0.2751016     w
+    ## 5 2017-04-05 20:32:22 2017-04-16     5 0.5474192     l
+    ## 6 2017-04-06 08:57:49 2017-04-23     6 0.9029126     o
     ## # ... with 994 more rows
 
 ``` r
@@ -1451,13 +1453,13 @@ t2
 
     ## [1] "2017-04-05"
 
-    ## [1] "2017-04-05 13:31:41 EDT"
+    ## [1] "2017-04-05 14:09:46 EDT"
 
     ## [1] 1
 
-    ## [1] 0.5477372
+    ## [1] 0.3585912
 
-    ## [1] "y"
+    ## [1] "t"
 
 ``` r
 t2 %>% 
@@ -1471,14 +1473,14 @@ t2 %>%
 ```
 
     ## # A tibble: 1,001 × 5
-    ##                     a          b     c           d     e
-    ##                <dttm>     <date> <int>       <dbl> <chr>
-    ## 1 2017-04-06 01:09:01 2017-04-19     1 0.009086495     g
-    ## 2 2017-04-04 20:00:00 2017-04-05     1 0.547737233     y
-    ## 3 2017-04-05 22:30:32 2017-05-04     2 0.440109836     a
-    ## 4 2017-04-06 05:27:53 2017-04-21     3 0.947143349     d
-    ## 5 2017-04-05 13:36:26 2017-05-04     4 0.929894972     s
-    ## 6 2017-04-05 18:48:11 2017-04-12     5 0.162738675     o
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-04-05 16:36:11 2017-04-19     1 0.9965048     i
+    ## 2 2017-04-04 20:00:00 2017-04-05     1 0.3585912     t
+    ## 3 2017-04-06 04:19:20 2017-04-29     2 0.2140365     c
+    ## 4 2017-04-06 09:00:15 2017-04-25     3 0.9348257     i
+    ## 5 2017-04-05 19:51:34 2017-04-11     4 0.2751016     w
+    ## 6 2017-04-05 20:32:22 2017-04-16     5 0.5474192     l
     ## # ... with 995 more rows
 
 After the change
@@ -1488,14 +1490,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c           d     e
-    ##                <dttm>     <date> <int>       <dbl> <chr>
-    ## 1 2017-04-06 01:09:01 2017-04-19     1 0.009086495     g
-    ## 2 2017-04-05 22:30:32 2017-05-04     2 0.440109836     a
-    ## 3 2017-04-06 05:27:53 2017-04-21     3 0.947143349     d
-    ## 4 2017-04-05 13:36:26 2017-05-04     4 0.929894972     s
-    ## 5 2017-04-05 18:48:11 2017-04-12     5 0.162738675     o
-    ## 6 2017-04-06 02:56:37 2017-04-25     6 0.449350214     q
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-04-05 16:36:11 2017-04-19     1 0.9965048     i
+    ## 2 2017-04-06 04:19:20 2017-04-29     2 0.2140365     c
+    ## 3 2017-04-06 09:00:15 2017-04-25     3 0.9348257     i
+    ## 4 2017-04-05 19:51:34 2017-04-11     4 0.2751016     w
+    ## 5 2017-04-05 20:32:22 2017-04-16     5 0.5474192     l
+    ## 6 2017-04-06 08:57:49 2017-04-23     6 0.9029126     o
     ## # ... with 994 more rows
 
 Subsetting
@@ -1513,13 +1515,13 @@ df <- tibble(
 df$x
 ```
 
-    ## [1] 0.38720940 0.09185232 0.91542813 0.27469410 0.32651868
+    ## [1] 0.47264503 0.01655878 0.18559887 0.90133370 0.80988513
 
 ``` r
 df[[1]]
 ```
 
-    ## [1] 0.38720940 0.09185232 0.91542813 0.27469410 0.32651868
+    ## [1] 0.47264503 0.01655878 0.18559887 0.90133370 0.80988513
 
 Can you use Tibble in a pipeline?
 
@@ -1527,13 +1529,13 @@ Can you use Tibble in a pipeline?
 df %>% .$x   
 ```
 
-    ## [1] 0.38720940 0.09185232 0.91542813 0.27469410 0.32651868
+    ## [1] 0.47264503 0.01655878 0.18559887 0.90133370 0.80988513
 
 ``` r
 df %>% .[["y"]]
 ```
 
-    ## [1] -1.0400151  1.5438883  1.5807659 -1.6197418 -0.4841421
+    ## [1] -0.53066288  1.20791350 -0.04012446 -0.36618706 -0.90867295
 
 What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
 
@@ -1541,12 +1543,12 @@ What happens if tibble doesnt work with a package? Transform Tibble back to a da
 as.data.frame(df)
 ```
 
-    ##            x          y
-    ## 1 0.38720940 -1.0400151
-    ## 2 0.09185232  1.5438883
-    ## 3 0.91542813  1.5807659
-    ## 4 0.27469410 -1.6197418
-    ## 5 0.32651868 -0.4841421
+    ##            x           y
+    ## 1 0.47264503 -0.53066288
+    ## 2 0.01655878  1.20791350
+    ## 3 0.18559887 -0.04012446
+    ## 4 0.90133370 -0.36618706
+    ## 5 0.80988513 -0.90867295
 
 ### <span style="color:green">Tibble Exercise-2</span>
 
@@ -1588,11 +1590,6 @@ Answer the following questions.
 -   Access CPSC Case \# 150620565 and report the following things: What is the age of the patient? What is the Race, weight, Stratum, Sex, Race and Diagnosis
 -   How many are more than 100 years old?
 -   How many cases were taken to **Children's Hospital**? From the reported cases, get the CPSC case number and age for the 20th entry.
--   Report the number of cases for the month of May? Tell us how many cases were reported for May 13 - May 16, 2015? Use this information to answer the following questions.
--   What hospitals were the cases went to (provide a table)?
--   How many were children ( &lt; 5 years)?
--   provide the proportion of male/female?
--   What was the race distribution?
 
 ### Ignore from here to the end for the moment
 
