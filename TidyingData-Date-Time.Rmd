@@ -119,10 +119,38 @@ class(Posixct_timenow)
 ```
 
 
+### <span style="color:green">Final R-basic exercise</span>
 
+The datset that we will be using for this section comes from the  
+National Electronic Injury Surveillance System (NEISS)
+https://www.cpsc.gov/research--statistics/neiss-injury-data 
+Here is a short description of the data file from the NEISS. 
+
+*"Each record (case) is separated by a carriage return/line feed, and the
+fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
+
+Before you read in the data, please take a look at the following two files: **NEISS_SAS_formats.txt** and **NEISS_SAS_variance.txt** 
+These two files will act as the codebook for the data. 
+
+Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
+
+**Hint:** Use the File --> Import --> Data DataSet option to read the file. 
+To remind the data is in a tab-separated format.
+
+**Hint:** Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
+
+**Hint:** Please watch out for any warnings or issues while R/Rstudio 
+is reading the files. If you spot any errors, think of how to fix it.
+After fixing the problems (if any), go back and read the file. 
  
- ## Reference
- https://www.stat.berkeley.edu/classes/s133/dates.html 
- 
- http://www.cyclismo.org/tutorial/R/time.html
+Answer the following questions.
+
+- Report the number of cases for the month of May? 
+  Tell us how many cases were reported for May 13 - May 16, 2015? 
+  Use this information to answer the following questions. 
+- What hospitals were the cases went to (provide a table)?
+- How many were children ( < 5 years)? 
+- provide the proportion of male/female? 
+- What was the race distribution? 
+
 

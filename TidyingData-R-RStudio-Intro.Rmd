@@ -880,13 +880,6 @@ Answer the following questions.
 - How many are more than 100 years old?  
 - How many cases were taken to **Children's Hospital**?
   From the reported cases, get the CPSC case number and age for the 20th entry.
-- Report the number of cases for the month of May? 
-  Tell us how many cases were reported for May 13 - May 16, 2015? 
-  Use this information to answer the following questions. 
-- What hospitals were the cases went to (provide a table)?
-- How many were children ( < 5 years)? 
-- provide the proportion of male/female? 
-- What was the race distribution? 
  
 ### Ignore from here to the end for the moment
 
