@@ -5,7 +5,7 @@ February 26, 2017
 
 ### Cleaning up
 
-Let us clean up the environment and set a working directory. This will clear all the variables and start fresh. If you want to follow on, then we suggest you to run the following line.
+Before we begin, let us clean up the environment and set a working directory. This will clear all the variables and start fresh. If you want to follow on, then we suggest you to run the following lines.
 
 ``` r
 setwd("H:/2017/BTEP1-TidyingData")
@@ -22,12 +22,26 @@ Let us first load the libraries needed for the workshop
 library(tidyverse)
 ```
 
+    ## Warning: package 'tidyverse' was built under R version 3.2.5
+
     ## Loading tidyverse: ggplot2
     ## Loading tidyverse: tibble
     ## Loading tidyverse: tidyr
     ## Loading tidyverse: readr
     ## Loading tidyverse: purrr
     ## Loading tidyverse: dplyr
+
+    ## Warning: package 'ggplot2' was built under R version 3.2.5
+
+    ## Warning: package 'tibble' was built under R version 3.2.5
+
+    ## Warning: package 'tidyr' was built under R version 3.2.5
+
+    ## Warning: package 'readr' was built under R version 3.2.5
+
+    ## Warning: package 'purrr' was built under R version 3.2.5
+
+    ## Warning: package 'dplyr' was built under R version 3.2.5
 
     ## Conflicts with tidy packages ----------------------------------------------
 
@@ -38,6 +52,8 @@ library(tidyverse)
 library(knitr)
 library(lubridate)
 ```
+
+    ## Warning: package 'lubridate' was built under R version 3.2.5
 
     ## 
     ## Attaching package: 'lubridate'
@@ -69,15 +85,15 @@ Let us introduce R/R-Studio Data Import with a Import Dataset and Command-line o
 
 The following few lines will explain how to read in a data file via R command-line
 
-Please note that we will be using **readr** function for this section. Note that read\_csv is different than read.csv
+Please note that we will be using **readr** function for this section. Note that **read\_csv** is different than **read.csv**
 
--   read\_csv(), read\_csv2() \# read\_csv2 and read\_csv are same except for what options are default
--   the returning objects from read\_csv and read.csv are different (DF vs tibbles)
--   read\_tsv()
--   read\_delim()
+-   read\_csv(), read\_csv2()
+-   Note that read\_csv2 and read\_csv are same except for what options are default
+-   The returning objects from read\_csv and read.csv are different (DF vs tibbles)
+-   Other read functions, read\_tsv() and read\_delim()
 
-Let us do some examples
------------------------
+Let us do some examples to compare read.csv and read\_csv
+---------------------------------------------------------
 
 Watch out how the column names are displayed and additional information that you get from read\_csv Also note the number of rows are displayed in read\_csv compared to read.csv
 
@@ -199,9 +215,9 @@ read_csv("Data/WHO-2a.csv", comment = "#")
 -   Output from readr is Tibbles (we will expand on this later)
 -   Base R taps into OS where it is executed. But readr functions are OS independent and hence reproducible
 
-### Import Exercise-1 (Hint: To find out where you are, use the getwd command)
+### Import Exercise-1
 
-For this exercise, we will be using the data set, nss15.tsv, downloaded from <https://www.cpsc.gov>
+(Hint: To find out where you are, use the getwd command) For this exercise, we will be using the data set, nss15.tsv, downloaded from <https://www.cpsc.gov>
 
 you can get and set a working directory by the following commands:
 
@@ -217,7 +233,7 @@ To get a detailed description of the attached packages and R session
 sessionInfo()
 ```
 
-    ## R version 3.3.2 (2016-10-31)
+    ## R version 3.2.4 Revised (2016-03-16 r70336)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
     ## Running under: Windows 7 x64 (build 7601) Service Pack 1
     ## 
@@ -237,16 +253,16 @@ sessionInfo()
     ## [9] tidyverse_1.1.1
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_0.12.8      plyr_1.8.4       forcats_0.2.0    tools_3.3.2     
-    ##  [5] digest_0.6.11    jsonlite_1.2     evaluate_0.10    nlme_3.1-128    
-    ##  [9] gtable_0.2.0     lattice_0.20-34  psych_1.6.12     DBI_0.5-1       
-    ## [13] yaml_2.1.14      parallel_3.3.2   haven_1.0.0      xml2_1.1.0      
-    ## [17] stringr_1.1.0    httr_1.2.1       hms_0.3          rprojroot_1.2   
-    ## [21] grid_3.3.2       R6_2.2.0         readxl_0.1.1     foreign_0.8-67  
+    ##  [1] Rcpp_0.12.5      plyr_1.8.4       forcats_0.2.0    tools_3.2.4     
+    ##  [5] digest_0.6.9     jsonlite_1.3     evaluate_0.10    nlme_3.1-128    
+    ##  [9] gtable_0.2.0     lattice_0.20-33  psych_1.6.12     DBI_0.4-1       
+    ## [13] yaml_2.1.13      parallel_3.2.4   haven_1.0.0      xml2_1.1.1      
+    ## [17] stringr_1.0.0    httr_1.2.1       hms_0.3          rprojroot_1.2   
+    ## [21] grid_3.2.4       R6_2.2.0         readxl_0.1.1     foreign_0.8-66  
     ## [25] rmarkdown_1.3    modelr_0.1.0     reshape2_1.4.2   magrittr_1.5    
     ## [29] backports_1.0.5  scales_0.4.1     htmltools_0.3.5  rvest_0.3.2     
-    ## [33] assertthat_0.1   mnormt_1.5-5     colorspace_1.3-2 stringi_1.1.2   
-    ## [37] lazyeval_0.2.0   munsell_0.4.3    broom_0.4.1
+    ## [33] assertthat_0.1   mnormt_1.5-5     colorspace_1.3-2 stringi_1.0-1   
+    ## [37] lazyeval_0.2.0   munsell_0.4.3    broom_0.4.2
 
 ### R basics
 
@@ -521,19 +537,19 @@ sample(x = die, size = 10, replace = TRUE, prob = p)
 sample(die, 10, replace = TRUE)
 ```
 
-    ##  [1] 2 2 6 4 1 1 6 6 3 5
+    ##  [1] 2 5 1 2 1 6 5 6 5 6
 
 ``` r
 sample(die, 10, TRUE) #  define them explicitely
 ```
 
-    ##  [1] 2 1 3 5 6 4 1 3 5 1
+    ##  [1] 1 5 4 6 1 5 6 2 3 1
 
 ``` r
 sample(x = die, size = 6, replace = TRUE)
 ```
 
-    ## [1] 2 2 1 5 2 1
+    ## [1] 4 3 5 6 1 3
 
 ### Let us roll the die multiple times
 
@@ -542,14 +558,14 @@ sample(x = die, size = 6, replace = TRUE)
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 1 3
+    ## [1] 5 6
 
 ``` r
 # one more roll
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 3 5
+    ## [1] 4 5
 
 ### Random numbers
 
@@ -1264,18 +1280,18 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                      a          b     c          d     e
-    ##                 <dttm>     <date> <int>      <dbl> <chr>
-    ## 1  2017-03-29 18:34:38 2017-04-20     1 0.18155079     o
-    ## 2  2017-03-29 14:42:54 2017-04-07     2 0.17821187     c
-    ## 3  2017-03-29 13:04:56 2017-04-14     3 0.25385710     y
-    ## 4  2017-03-30 03:23:23 2017-04-21     4 0.07879586     i
-    ## 5  2017-03-29 12:43:49 2017-04-12     5 0.58273559     f
-    ## 6  2017-03-29 21:09:14 2017-04-02     6 0.95776212     r
-    ## 7  2017-03-29 16:52:53 2017-04-16     7 0.16425938     c
-    ## 8  2017-03-30 09:19:21 2017-04-10     8 0.76892269     p
-    ## 9  2017-03-30 01:48:17 2017-04-23     9 0.99467420     r
-    ## 10 2017-03-30 08:38:24 2017-04-18    10 0.19663433     u
+    ##                      a          b     c         d     e
+    ##                 <dttm>     <date> <int>     <dbl> <chr>
+    ## 1  2017-04-05 15:15:03 2017-04-25     1 0.3240527     b
+    ## 2  2017-04-05 05:59:45 2017-05-03     2 0.7725518     e
+    ## 3  2017-04-05 05:10:39 2017-04-11     3 0.7361370     o
+    ## 4  2017-04-05 14:23:34 2017-04-10     4 0.1105020     f
+    ## 5  2017-04-05 12:46:42 2017-04-26     5 0.7041702     k
+    ## 6  2017-04-05 17:07:00 2017-04-24     6 0.8492991     l
+    ## 7  2017-04-05 04:30:41 2017-04-13     7 0.2347781     s
+    ## 8  2017-04-05 16:14:05 2017-04-18     8 0.5586548     c
+    ## 9  2017-04-05 13:30:28 2017-04-18     9 0.5242412     z
+    ## 10 2017-04-05 15:09:09 2017-05-03    10 0.9974789     z
     ## # ... with 990 more rows
 
 You can change the defaults of tibble display with options.
@@ -1286,14 +1302,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c          d     e
-    ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-29 18:34:38 2017-04-20     1 0.18155079     o
-    ## 2 2017-03-29 14:42:54 2017-04-07     2 0.17821187     c
-    ## 3 2017-03-29 13:04:56 2017-04-14     3 0.25385710     y
-    ## 4 2017-03-30 03:23:23 2017-04-21     4 0.07879586     i
-    ## 5 2017-03-29 12:43:49 2017-04-12     5 0.58273559     f
-    ## 6 2017-03-29 21:09:14 2017-04-02     6 0.95776212     r
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-04-05 15:15:03 2017-04-25     1 0.3240527     b
+    ## 2 2017-04-05 05:59:45 2017-05-03     2 0.7725518     e
+    ## 3 2017-04-05 05:10:39 2017-04-11     3 0.7361370     o
+    ## 4 2017-04-05 14:23:34 2017-04-10     4 0.1105020     f
+    ## 5 2017-04-05 12:46:42 2017-04-26     5 0.7041702     k
+    ## 6 2017-04-05 17:07:00 2017-04-24     6 0.8492991     l
     ## # ... with 994 more rows
 
 You can also use the following tibble option to show all columns
@@ -1310,9 +1326,9 @@ How to extract the columns or rows of tibble?
 head(t2$a)
 ```
 
-    ## [1] "2017-03-29 18:34:38 EDT" "2017-03-29 14:42:54 EDT"
-    ## [3] "2017-03-29 13:04:56 EDT" "2017-03-30 03:23:23 EDT"
-    ## [5] "2017-03-29 12:43:49 EDT" "2017-03-29 21:09:14 EDT"
+    ## [1] "2017-04-05 15:15:03 EDT" "2017-04-05 05:59:45 EDT"
+    ## [3] "2017-04-05 05:10:39 EDT" "2017-04-05 14:23:34 EDT"
+    ## [5] "2017-04-05 12:46:42 EDT" "2017-04-05 17:07:00 EDT"
 
 ``` r
 has_name(t2, "b")
@@ -1335,14 +1351,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c          d     e
-    ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-29 18:34:38 2017-04-20     1 0.18155079     o
-    ## 2 2017-03-29 14:42:54 2017-04-07     2 0.17821187     c
-    ## 3 2017-03-29 13:04:56 2017-04-14     3 0.25385710     y
-    ## 4 2017-03-30 03:23:23 2017-04-21     4 0.07879586     i
-    ## 5 2017-03-29 12:43:49 2017-04-12     5 0.58273559     f
-    ## 6 2017-03-29 21:09:14 2017-04-02     6 0.95776212     r
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-04-05 15:15:03 2017-04-25     1 0.3240527     b
+    ## 2 2017-04-05 05:59:45 2017-05-03     2 0.7725518     e
+    ## 3 2017-04-05 05:10:39 2017-04-11     3 0.7361370     o
+    ## 4 2017-04-05 14:23:34 2017-04-10     4 0.1105020     f
+    ## 5 2017-04-05 12:46:42 2017-04-26     5 0.7041702     k
+    ## 6 2017-04-05 17:07:00 2017-04-24     6 0.8492991     l
     ## # ... with 994 more rows
 
 ``` r
@@ -1354,15 +1370,15 @@ t2
     print(aa); print(bb); print(cc); print(dd); print(ee)
 ```
 
-    ## [1] "2017-03-29"
+    ## [1] "2017-04-04"
 
-    ## [1] "2017-03-29 11:24:23 EDT"
+    ## [1] "2017-04-04 22:57:47 EDT"
 
     ## [1] 1
 
-    ## [1] 0.4086622
+    ## [1] 0.7188052
 
-    ## [1] "u"
+    ## [1] "h"
 
 ``` r
 t2 %>% 
@@ -1376,14 +1392,14 @@ t2 %>%
 ```
 
     ## # A tibble: 1,001 × 5
-    ##                     a          b     c          d     e
-    ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-29 18:34:38 2017-04-20     1 0.18155079     o
-    ## 2 2017-03-28 20:00:00 2017-03-29     1 0.40866224     u
-    ## 3 2017-03-29 14:42:54 2017-04-07     2 0.17821187     c
-    ## 4 2017-03-29 13:04:56 2017-04-14     3 0.25385710     y
-    ## 5 2017-03-30 03:23:23 2017-04-21     4 0.07879586     i
-    ## 6 2017-03-29 12:43:49 2017-04-12     5 0.58273559     f
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-04-05 15:15:03 2017-04-25     1 0.3240527     b
+    ## 2 2017-04-03 20:00:00 2017-04-05     1 0.7188052     h
+    ## 3 2017-04-05 05:59:45 2017-05-03     2 0.7725518     e
+    ## 4 2017-04-05 05:10:39 2017-04-11     3 0.7361370     o
+    ## 5 2017-04-05 14:23:34 2017-04-10     4 0.1105020     f
+    ## 6 2017-04-05 12:46:42 2017-04-26     5 0.7041702     k
     ## # ... with 995 more rows
 
 After the change
@@ -1393,14 +1409,14 @@ t2
 ```
 
     ## # A tibble: 1,000 × 5
-    ##                     a          b     c          d     e
-    ##                <dttm>     <date> <int>      <dbl> <chr>
-    ## 1 2017-03-29 18:34:38 2017-04-20     1 0.18155079     o
-    ## 2 2017-03-29 14:42:54 2017-04-07     2 0.17821187     c
-    ## 3 2017-03-29 13:04:56 2017-04-14     3 0.25385710     y
-    ## 4 2017-03-30 03:23:23 2017-04-21     4 0.07879586     i
-    ## 5 2017-03-29 12:43:49 2017-04-12     5 0.58273559     f
-    ## 6 2017-03-29 21:09:14 2017-04-02     6 0.95776212     r
+    ##                     a          b     c         d     e
+    ##                <dttm>     <date> <int>     <dbl> <chr>
+    ## 1 2017-04-05 15:15:03 2017-04-25     1 0.3240527     b
+    ## 2 2017-04-05 05:59:45 2017-05-03     2 0.7725518     e
+    ## 3 2017-04-05 05:10:39 2017-04-11     3 0.7361370     o
+    ## 4 2017-04-05 14:23:34 2017-04-10     4 0.1105020     f
+    ## 5 2017-04-05 12:46:42 2017-04-26     5 0.7041702     k
+    ## 6 2017-04-05 17:07:00 2017-04-24     6 0.8492991     l
     ## # ... with 994 more rows
 
 Subsetting
@@ -1418,13 +1434,13 @@ df <- tibble(
 df$x
 ```
 
-    ## [1] 0.6035177 0.5225904 0.8826948 0.2810590 0.4008730
+    ## [1] 0.7761191 0.2991884 0.6956199 0.2396163 0.8303348
 
 ``` r
 df[[1]]
 ```
 
-    ## [1] 0.6035177 0.5225904 0.8826948 0.2810590 0.4008730
+    ## [1] 0.7761191 0.2991884 0.6956199 0.2396163 0.8303348
 
 Can you use Tibble in a pipeline?
 
@@ -1432,13 +1448,13 @@ Can you use Tibble in a pipeline?
 df %>% .$x   
 ```
 
-    ## [1] 0.6035177 0.5225904 0.8826948 0.2810590 0.4008730
+    ## [1] 0.7761191 0.2991884 0.6956199 0.2396163 0.8303348
 
 ``` r
 df %>% .[["y"]]
 ```
 
-    ## [1] -0.03118134 -1.48082175  1.88657220 -0.61876878 -2.24112208
+    ## [1]  0.04375615  0.25923471 -0.35863059  2.60840085 -0.26377645
 
 What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
 
@@ -1447,11 +1463,11 @@ as.data.frame(df)
 ```
 
     ##           x           y
-    ## 1 0.6035177 -0.03118134
-    ## 2 0.5225904 -1.48082175
-    ## 3 0.8826948  1.88657220
-    ## 4 0.2810590 -0.61876878
-    ## 5 0.4008730 -2.24112208
+    ## 1 0.7761191  0.04375615
+    ## 2 0.2991884  0.25923471
+    ## 3 0.6956199 -0.35863059
+    ## 4 0.2396163  2.60840085
+    ## 5 0.8303348 -0.26377645
 
 Tibble Exercise 1
 -----------------

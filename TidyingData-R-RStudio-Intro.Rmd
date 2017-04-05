@@ -8,10 +8,10 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-Let us clean up the environment and set a working directory. 
-This will clear all the variables and start fresh. If you want to 
-follow on, then we suggest you to run the 
-following line. 
+Before we begin, let us clean up the environment and set a working directory. 
+This will clear all the variables and start fresh. 
+If you want to follow on, then we suggest you to run the 
+following lines. 
 
 ```{r CleanSetRoot, eval = FALSE}
 setwd("H:/2017/BTEP1-TidyingData")
@@ -21,7 +21,7 @@ rm(list = ls())
 ### Loading the libraries
 
 Let us first load the libraries needed for the workshop
-```{r loadlibraries}
+```{r loadlibraries, results = "hide" }
 # if you dont have tidyverse then run the following line once 
 # install.packages(c("tidyverse", "knitr"))
 library(tidyverse)
@@ -55,14 +55,14 @@ Let us introduce R/R-Studio Data Import with a Import Dataset and Command-line o
 The following few lines will explain how to read in a data file via R command-line
 
 Please note that we will be using **readr** function for this section. 
-Note that read_csv is different than read.csv 
+Note that **read_csv** is different than **read.csv** 
 
-- read_csv(), read_csv2()  # read_csv2 and read_csv are same except for what options are default
-- the returning objects from read_csv and read.csv are different (DF vs tibbles)
-- read_tsv() 
-- read_delim()
+- read_csv(), read_csv2()  
+- Note that read_csv2 and read_csv are same except for what options are default
+- The returning objects from read_csv and read.csv are different (DF vs tibbles)
+- Other read functions, read_tsv() and read_delim()
 
-## Let us do some examples
+## Let us do some examples to compare read.csv and read_csv
 
 
 Watch out how the column names are displayed and additional information 
@@ -96,7 +96,8 @@ read_csv("Data/WHO-2a.csv", comment = "#")
 - Base R taps into OS where it is executed. But readr functions are OS independent and
   hence reproducible
   
-### Import Exercise-1 (Hint: To find out where you are, use the getwd command) 
+### Import Exercise-1 
+(Hint: To find out where you are, use the getwd command) 
 For this exercise, we will be using the data set, nss15.tsv, downloaded from
 https://www.cpsc.gov
 
@@ -107,7 +108,7 @@ setwd("YOUR_DIR"")
 ```
 
 
-## To get a detailed description of the attached packages and R session 
+## To get a detailed description of the attached packages and R session, use 
 
 ```{r}
 sessionInfo()
@@ -154,7 +155,7 @@ Error: unexpected input in "10 % 5"
 10 % 5 
 ```
 
-### Everything is an vector object in R
+### Everything is a vector object in R
 - Variable names should not contain number, no underscore etc. 
 - Don't mix numbers and character in a vector
    - If you mix coercion (un expected outcomes)
@@ -177,10 +178,9 @@ ages
  
 ```
 
+RStudio environment pane displayes the stored variables
 
-RStudio environment pane now displays the variable.
-
-### What are acceptable and not acceptable variable names
+### What are acceptable and not acceptable variable names?
 
 ```{r echo = FALSE, results = 'asis'}
 No = c("1run", "b$", "^mean", "!var1" )
@@ -189,8 +189,7 @@ df <- data_frame(No, Yes)
 kable(df, caption = "Acceptable (Yes) and non-acceptable (No) Variable Names")
 ```
 
-### Variable names are case-sensitive and can be 
-    over-written 
+### Variable names are case-sensitive and can be over-written 
 
 ```{r}
 var1 <- 2
