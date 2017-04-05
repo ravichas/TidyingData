@@ -1,0 +1,75 @@
+---
+title: "BTEP-FinalExercise"
+author: "Drs. Sarangan Ravichandran and Randall Johnson"
+date: "February 26, 2017"
+output: github_document
+---
+
+### Cleaning up
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Before we begin, let us clean up the environment and set a working directory. 
+This will clear all the variables and start fresh. 
+If you want to follow on, then we suggest you to run the 
+following lines. 
+
+```{r CleanSetRoot, eval = FALSE}
+setwd("H:/2017/BTEP1-TidyingData")
+rm(list = ls())
+```
+
+### Loading the libraries
+
+Let us first load the libraries needed for the workshop
+```{r loadlibraries, results = "hide" }
+# if you dont have tidyverse then run the following line once 
+# install.packages(c("tidyverse", "knitr"))
+library(tidyverse)
+library(knitr)
+library(lubridate)
+```
+
+ 
+
+## Hands-on exercise using Wisconsin Breast Cancer dataset
+
+Now, let us read a slightly complicated Breast Cancer dataset. First let us use
+the import data set drop-down option 
+
+![](Images/RS-ImportDataset.png)
+![](Images/RS-ImportDataset1.png)
+```{r readdata}
+wdbc <- read_csv("Data/wdbc.data", col_names = FALSE)
+#wdbctry2 <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", header = FALSE)
+names(wdbc)
+```
+
+Let us add column names
+
+```{r AssignColnams}
+cnames <- c("ID", "Diagnosis", 
+            "radius", "Texture", "Perimeter", "area",
+            "smoothness", "compactness", "concavity", "concave_points",
+            "symmetry","fractaldim",
+            "radiusSE", "TextureSE", "PerimeterSE", "areaSE",
+            "smoothnessSE", "compactnessSE", "concavitySE", "concave_pointsSE",
+            "symmetrySE","fractaldimSE",
+            "radiusW", "TextureW", "PerimeterW", "areaW",
+            "smoothnessW", "compactnessW", "concavityW", "concave_pointsW",
+            "symmetryW","fractaldimW")
+
+names(wdbc) <- cnames
+```
+ Let us find out how many samples we have in the dataset? 
+ 
+ 
+```{r}
+nrow(wdbc)
+```
+How many covariates are in the dataset? 
+We can look at the Global environment (top right) window to get the information
+We can also find that out by typing the following command:
+```{r}
+ncol(wdbc)
+```
