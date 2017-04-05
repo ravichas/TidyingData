@@ -15,7 +15,7 @@ library(tidyverse)
 ```
 
 
-## Date & Times in R
+### Date & Times in R
 
 Dates and Times are very important. 
 Routinely used in expression (gene) data
@@ -56,13 +56,13 @@ as.Date('March 07, 2017', format='%B %d, %Y')
 Let us look to see how R stores the data internally.
 Two different datatypes that deal with Time and Date variables: 
 
-## POSIXct
+### POSIXct
 
 Will provide you the number of seconds that has been elapsed since January 1, 1970. 
 
 Negative numebrs indicate seconds before this time. 
 
-## POSIXlt
+### POSIXlt
 
 - Type of vector
 
@@ -91,7 +91,7 @@ names(timelt)
 lapply(timelt, function(x) print(x))
 ```
 
- ## How can we use the time? 
+### How can we use the time? 
  
 ```{r}
  timenow <- Sys.time()
@@ -102,7 +102,7 @@ timenow - 30 # 30 seconds earlier
 Be careful with time data that are used for numerical calculations. 
 
 
-# How to store Time in different formats and use it at a later time or using a differnt software?
+### How to store Time in different formats and use it at a later time or using a differnt software?
 
 Two commands that can help us accomplish this, strftime and strptime.
 
