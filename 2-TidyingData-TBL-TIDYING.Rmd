@@ -8,9 +8,7 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-Before we begin, let us clean up the environment and set a working directory. 
-This will clear all the variables and start fresh. 
-If you want to follow on, then we suggest you to run the 
+Before we begin, let us clean up the environment and set a working directory. This will clear all the variables and start fresh. If you want to follow on, then we suggest you to run the 
 following lines. 
 
 ```{r CleanSetRoot, eval = FALSE}
