@@ -31,7 +31,7 @@ library(lubridate)
 
 ### Quick tour of RStudio
 We will be using RStudio as the main software for the workshp. 
-Let us do a quick live tour of RStudio. We will cover the following useful tools accessible throug RStudio. 
+Let us do a quick live tour of RStudio. We will cover the following useful options accessible through RStudio: 
 
 #### Tools
 - Pane (View --> Pane); Option that we are using is "Console on Right"
@@ -44,7 +44,7 @@ Let us do a quick live tour of RStudio. We will cover the following useful tools
 
 ![](Images/RStudioIntro.png)
 
-### Getting the data inside R via RStudio
+### Getting the data in R via RStudio
 
 Let us introduce R/R-Studio Data Import with a Import Dataset and Command-line options
 
@@ -62,12 +62,13 @@ Note that **read_csv** is different than **read.csv**
 - The returning objects from read_csv and read.csv are different (DF vs tibbles)
 - Other read functions, read_tsv() and read_delim()
 
-## Let us do some examples to compare read.csv and read_csv
+## Let us do some examples to compare <span style="color:blue">read.csv</span> and <span style="color:red">read_csv</span> R functions
 
 
 Watch out how the column names are displayed and additional information 
-that you get from read_csv
-Also note the number of rows are displayed in read_csv compared to read.csv
+that you get from <span style="color:red">read_csv</span>. 
+Also note that the number of rows are displayed in
+<span style="color:blue">read.csv</span> compared to <span style="color:red">read_csv</span> 
 
 ```{r, echo = TRUE}
 (tcsv <- read.csv("Data/WHO-2a.csv"))  # traditional csv object
@@ -83,23 +84,21 @@ class(ncsv) # traditional csv function, read.csv
 class(tcsv) # tidyverse read_csv
 ```
 
-What happens if your dataset has a metadata (indicated by \# ) as the first line followed by the column names
+How to read a dataset that has some metadata (indicated by \# ) as the first line followed by the column names?
 
 ```{r}
 read_csv("Data/WHO-2a.csv", comment = "#")
 ```
 
-### Why we insist on using readr::read_csv than read.csv?
+### Why do we insist on using readr::read_csv than read.csv?
 
 - Speed (~ 10x)
 - Output from readr is Tibbles (we will expand on this later)
 - Base R taps into OS where it is executed. But readr functions are OS independent and
   hence reproducible
-  
-### Import Exercise-1 
-(Hint: To find out where you are, use the getwd command) 
-For this exercise, we will be using the data set, nss15.tsv, downloaded from
-https://www.cpsc.gov
+
+
+ 
 
 you can get and set a working directory by the following commands: 
 ```{r, eval = FALSE}
@@ -108,7 +107,15 @@ setwd("YOUR_DIR"")
 ```
 
 
-## To get a detailed description of the attached packages and R session, use 
+#### SessionInfo 
+Main development in R happens via packages. There are several hundred packages and the number is growing every day. 
+Let us find out how many packages are there. 
+
+```{r}
+head(available.packages(repos = "http://cran.us.r-project.org"))
+```
+
+To get a detailed description of the attached packages and R session, use 
 
 ```{r}
 sessionInfo()
@@ -135,30 +142,77 @@ sessionInfo()
 - It started that way, now it is much more than a GUI
 - R is the main program 
 
-### simple calculator
+
+### Data types in R
+- six basic types of atomic vectors:
+- doubles, integers, characters, logicals, complex, and raw
+- last two are not very important and we will not discuss further
+
+```{r}
+complex(1,2)
+raw(2) # bytes of numbers
+```
+
+#### Integer variables
+```{r}
+ia <- 1L 
+ia1 <- 1
+class(ia)
+typeof(ia)
+
+class(ia1)
+typeof(ia1)
+```
+
+#### Double variables
+
+```{r}
+ra <- runif(10)
+typeof(ra)
+class(ra)
+```
+
+#### Character variables
+
+```{r}
+ca <- c("Tom", "cat")
+typeof(ca)
+class(ca)
+```
+
+#### Let us talk about attributes
+```{r}
+ia <- 1L 
+names(ia) <- "id"
+ia
+```
+
+#### Other types, matrix
+```{r}
+M <- matrix(1:6, 3, 2)
+dim(M)
+args(matrix)
+```
+
+#### R as a simple calculator
 
 2 * 3  
 
 if R doesnt recognize a code, it displays a + and waits for you 
-
-type the following in command prompt, you will get a error message. 
-Explain why you 
  
 ```{r, eval=FALSE}
 2 *  
 ```
 
+Run the following line. you will get an error message. Why?
 ```{r, eval=FALSE}
-- run the following line. you will get an error message. Why? 
-Error: unexpected input in "10 % 5" 
-
-10 % 5 
+10 % 5   
 ```
 
 ### Everything is a vector object in R
 - Variable names should not contain number, no underscore etc. 
 - Don't mix numbers and character in a vector
-   - If you mix coercion (un expected outcomes)
+   - If you mix data types (coersion; un-expected outcomes)
 
 ```{r}
 aa <- 22.7
@@ -180,7 +234,7 @@ ages
 
 RStudio environment pane displayes the stored variables
 
-### What are acceptable and not acceptable variable names?
+### What are acceptable and non acceptable variable names in R ?
 
 ```{r echo = FALSE, results = 'asis'}
 No = c("1run", "b$", "^mean", "!var1" )
@@ -197,18 +251,20 @@ VAR1 <- 1
 (var1 <- 100) # overwrite 
 ```
 
-### List the variables (you can also use the Global Environment pane in RStudio for this)
+### List the variables
+Hint: You can also use the Global Environment pane in RStudio for extracting this information
 ```{r}
 ls() # to see what variables you have so far
 list.files()  # to see the list of files
 ```
 
-# Data analysis without a die? 
+### For the following section, let us use a 6-sided die and do some Data analysis. 
+First let us create a die object
 ```{r}
 die <- 1:6 # 6 sided die
 ```
 
-# Math with die
+### Let us do some Math with our Die
 
 Notice the vector math
 ```{r}
@@ -218,13 +274,13 @@ die/2
 die * die
 ```
 
-### Let us watch out for recycling in
+### Let us watch out for recycling
 ```{r}
 die + 1:2
 ```
 
 
-### Built-in function 
+### Let us explore built-in functions using our Die 
 
 ```{r}
 sum(die)
@@ -251,16 +307,18 @@ round(pi, digits = 9)
 
  
 
-### How to find the arguments for a built-in function 
+### How to find the arguments for a built-in function?
 ```{r}
 args(round)
 args(plot)
 ```
 
-### Exercise 2: Find out what the function sample does?
-let us sample a die by rolling 3 times
+### <span style="color:green">R-basic Exercise-1</span>
 
-### What is the issue with the following command?
+- Find out what the function sample does?
+let us sample a die by rolling 3 times in R.
+
+#### What is the issue with the following command?
 
 ```{r, eval = FALSE}
 sample(die, size = 7)
@@ -319,7 +377,7 @@ b <- c(3,3)
 dist(a,b)
 ```
 
-### Now let us turn the following lines into a function in RStudion
+### Now let us turn the following lines into a function in RStudio
 
 ```{r}
 #Use RStudio to turn the following line into a function called dist2
@@ -372,59 +430,9 @@ dist(a,b)
 ```
 
 
-### Data types in R
-- six basic types of atomic vectors:
-- doubles, integers, characters, logicals, complex, and raw
-- last two are not very important and we will not discuss further
-
-```{r}
-complex(1,2)
-raw(2) # bytes of numbers
-```
-
-### Integer variables
-```{r}
-ia <- 1L 
-ia1 <- 1
-class(ia)
-typeof(ia)
-
-class(ia1)
-typeof(ia1)
-```
-
-### Double variables
-
-```{r}
-ra <- runif(10)
-typeof(ra)
-class(ra)
-```
-
-### Character variables
-
-```{r}
-ca <- c("Tom", "cat")
-typeof(ca)
-class(ca)
-```
-
-### Let us talk about attributes
-```{r}
-ia <- 1L 
-names(ia) <- "id"
-ia
-```
-
-### Other types, matrix
-```{r}
-M <- matrix(1:6, 3, 2)
-dim(M)
-args(matrix)
-```
-
 ### plots 
-
+Here we will explore the basic plots in R. Watch out for future graphics workshop using R, where we will explore the new and powerful ggplot function
+For now, we will focus on simple plots.
 ```{r}
 x <- runif(1000)
 hist(x)
@@ -458,7 +466,7 @@ min_speed <- min(cars$speed)
 min_speed
 max(cars$speed)
 cars[min_speed,] # can be easily done using dplyr
-filter(cars, speed > 10)
+filter(cars, speed > 20)
 ```
 ### Accessing values in data frames
 
@@ -509,8 +517,76 @@ sum(x[x>5])
 
 ### some very useful functions
 
--tapply, sapply, lapply
+-apply, lapply, sapply and tapply
 
+#### apply
+
+- apply operates on arrays (2D, 3D; ex matrices)
+```{r}
+# let us construct a 6 x 5 matrix
+X <- matrix(rnorm(30), nrow=6, ncol=5 )
+
+#or
+#X <- (rnorm(30), 6, 5 )
+# I prefer the previous form
+```
+
+If we want to sum up the columns, you can use apply function. 
+Let us first learn the syntax of the function by typing 
+<span style="color:red">?apply</span>
+```{r}
+apply(X, 2, sum)
+```
+
+### <span style="color:green">Apply Exercise-1</span>
+
+- What object do you get back from apply function? Explore the question using the previous example.
+
+#### lapply
+
+- input objects for lapply could be DF, lists or vectors 
+- output is always a list
+
+
+```{r}
+A <- matrix(rnorm(30), nrow=6, ncol=5 ) 
+B <- matrix(rnorm(20), nrow=2, ncol=10 ) 
+C <- matrix(rnorm(36), nrow=6, ncol=6 ) 
+
+MyList <- list(A, B, C)
+```
+
+To sum up all the columns in each of the matrices, we can write a code 
+like shown below
+
+```{r}
+# Note the "[" is a separator
+# The following line extracts first row from all matrices
+lapply(MyList,"[",2, 1)
+```
+##### sapply
+
+- sapply() is the cleaned-up (s:simplify) version of apply function 
+- Also sapply() is just a wrapper to lapply() 
+
+Let us do the same lapply() function above
+
+```{r}
+sapply(MyList,"[", 2, 1, simplify= F) # returns a List
+
+sapply(MyList,"[", 2, 1, simplify= T) # returns a vector
+```
+
+#### tapply
+
+Let us use tapply on mpg dataset from ggplot2
+```{r}
+tapply(mpg$hwy, mpg$cyl, mean)
+```
+
+
+#### Related function to apply() function. 
+NEED TO FILL IN 
 
 
 #Finally Cleaning up
@@ -572,12 +648,12 @@ df1 <- data.frame( Color = "Red")
 tb1 <-tibble(Color = "Red")
 ```
 
-## Exercise: 
+### <span style="color:green">Tibble Exercise-1</span>
 
 If you type the following commmands, what will you get and 
 explain your reasoning:
 
-```{r}
+```{r, eval = F}
 df1$C
 tb1$C
 
@@ -746,23 +822,23 @@ as.data.frame(df)
 ```
 
 
-## Tibble Exercise 1
+### <span style="color:green">Tibble Exercise-2</span>
 
 Create a new tibble with the following information:
   name, age, height, weight, smoker (T or F), Male (True or Fale)
  compare the tibble with the R data_frame
 
 
-## Exercise 2
+### <span style="color:green">Tibble Exercise-3</span>
 
 convert iris data set (given to us in data.frame ) to tibble data_frame
 
 
-## Exercise 3
+### <span style="color:green">Tibble Exercise-4</span>
 
 How can you tell whether the object is a Tibble or not? 
 
-## Exercise 4 (based on Wickam's book)
+### <span style="color:green">Tibble Exercise-5 (based on Hadley's tutorial) </span>
 
 Partial matching is a big issue with data.frame.
 df <- data.frame(abc = 1, xyz = "a")
@@ -770,9 +846,9 @@ df$x
 df[, "xyz"]
 
 
-### Hands-on Exercise
+### <span style="color:green">Final R-basic exercise</span>
 
-The datset that we will be using comes from the  
+The datset that we will be using for this section comes from the  
 National Electronic Injury Surveillance System (NEISS)
 https://www.cpsc.gov/research--statistics/neiss-injury-data 
 Here is a short description of the data file from the NEISS. 
@@ -785,12 +861,12 @@ These two files will act as the codebook for the data.
 
 Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
 
-Hint: Use the File --> Import --> Data DataSet option to read the file. 
+**Hint:** Use the File --> Import --> Data DataSet option to read the file. 
 To remind the data is in a tab-separated format.
 
-Hint: Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
+**Hint:** Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
 
-Hint: Please watch out for any warnings or issues while R/Rstudio 
+**Hint:** Please watch out for any warnings or issues while R/Rstudio 
 is reading the files. If you spot any errors, think of how to fix it.
 After fixing the problems (if any), go back and read the file. 
  
@@ -807,15 +883,13 @@ Answer the following questions.
 - Report the number of cases for the month of May? 
   Tell us how many cases were reported for May 13 - May 16, 2015? 
   Use this information to answer the following questions. 
-  
-a) What hospitals were the cases went to (provide a table)?
-b) How many were children ( < 5 years)? 
-c) provide the proportion of male/female? 
-d) What was the race distribution? 
+- What hospitals were the cases went to (provide a table)?
+- How many were children ( < 5 years)? 
+- provide the proportion of male/female? 
+- What was the race distribution? 
  
- 
- 
- 
+### Ignore from here to the end for the moment
+
 
 ## Hands-on exercise using Wisconsin Breast Cancer dataset
 
@@ -861,7 +935,7 @@ We can also find that out by typing the following command:
 ncol(wdbc)
 ```
 
-## #xtra Ignore for the moment
+
 
 ## Including Plots
 
