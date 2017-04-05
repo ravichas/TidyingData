@@ -45,7 +45,7 @@ class(D2)
 Sys.Date()
 ```
 
-    ## [1] "2017-03-29"
+    ## [1] "2017-04-05"
 
 If you use <cod> ?as.date </code>, you will see the formats that the function takes.
 
@@ -125,7 +125,7 @@ Let us see how we can use these two data types:
 (timext <- Sys.time())
 ```
 
-    ## [1] "2017-03-29 11:41:40 EDT"
+    ## [1] "2017-04-05 13:28:54 EDT"
 
 ``` r
 class(timext)
@@ -143,13 +143,13 @@ typeof(timext)
 cat(timext, "\n")
 ```
 
-    ## 1490802101
+    ## 1491413335
 
 ``` r
 (timelt <- as.POSIXlt(timext) )
 ```
 
-    ## [1] "2017-03-29 11:41:40 EDT"
+    ## [1] "2017-04-05 13:28:54 EDT"
 
 ``` r
 typeof(timelt)
@@ -167,32 +167,32 @@ names(timelt)
 lapply(timelt, function(x) print(x))
 ```
 
-    ## [1] 40.8049
-    ## [1] 41
-    ## [1] 11
-    ## [1] 29
-    ## [1] 2
+    ## [1] 54.63011
+    ## [1] 28
+    ## [1] 13
+    ## [1] 5
+    ## [1] 3
     ## [1] 117
     ## [1] 3
-    ## [1] 87
+    ## [1] 94
     ## [1] 1
     ## [1] "EDT"
     ## [1] -14400
 
     ## $sec
-    ## [1] 40.8049
+    ## [1] 54.63011
     ## 
     ## $min
-    ## [1] 41
+    ## [1] 28
     ## 
     ## $hour
-    ## [1] 11
+    ## [1] 13
     ## 
     ## $mday
-    ## [1] 29
+    ## [1] 5
     ## 
     ## $mon
-    ## [1] 2
+    ## [1] 3
     ## 
     ## $year
     ## [1] 117
@@ -201,7 +201,7 @@ lapply(timelt, function(x) print(x))
     ## [1] 3
     ## 
     ## $yday
-    ## [1] 87
+    ## [1] 94
     ## 
     ## $isdst
     ## [1] 1
@@ -219,13 +219,13 @@ lapply(timelt, function(x) print(x))
 timenow
 ```
 
-    ## [1] "2017-03-29 11:41:40 EDT"
+    ## [1] "2017-04-05 13:28:54 EDT"
 
 ``` r
 timenow - 30 # 30 seconds earlier 
 ```
 
-    ## [1] "2017-03-29 11:41:10 EDT"
+    ## [1] "2017-04-05 13:28:24 EDT"
 
 Be careful with time data that are used for numerical calculations.
 
@@ -241,7 +241,7 @@ string_timenow <- strftime(timenow, "%Y-%m-%d %H:%M:%S")  #"2017-03-07 15:52:03 
 string_timenow
 ```
 
-    ## [1] "2017-03-29 11:41:40"
+    ## [1] "2017-04-05 13:28:54"
 
 ``` r
 class(string_timenow)
@@ -265,7 +265,7 @@ typeof(string_timenow)
 (Posixct_timenow <- strptime(string_timenow,"%Y-%m-%d %H:%M:%S" ))
 ```
 
-    ## [1] "2017-03-29 11:41:40 EDT"
+    ## [1] "2017-04-05 13:28:54 EDT"
 
 ``` r
 class(Posixct_timenow)
