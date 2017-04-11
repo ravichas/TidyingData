@@ -1,7 +1,7 @@
 ---
 title: "BTEP-R/RStudio-Intro"
 author: "Drs. Sarangan Ravichandran and Randall Johnson"
-date: "February 26, 2017"
+date: "May 16, 2017"
 output: github_document
 ---
 ### Cleaning up
@@ -10,11 +10,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 Before we begin, let us clean up the environment and set a working directory. 
 This will clear all the variables and start fresh. 
-If you want to follow on, then we suggest you to run the 
-following lines.
+If you want to follow on, then we suggest you set your working directory to the root directory of the TidyingData repository, which you can download here: https://github.com/ravichas/TidyingData. For those unfamiliar with Git, it is probably easiest to download by clicking on the green "Clone or Download" button, choosing the "Download ZIP" option as shown below.
 
+![](Images/DownloadRepo.png)
+
+
+You can get and set a working directory by the following commands: 
+```{r, eval = FALSE}
+getwd()
+setwd("<TidyingData_Directory>")
+# for example:
+# setwd("H:/2017/BTEP1-TidyingData")
+```
+
+You may also want to clear your workspace.
 ```{r CleanSetRoot, eval = FALSE}
-setwd("H:/2017/BTEP1-TidyingData")
 rm(list = ls())
 ```
 
@@ -58,7 +68,7 @@ Please note that we will be using **readr** function for this section.
 Note that **read_csv** is different than **read.csv** 
 
 - read_csv(), read_csv2()  
-- Note that read_csv2 and read_csv are same except for what options are default
+- Note that read_csv2 and read_csv are same, except read_csv2 assumes ';' for separators, instead of ','
 - The returning objects from read_csv and read.csv are different (DF vs tibbles)
 - Other read functions, read_tsv() and read_delim()
 
@@ -95,24 +105,16 @@ read_csv("Data/WHO-2a.csv", comment = "#")
 - Speed (~ 10x)
 - Output from readr is Tibbles (we will expand on this later)
 - Base R taps into OS where it is executed. But readr functions are OS independent and
-  hence reproducible
+  hence more reproducible
 
-
- 
-
-you can get and set a working directory by the following commands: 
-```{r, eval = FALSE}
-getwd()
-setwd("YOUR_DIR"")
-```
 
 
 #### SessionInfo 
-Main development in R happens via packages. There are several hundred packages and the number is growing every day. 
+Main development in R happens via packages. There thousands of packages and the number is growing every day. 
 Let us find out how many packages are there. 
 
 ```{r}
-head(available.packages(repos = "http://cran.us.r-project.org"))
+str(available.packages(repos = "http://cran.us.r-project.org"))
 ```
 
 To get a detailed description of the attached packages and R session, use 
@@ -129,12 +131,12 @@ sessionInfo()
 - Different from other languages such as C, modern Fortran, Java that require compilation
 
 ### Availability 
-- Base R and R core packages can be downloaded from 
-- Comprehensive R Archive Network (CRAN)
+- Base R and R core packages can be downloaded from Comprehensive R Archive Network (CRAN)
 - Available in Windows/Linux/Mac0
 - cran.r-project.org 
 - How to interact with R? 
 - RGUI RStudio (preferred for the class) 
+- There are other repositories (notably, Bioconductor), but we won't cover these in detail today.
 
 ### RStudio basics 
 
@@ -148,10 +150,6 @@ sessionInfo()
 - doubles, integers, characters, logicals, complex, and raw
 - last two are not very important and we will not discuss further
 
-```{r}
-complex(1,2)
-raw(2) # bytes of numbers
-```
 
 #### Integer variables
 ```{r}
@@ -210,7 +208,7 @@ Run the following line. you will get an error message. Why?
 ```
 
 ### Everything is a vector object in R
-- Variable names should not contain number, no underscore etc. 
+
 - Don't mix numbers and character in a vector
    - If you mix data types (coersion; un-expected outcomes)
 
@@ -236,10 +234,14 @@ RStudio environment pane displayes the stored variables
 
 ### What are acceptable and non acceptable variable names in R ?
 
+- Variable names should start with a character (i.e. not a number, underscore, etc.). Exception: variable names can start with a '.', and these variables will not be listed in the output of `ls()`.
+- Numbers, underscores, and dots are accepted within variable names
+
+
 ```{r echo = FALSE, results = 'asis'}
-No = c("1run", "b$", "^mean", "!var1" )
-Yes = c("run1", "b", "mean", "var1")
-df <- data_frame(No, Yes)
+ No = c("1run", "b$", "^mean", "!var1", "_x1", ""  )
+Yes = c("run1", "b" ,  "mean",  "var1", "x_1", ".x")
+df <- data_frame(Acceptable = No, Unacceptable = Yes)
 kable(df, caption = "Acceptable (Yes) and non-acceptable (No) Variable Names")
 ```
 
@@ -248,14 +250,15 @@ kable(df, caption = "Acceptable (Yes) and non-acceptable (No) Variable Names")
 ```{r}
 var1 <- 2
 VAR1 <- 1 
+var1 + VAR1
 (var1 <- 100) # overwrite 
 ```
 
 ### List the variables
 Hint: You can also use the Global Environment pane in RStudio for extracting this information
 ```{r}
-ls() # to see what variables you have so far
-list.files()  # to see the list of files
+ls() # to see what (non-hidden) variables are in the current working environment
+list.files()  # to see the list of files in the current working directory
 ```
 
 ### For the following section, let us use a 6-sided die and do some Data analysis. 
@@ -300,7 +303,9 @@ pi # not PI
 
 ### let us round numbers
 ```{r}
-round(pi, 10) # what happened here
+round(pi, 10) # what happened here?
+sprintf('%.10f', round(pi, 10))
+
 round(pi, 2)
 round(pi, digits = 9)
 signif(pi, 3) 
@@ -335,6 +340,7 @@ sample(die, size = 7)
 
 ### Can we change the default of sample function? 
 ```{r}
+set.seed(243798)
 p <- c(rep(0.01,5), 0.95)
 sample(x = die, size = 10, replace = TRUE, prob = p)
 ```
@@ -342,6 +348,7 @@ sample(x = die, size = 10, replace = TRUE, prob = p)
 
 ### Do we always have to use the arguments name? What if we dont? 
 ```{r}
+set.seed(9274983)
 sample(die, 10, replace = TRUE)
 sample(die, 10, TRUE) #  define them explicitely
 sample(x = die, size = 6, replace = TRUE)
@@ -349,6 +356,7 @@ sample(x = die, size = 6, replace = TRUE)
 
 ### Let us roll the die multiple times
 ```{r}
+set.seed(438927)
 # First roll
 sample(x = die, size = 2, replace = TRUE) # def prob
 # one more roll
@@ -366,8 +374,8 @@ args(round)
 
 - Function constructor (like C++) has three parts
 - a) name 
-- b) body (of code)
-- c) arguments 
+- b) arguments
+- c) body (of code) 
 - function() {  ### }
 
 ### Let us build a function
@@ -377,6 +385,19 @@ dist <- function(a, b) {
   sqrt(distsq)
 }
 ```
+
+Be careful when creating variables with the same name as variables that already exist!
+```{r}
+# this isn't evaluated, but give it a try
+sum <- function(x) prod(x)
+
+sum(1:4)
+base::sum(1:4)
+
+# probably don't want this function lying around
+rm(sum)
+```
+
 Let us call the function with inputs
 
 ```{r}
@@ -398,7 +419,7 @@ sqrt(distsq)
 
 ### Installing and using packages in R
 
-- R comes with core packages (basic). There are several 
+- R comes with core packages (base R). There are several 
   packages available for R (Ex. Tidyverse)
 - How can I install a package? 
 <code>install.packages("foreign") # to install foreign package </code>
@@ -408,7 +429,7 @@ library(foreign)
 help(package=foreign)
 </code> </pre>
 
-After using a package, use <pre>detach(foreign)</pre> to remove a package (ex. foreign package) from the workspace.
+After using a package, use <pre>detach(foreign)</pre> to remove a package (ex. foreign package) from the seach space.
 
 Use <pre> SessionInfo() </pre> to get a detailed description of the attached packages and R session. R commands can be either typed or loaded from a file
 using source command. 
@@ -441,7 +462,7 @@ dist(a,b)
 
 ### plots 
 Here we will explore the basic plots in R. Watch out for future graphics workshop using R, where we will explore the new and powerful ggplot function
-For now, we will focus on simple plots.
+For now, we will focus on a few simple, base R graphics functions.
 ```{r}
 x <- runif(1000)
 hist(x)
@@ -450,7 +471,7 @@ boxplot(x, col = "red")
 ```
 
 ###Read and Write, compressed file
-write.csv(lcancer, file = bzfile("data/lcaner.csv.bz2"), row.names = FALSE)
+`write.csv(lcancer, file = bzfile("data/lcaner.csv.bz2"), row.names = FALSE)`
 
 ### Some useful functions
 
@@ -486,10 +507,10 @@ cars$dist
 ```
 
 If you noticed that data.frame has unique data type for each column.
-If I want to create an object with mixed types. What I need is a list
+Use of `data.frame()` will allow this, but will force you to have the same number of elements in every variable. If you want to include variables with varying lengths, you will want a `list()`.
 
 ```{r}
-mylist <- list(a = 1:10, b = LETTERS[1:10], c = 11:20L)
+mylist <- list(a = 1:10, b = LETTERS[1:10], c = 11:20L, d = "Hello")
 mylist
 mylist[[1]]
 mylist$a
@@ -501,7 +522,7 @@ mylist$a
 INF<-3/0 # Inf or -Inf 
 -3/0 
 #diff between Inf and NA (not a number) 
-!is.na(Inf)
+!is.na(INF)
 
 # what is then Inf?
 is.finite(INF)
@@ -536,7 +557,7 @@ sum(x[x>5])
 X <- matrix(rnorm(30), nrow=6, ncol=5 )
 
 #or
-#X <- (rnorm(30), 6, 5 )
+#X <- matrix(rnorm(30), 6, 5)
 # I prefer the previous form
 ```
 
@@ -558,6 +579,7 @@ apply(X, 2, sum)
 
 
 ```{r}
+set.seed(239874)
 A <- matrix(rnorm(30), nrow=6, ncol=5 ) 
 B <- matrix(rnorm(20), nrow=2, ncol=10 ) 
 C <- matrix(rnorm(36), nrow=6, ncol=6 ) 
@@ -571,7 +593,7 @@ like shown below
 ```{r}
 # Note the "[" is a separator
 # The following line extracts first row from all matrices
-lapply(MyList,"[",2, 1)
+lapply(MyList,`[`,2, 1)
 ```
 ##### sapply
 
@@ -581,30 +603,36 @@ lapply(MyList,"[",2, 1)
 Let us do the same lapply() function above
 
 ```{r}
-sapply(MyList,"[", 2, 1, simplify= F) # returns a List
+sapply(MyList,`[`, 2, 1) # returns a vector
+sapply(MyList,`[`, 2, 1:2) # returns a matrix
 
-sapply(MyList,"[", 2, 1, simplify= T) # returns a vector
+sapply(MyList,`[`, 2, 1, simplify= FALSE) # returns a list
 ```
 
 #### tapply
 
-Let us use tapply on mpg dataset from ggplot2
+Let us use tapply on mpg dataset from ggplot2. This applys a function in a similar fashion to `sapply()`, but uses the second argument to break up the first argument into sub-groups.
 ```{r}
 tapply(mpg$hwy, mpg$cyl, mean)
+
+# same output using sapply()
+sapply(as.character(unique(mpg$cyl)), function(x) mean(mpg$hwy[mpg$cyl == x]))
+# well, almost same output... order is off
 ```
 
 
 #### Related function to apply() function. 
-NEED TO FILL IN 
+NEED TO FILL IN ???
 
 
 #Finally Cleaning up
 
 ```{r, eval = FALSE }
-objects() # what vars do you have in your env
+objects() # what vars do you have in your global environment
 search() #what is attached
-#to remove, use rm(object)
-detach(dataframe) 
+# to remove, use rm(object)
+# to detach a package or data frame, use detach(data.frame)
+# Warning: It is almost always a bad idea to attach a data.frame
 ```
 
 
