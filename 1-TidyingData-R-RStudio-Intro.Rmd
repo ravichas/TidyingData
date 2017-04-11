@@ -635,6 +635,11 @@ search() #what is attached
 # Warning: It is almost always a bad idea to attach a data.frame
 ```
 
+If you are ever tempted to use `attach()`, you are probably better off using `with()`. For example, if you want to make the `tapply()` example above a little more readable:
+
+```{r, with}
+with(mpg, tapply(hwy, cyl, mean))
+```
 
 In the tidyverse the commonly returning objects are not data.frame but tibbles.
 So, let us introduce tibble in the next section. 

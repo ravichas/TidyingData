@@ -130,7 +130,17 @@ Here is a short description of the data file from the NEISS.
 fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
 
 Before you read in the data, please source the following file: **Data/NEISSlabels.R**
-This file will provide human readable labels for the codes in the nss15 dataset. 
+This file will provide human readable labels for the codes in the nss15 dataset. You may also find the `get_label()` function in this file useful. For example, if you want to get body part codes for `c(0, 33, 37, 33)`, you could do it like so:
+
+```{r get label}
+source('Data/NEISSlabels.R')
+# the hard/ugly way
+sapply(c(0, 33, 37, 33), function(x) which(body_part == x)) %>%
+	names()
+
+# the easy way
+get_label(c(0, 33, 37, 33), body_part)
+```
 
 Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
 
