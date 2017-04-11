@@ -268,7 +268,7 @@ as.data.frame(df)
 ### <span style="color:green">Tibble Exercise-2</span>
 
 Create a new tibble with the following information:
-  name, age, height, weight, smoker (T or F), Male (True or Fale)
+  name, age, height, weight, smoker (T or F), Male (True or False)
  compare the tibble with the R data_frame
 
 
