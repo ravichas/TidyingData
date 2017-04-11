@@ -1,18 +1,27 @@
 ---
 title: "BTEP-R/RStudio-Intro"
 author: "Drs. Sarangan Ravichandran and Randall Johnson"
-date: "February 26, 2017"
+date: "May 16, 2017"
 output: github_document
 ---
 ### Cleaning up
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-Before we begin, let us clean up the environment and set a working directory. This will clear all the variables and start fresh. If you want to follow on, then we suggest you to run the 
-following lines. 
+Before we begin, let us clean up the environment and set a working directory. 
+This will clear all the variables and start fresh. 
+If you want to follow on, then we suggest you set your working directory to the root directory of your local copy of the TidyingData repository.
 
+You can get and set a working directory by the following commands: 
+```{r, eval = FALSE}
+getwd()
+setwd("<TidyingData_Directory>")
+# for example:
+# setwd("H:/2017/BTEP1-TidyingData")
+```
+
+You may also want to clear your workspace.
 ```{r CleanSetRoot, eval = FALSE}
-setwd("H:/2017/BTEP1-TidyingData")
 rm(list = ls())
 ```
 
@@ -35,7 +44,7 @@ So, let us introduce tibble in this section.
 
 What is tibble?
 
-- modern way or loooking at the traditional data.frame 
+- modern way of loooking at the traditional data.frame 
 - you will get a lot more useful information than the data.frames
 - tibble is part of tibble package and part of the core tidyverse package
  
@@ -99,12 +108,13 @@ the variable type without asking (ex Character to Factor)
 
 ### Map function example
 
+```{r eval = FALSE}
 purr::map_dbl(mtcars, mean)
 purrr:map_dbl(mtcars, mean)
 
 tb1 <- as.tibble( Color = "red")
 tb1$C  
-
+```
 
 you can coerce regular R data frame into tibble. Let us look at the R dataset, cars.
 Let us learn about cars datset 
@@ -221,7 +231,7 @@ t2
 ## Subsetting 
 
 - \$ by name
--    
+- `[[` works for column numbers, names, or variables containing names
 
 ```{r}
 
@@ -233,6 +243,11 @@ df <- tibble(
 df$x
 
 df[[1]]
+
+df[['x']]
+
+pick_me <- 'x'
+df[[pick_me]]
 ```
 
 Can you use Tibble in a pipeline?
@@ -243,7 +258,7 @@ df %>% .$x
 df %>% .[["y"]]
 ```
 
-What happens if tibble doesnt work with a package? 
+What happens if tibble doesnt work with a package? This is rare -- we only know of one package where tibbles don't quite work, and even then they mostly work as expected. 
 Transform Tibble back to a data.frame using the following command:
 ```{r}
 as.data.frame(df)
@@ -284,8 +299,8 @@ Here is a short description of the data file from the NEISS.
 *"Each record (case) is separated by a carriage return/line feed, and the
 fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
 
-Before you read in the data, please take a look at the following two files: **NEISS_SAS_formats.txt** and **NEISS_SAS_variance.txt** 
-These two files will act as the codebook for the data. 
+Before you read in the data, please source the following file: **Data/NEISSlabels.R**
+This file will provide human readable labels for the codes in the nss15 dataset. 
 
 Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
 
