@@ -594,6 +594,12 @@ like shown below
 # Note the "[" is a separator
 # The following line extracts first row from all matrices
 lapply(MyList,`[`,2, 1)
+# this is equivalent to
+list(MyList[[1]][2,1],
+     MyList[[2]][2,1],
+     MyList[[3]][2,1]
+     )
+
 ```
 ##### sapply
 
@@ -619,10 +625,6 @@ tapply(mpg$hwy, mpg$cyl, mean)
 sapply(as.character(unique(mpg$cyl)), function(x) mean(mpg$hwy[mpg$cyl == x]))
 # well, almost same output... order is off
 ```
-
-
-#### Related function to apply() function. 
-NEED TO FILL IN ???
 
 
 #Finally Cleaning up
