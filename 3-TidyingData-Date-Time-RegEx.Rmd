@@ -1,13 +1,14 @@
 ---
 title: "BTEP-DateTime"
 author: "Drs. Sarangan Ravichandran and Randall Johnson"
-date: "February 26, 2017" 
+date: "May 16, 2017" 
 output: github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
+
+library(knitr)
 ```
 Let us load the libraries
 ```{r loadlibraries}
@@ -33,16 +34,14 @@ Sys.Date()
 
 ```
 
-If you use <cod> ?as.date </code>, you will see the formats that 
+If you use <code> ?as.date </code>, you will see the formats that 
 the function takes. 
-```{r kable}
+```{r kable, echo = FALSE}
 Code <- c("%d", "%m","%b","%B","%y","%Y")
 Value <- c("Day of the month (decimal numeber)", "Month(decimal number)", "Month (abbreviation)",
            "Month(full name)", "Year (2 digit)", "Year (4 digit)")
-library(knitr)
 tibble1 <- tibble(Code, Value)
 kable(tibble1)
-
 ```
 
 The function <pre> <code> as.Date </code> </pre> expects the date to be in the - separated format. 
@@ -66,7 +65,7 @@ Negative numebrs indicate seconds before this time.
 
 - Type of vector
 
-```{r kable1}
+```{r kable1, echo = FALSE}
 Position <- 1:9
 Value <- c("seconds","minutes","hours","day of the month (1-31)", "month of the year (0-11)", 
            "years since 1900", "day of the week (0: Sunday - 6: Saturday)", "Day of the year (0-365)",
@@ -94,7 +93,7 @@ lapply(timelt, function(x) print(x))
 ### How can we use the time? 
  
 ```{r}
- timenow <- Sys.time()
+timenow <- Sys.time()
 timenow
 timenow - 30 # 30 seconds earlier 
 
@@ -109,7 +108,8 @@ Two commands that can help us accomplish this, strftime and strptime.
 strftime: converts a time data and convert it to a string
 strptime: converts a sting and convert it to Date/time format suitable for R calculations
 ```{r}
-string_timenow <- strftime(timenow, "%Y-%m-%d %H:%M:%S")  #"2017-03-07 15:52:03 EST"
+# note the default format for this is "%Y-%m-%d %H:%M:%S"
+string_timenow <- strftime(timenow)  #"2017-03-07 15:52:03 EST"
 string_timenow
 class(string_timenow)
 class(timenow)
@@ -129,8 +129,8 @@ Here is a short description of the data file from the NEISS.
 *"Each record (case) is separated by a carriage return/line feed, and the
 fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
 
-Before you read in the data, please take a look at the following two files: **NEISS_SAS_formats.txt** and **NEISS_SAS_variance.txt** 
-These two files will act as the codebook for the data. 
+Before you read in the data, please source the following file: **Data/NEISSlabels.R**
+This file will provide human readable labels for the codes in the nss15 dataset. 
 
 Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
 
