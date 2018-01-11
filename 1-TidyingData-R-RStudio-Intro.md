@@ -1,14 +1,26 @@
 BTEP-R/RStudio-Intro
 ================
 Drs. Sarangan Ravichandran and Randall Johnson
-February 26, 2017
+May 16, 2017
 
 ### Cleaning up
 
-Before we begin, let us clean up the environment and set a working directory. This will clear all the variables and start fresh. If you want to follow on, then we suggest you to run the following lines.
+Before we begin, let us clean up the environment and set a working directory. This will clear all the variables and start fresh. If you want to follow on, then we suggest you set your working directory to the root directory of the TidyingData repository, which you can download here: <https://github.com/ravichas/TidyingData>. For those unfamiliar with Git, it is probably easiest to download by clicking on the green "Clone or Download" button, choosing the "Download ZIP" option as shown below.
+
+![](Images/DownloadRepo.png)
+
+You can get and set a working directory by the following commands:
 
 ``` r
-setwd("H:/2017/BTEP1-TidyingData")
+getwd()
+setwd("<TidyingData_Directory>")
+# for example:
+# setwd("H:/2017/BTEP1-TidyingData")
+```
+
+You may also want to clear your workspace.
+
+``` r
 rm(list = ls())
 ```
 
@@ -22,12 +34,20 @@ Let us first load the libraries needed for the workshop
 library(tidyverse)
 ```
 
+    ## Warning: package 'tidyverse' was built under R version 3.3.3
+
     ## Loading tidyverse: ggplot2
     ## Loading tidyverse: tibble
     ## Loading tidyverse: tidyr
     ## Loading tidyverse: readr
     ## Loading tidyverse: purrr
     ## Loading tidyverse: dplyr
+
+    ## Warning: package 'tibble' was built under R version 3.3.3
+
+    ## Warning: package 'tidyr' was built under R version 3.3.3
+
+    ## Warning: package 'readr' was built under R version 3.3.3
 
     ## Conflicts with tidy packages ----------------------------------------------
 
@@ -72,7 +92,7 @@ The following few lines will explain how to read in a data file via R command-li
 Please note that we will be using **readr** function for this section. Note that **read\_csv** is different than **read.csv**
 
 -   read\_csv(), read\_csv2()
--   Note that read\_csv2 and read\_csv are same except for what options are default
+-   Note that read\_csv2 and read\_csv are same, except read\_csv2 assumes ';' for separators, instead of ','
 -   The returning objects from read\_csv and read.csv are different (DF vs tibbles)
 -   Other read functions, read\_tsv() and read\_delim()
 
@@ -197,72 +217,20 @@ read_csv("Data/WHO-2a.csv", comment = "#")
 
 -   Speed (~ 10x)
 -   Output from readr is Tibbles (we will expand on this later)
--   Base R taps into OS where it is executed. But readr functions are OS independent and hence reproducible
-
-you can get and set a working directory by the following commands:
-
-``` r
-getwd()
-setwd("YOUR_DIR"")
-```
+-   Base R taps into OS where it is executed. But readr functions are OS independent and hence more reproducible
 
 #### SessionInfo
 
-Main development in R happens via packages. There are several hundred packages and the number is growing every day. Let us find out how many packages are there.
+Main development in R happens via packages. There thousands of packages and the number is growing every day. Let us find out how many packages are there.
 
 ``` r
-head(available.packages(repos = "http://cran.us.r-project.org"))
+str(available.packages(repos = "http://cran.us.r-project.org"))
 ```
 
-    ##             Package       Version Priority
-    ## A3          "A3"          "1.0.0" NA      
-    ## abbyyR      "abbyyR"      "0.5.0" NA      
-    ## abc         "abc"         "2.1"   NA      
-    ## ABCanalysis "ABCanalysis" "1.2.1" NA      
-    ## abc.data    "abc.data"    "1.0"   NA      
-    ## abcdeFBA    "abcdeFBA"    "0.4"   NA      
-    ##             Depends                                              
-    ## A3          "R (>= 2.15.0), xtable, pbapply"                     
-    ## abbyyR      "R (>= 3.2.0)"                                       
-    ## abc         "R (>= 2.10), abc.data, nnet, quantreg, MASS, locfit"
-    ## ABCanalysis "R (>= 2.10)"                                        
-    ## abc.data    "R (>= 2.10)"                                        
-    ## abcdeFBA    "Rglpk,rgl,corrplot,lattice,R (>= 2.10)"             
-    ##             Imports                            LinkingTo
-    ## A3          NA                                 NA       
-    ## abbyyR      "httr, XML, curl, readr, progress" NA       
-    ## abc         NA                                 NA       
-    ## ABCanalysis "plotrix"                          NA       
-    ## abc.data    NA                                 NA       
-    ## abcdeFBA    NA                                 NA       
-    ##             Suggests                               Enhances
-    ## A3          "randomForest, e1071"                  NA      
-    ## abbyyR      "testthat, rmarkdown, knitr (>= 1.11)" NA      
-    ## abc         NA                                     NA      
-    ## ABCanalysis NA                                     NA      
-    ## abc.data    NA                                     NA      
-    ## abcdeFBA    "LIM,sybil"                            NA      
-    ##             License              License_is_FOSS License_restricts_use
-    ## A3          "GPL (>= 2)"         NA              NA                   
-    ## abbyyR      "MIT + file LICENSE" NA              NA                   
-    ## abc         "GPL (>= 3)"         NA              NA                   
-    ## ABCanalysis "GPL-3"              NA              NA                   
-    ## abc.data    "GPL (>= 3)"         NA              NA                   
-    ## abcdeFBA    "GPL-2"              NA              NA                   
-    ##             OS_type Archs MD5sum NeedsCompilation File
-    ## A3          NA      NA    NA     "no"             NA  
-    ## abbyyR      NA      NA    NA     "no"             NA  
-    ## abc         NA      NA    NA     "no"             NA  
-    ## ABCanalysis NA      NA    NA     "no"             NA  
-    ## abc.data    NA      NA    NA     "no"             NA  
-    ## abcdeFBA    NA      NA    NA     "no"             NA  
-    ##             Repository                                
-    ## A3          "http://cran.us.r-project.org/src/contrib"
-    ## abbyyR      "http://cran.us.r-project.org/src/contrib"
-    ## abc         "http://cran.us.r-project.org/src/contrib"
-    ## ABCanalysis "http://cran.us.r-project.org/src/contrib"
-    ## abc.data    "http://cran.us.r-project.org/src/contrib"
-    ## abcdeFBA    "http://cran.us.r-project.org/src/contrib"
+    ##  chr [1:11016, 1:17] "A3" "abbyyR" "abc" "ABCanalysis" ...
+    ##  - attr(*, "dimnames")=List of 2
+    ##   ..$ : chr [1:11016] "A3" "abbyyR" "abc" "ABCanalysis" ...
+    ##   ..$ : chr [1:17] "Package" "Version" "Priority" "Depends" ...
 
 To get a detailed description of the attached packages and R session, use
 
@@ -286,20 +254,20 @@ sessionInfo()
     ## 
     ## other attached packages:
     ## [1] lubridate_1.6.0 knitr_1.15.1    dplyr_0.5.0     purrr_0.2.2    
-    ## [5] readr_1.0.0     tidyr_0.6.1     tibble_1.2      ggplot2_2.2.1  
+    ## [5] readr_1.1.0     tidyr_0.6.3     tibble_1.3.0    ggplot2_2.2.1  
     ## [9] tidyverse_1.1.1
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_0.12.8      plyr_1.8.4       forcats_0.2.0    tools_3.3.2     
-    ##  [5] digest_0.6.11    jsonlite_1.2     evaluate_0.10    nlme_3.1-128    
-    ##  [9] gtable_0.2.0     lattice_0.20-34  psych_1.6.12     DBI_0.5-1       
-    ## [13] yaml_2.1.14      parallel_3.3.2   haven_1.0.0      xml2_1.1.0      
-    ## [17] stringr_1.1.0    httr_1.2.1       hms_0.3          rprojroot_1.2   
-    ## [21] grid_3.3.2       R6_2.2.0         readxl_0.1.1     foreign_0.8-67  
-    ## [25] rmarkdown_1.3    modelr_0.1.0     reshape2_1.4.2   magrittr_1.5    
-    ## [29] backports_1.0.5  scales_0.4.1     htmltools_0.3.5  rvest_0.3.2     
-    ## [33] assertthat_0.1   mnormt_1.5-5     colorspace_1.3-2 stringi_1.1.2   
-    ## [37] lazyeval_0.2.0   munsell_0.4.3    broom_0.4.1
+    ##  [1] Rcpp_0.12.10     cellranger_1.1.0 plyr_1.8.4       forcats_0.2.0   
+    ##  [5] tools_3.3.2      digest_0.6.12    jsonlite_1.4     evaluate_0.10   
+    ##  [9] nlme_3.1-131     gtable_0.2.0     lattice_0.20-35  psych_1.7.3.21  
+    ## [13] DBI_0.6-1        yaml_2.1.14      parallel_3.3.2   haven_1.0.0     
+    ## [17] xml2_1.1.1       stringr_1.2.0    httr_1.2.1       hms_0.3         
+    ## [21] rprojroot_1.2    grid_3.3.2       R6_2.2.0         readxl_1.0.0    
+    ## [25] foreign_0.8-67   rmarkdown_1.4    modelr_0.1.0     reshape2_1.4.2  
+    ## [29] magrittr_1.5     backports_1.0.5  scales_0.4.1     htmltools_0.3.5 
+    ## [33] rvest_0.3.2      assertthat_0.2.0 mnormt_1.5-5     colorspace_1.3-2
+    ## [37] stringi_1.1.5    lazyeval_0.2.0   munsell_0.4.3    broom_0.4.2
 
 ### R basics
 
@@ -310,12 +278,12 @@ sessionInfo()
 
 ### Availability
 
--   Base R and R core packages can be downloaded from
--   Comprehensive R Archive Network (CRAN)
+-   Base R and R core packages can be downloaded from Comprehensive R Archive Network (CRAN)
 -   Available in Windows/Linux/Mac0
 -   cran.r-project.org
 -   How to interact with R?
 -   RGUI RStudio (preferred for the class)
+-   There are other repositories (notably, Bioconductor), but we won't cover these in detail today.
 
 ### RStudio basics
 
@@ -328,18 +296,6 @@ sessionInfo()
 -   six basic types of atomic vectors:
 -   doubles, integers, characters, logicals, complex, and raw
 -   last two are not very important and we will not discuss further
-
-``` r
-complex(1,2)
-```
-
-    ## [1] 2+0i
-
-``` r
-raw(2) # bytes of numbers
-```
-
-    ## [1] 00 00
 
 #### Integer variables
 
@@ -444,7 +400,6 @@ Run the following line. you will get an error message. Why?
 
 ### Everything is a vector object in R
 
--   Variable names should not contain number, no underscore etc.
 -   Don't mix numbers and character in a vector
 -   If you mix data types (coersion; un-expected outcomes)
 
@@ -494,18 +449,29 @@ RStudio environment pane displayes the stored variables
 
 ### What are acceptable and non acceptable variable names in R ?
 
-| No    | Yes  |
-|:------|:-----|
-| 1run  | run1 |
-| b$    | b    |
-| ^mean | mean |
-| !var1 | var1 |
+-   Variable names should start with a character (i.e. not a number, underscore, etc.). Exception: variable names can start with a '.', and these variables will not be listed in the output of `ls()`.
+-   Numbers, underscores, and dots are accepted within variable names
+
+| Acceptable | Unacceptable |
+|:-----------|:-------------|
+| 1run       | run1         |
+| b$         | b            |
+| ^mean      | mean         |
+| !var1      | var1         |
+| \_x1       | x\_1         |
+|            | .x           |
 
 ### Variable names are case-sensitive and can be over-written
 
 ``` r
 var1 <- 2
 VAR1 <- 1 
+var1 + VAR1
+```
+
+    ## [1] 3
+
+``` r
 (var1 <- 100) # overwrite 
 ```
 
@@ -516,29 +482,35 @@ VAR1 <- 1
 Hint: You can also use the Global Environment pane in RStudio for extracting this information
 
 ``` r
-ls() # to see what variables you have so far
+ls() # to see what (non-hidden) variables are in the current working environment
 ```
 
     ##  [1] "aa"   "ages" "ca"   "df"   "ia"   "ia1"  "M"    "ncsv" "No"   "ra"  
     ## [11] "tcsv" "var1" "VAR1" "Yes"
 
 ``` r
-list.files()  # to see the list of files
+list.files()  # to see the list of files in the current working directory
 ```
 
-    ##  [1] "1-TidyingData-R-RStudio-Intro.Rmd"
-    ##  [2] "2-TidyingData-TBL-TIDYING.Rmd"    
-    ##  [3] "3-TidyingData-Date-Time.Rmd"      
-    ##  [4] "4-TidyingData-ReprodResearch.Rmd" 
-    ##  [5] "5-TidyingData-FinalExercise.Rmd"  
-    ##  [6] "Data"                             
-    ##  [7] "Images"                           
-    ##  [8] "MyStuff"                          
-    ##  [9] "R-RStudio-InstallationInstrns"    
-    ## [10] "Readme"                           
-    ## [11] "README.md"                        
-    ## [12] "TidyingData-figure"               
-    ## [13] "TidyingData-R-RStudio-Intro_files"
+    ##  [1] "1-TidyingData-R-RStudio-Intro.md"   
+    ##  [2] "1-TidyingData-R-RStudio-Intro.Rmd"  
+    ##  [3] "1-TidyingData-R-RStudio-Intro_files"
+    ##  [4] "2-TidyingData-TBL-TIDYING.md"       
+    ##  [5] "2-TidyingData-TBL-TIDYING.Rmd"      
+    ##  [6] "2-TidyingData-TBL-TIDYING_files"    
+    ##  [7] "3-TidyingData-Date-Time-RegEx.md"   
+    ##  [8] "3-TidyingData-Date-Time-RegEx.Rmd"  
+    ##  [9] "4-TidyingData-ReprodResearch.md"    
+    ## [10] "4-TidyingData-ReprodResearch.Rmd"   
+    ## [11] "5-TidyingData-FinalExercise.Rmd"    
+    ## [12] "Data"                               
+    ## [13] "Images"                             
+    ## [14] "MyStuff"                            
+    ## [15] "R-RStudio-InstallationInstrns"      
+    ## [16] "Readme"                             
+    ## [17] "README.md"                          
+    ## [18] "TidyingData-figure"                 
+    ## [19] "TidyingData-R-RStudio-Intro_files"
 
 ### For the following section, let us use a 6-sided die and do some Data analysis.
 
@@ -609,10 +581,16 @@ pi # not PI
 ### let us round numbers
 
 ``` r
-round(pi, 10) # what happened here
+round(pi, 10) # what happened here?
 ```
 
     ## [1] 3.141593
+
+``` r
+sprintf('%.10f', round(pi, 10))
+```
+
+    ## [1] "3.1415926536"
 
 ``` r
 round(pi, 2)
@@ -687,6 +665,7 @@ sample(die, size = 7)
 ### Can we change the default of sample function?
 
 ``` r
+set.seed(243798)
 p <- c(rep(0.01,5), 0.95)
 sample(x = die, size = 10, replace = TRUE, prob = p)
 ```
@@ -696,38 +675,40 @@ sample(x = die, size = 10, replace = TRUE, prob = p)
 ### Do we always have to use the arguments name? What if we dont?
 
 ``` r
+set.seed(9274983)
 sample(die, 10, replace = TRUE)
 ```
 
-    ##  [1] 2 4 1 3 3 4 4 1 6 4
+    ##  [1] 1 4 6 3 3 2 5 1 3 4
 
 ``` r
 sample(die, 10, TRUE) #  define them explicitely
 ```
 
-    ##  [1] 2 4 6 4 5 6 3 1 6 2
+    ##  [1] 4 6 1 2 1 5 4 4 4 2
 
 ``` r
 sample(x = die, size = 6, replace = TRUE)
 ```
 
-    ## [1] 1 1 4 5 5 1
+    ## [1] 3 5 6 6 2 5
 
 ### Let us roll the die multiple times
 
 ``` r
+set.seed(438927)
 # First roll
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 6 2
+    ## [1] 6 3
 
 ``` r
 # one more roll
 sample(x = die, size = 2, replace = TRUE) # def prob
 ```
 
-    ## [1] 3 2
+    ## [1] 6 6
 
 ### Random numbers
 
@@ -743,8 +724,8 @@ args(round)
 
 -   Function constructor (like C++) has three parts
 -   1.  name
--   1.  body (of code)
 -   1.  arguments
+-   1.  body (of code)
 -   function() { \#\#\# }
 
 ### Let us build a function
@@ -754,6 +735,28 @@ dist <- function(a, b) {
   distsq <- sum( (b - a)^2 )
   sqrt(distsq)
 }
+```
+
+Be careful when creating variables with the same name as variables that already exist!
+
+``` r
+# this isn't evaluated, but give it a try
+sum <- function(x) prod(x)
+
+sum(1:4)
+```
+
+    ## [1] 24
+
+``` r
+base::sum(1:4)
+```
+
+    ## [1] 10
+
+``` r
+# probably don't want this function lying around
+rm(sum)
 ```
 
 Let us call the function with inputs
@@ -780,7 +783,7 @@ sqrt(distsq)
 
 ### Installing and using packages in R
 
--   R comes with core packages (basic). There are several packages available for R (Ex. Tidyverse)
+-   R comes with core packages (base R). There are several packages available for R (Ex. Tidyverse)
 -   How can I install a package? <code>install.packages("foreign") \# to install foreign package </code>
 -   After installation, you have load the package, using the following command
     <pre> <code> 
@@ -790,7 +793,7 @@ sqrt(distsq)
 
 After using a package, use
 <pre>detach(foreign)</pre>
-to remove a package (ex. foreign package) from the workspace.
+to remove a package (ex. foreign package) from the seach space.
 
 Use
 <pre> SessionInfo() </pre>
@@ -823,7 +826,7 @@ dist(a,b)
 
 ### plots
 
-Here we will explore the basic plots in R. Watch out for future graphics workshop using R, where we will explore the new and powerful ggplot function For now, we will focus on simple plots.
+Here we will explore the basic plots in R. Watch out for future graphics workshop using R, where we will explore the new and powerful ggplot function For now, we will focus on a few simple, base R graphics functions.
 
 ``` r
 x <- runif(1000)
@@ -846,7 +849,7 @@ boxplot(x, col = "red")
 
 ### Read and Write, compressed file
 
-write.csv(lcancer, file = bzfile("data/lcaner.csv.bz2"), row.names = FALSE)
+`write.csv(lcancer, file = bzfile("data/lcaner.csv.bz2"), row.names = FALSE)`
 
 ### Some useful functions
 
@@ -988,10 +991,10 @@ cars$dist
     ## [18]  34  46  26  36  60  80  20  26  54  32  40  32  40  50  42  56  76
     ## [35]  84  36  46  68  32  48  52  56  64  66  54  70  92  93 120  85
 
-If you noticed that data.frame has unique data type for each column. If I want to create an object with mixed types. What I need is a list
+If you noticed that data.frame has unique data type for each column. Use of `data.frame()` will allow this, but will force you to have the same number of elements in every variable. If you want to include variables with varying lengths, you will want a `list()`.
 
 ``` r
-mylist <- list(a = 1:10, b = LETTERS[1:10], c = 11:20L)
+mylist <- list(a = 1:10, b = LETTERS[1:10], c = 11:20L, d = "Hello")
 mylist
 ```
 
@@ -1003,6 +1006,9 @@ mylist
     ## 
     ## $c
     ##  [1] 11 12 13 14 15 16 17 18 19 20
+    ## 
+    ## $d
+    ## [1] "Hello"
 
 ``` r
 mylist[[1]]
@@ -1027,7 +1033,7 @@ INF<-3/0 # Inf or -Inf
 
 ``` r
 #diff between Inf and NA (not a number) 
-!is.na(Inf)
+!is.na(INF)
 ```
 
     ## [1] TRUE
@@ -1101,7 +1107,7 @@ sum(x[x>5])
 X <- matrix(rnorm(30), nrow=6, ncol=5 )
 
 #or
-#X <- (rnorm(30), 6, 5 )
+#X <- matrix(rnorm(30), 6, 5)
 # I prefer the previous form
 ```
 
@@ -1111,7 +1117,7 @@ If we want to sum up the columns, you can use apply function. Let us first learn
 apply(X, 2, sum)
 ```
 
-    ## [1]  2.1583510 -5.8446743  2.2729479  0.1641634  2.6130564
+    ## [1] -4.381211 -5.368061 -1.476637  3.549977  4.389767
 
 ### <span style="color:green">Apply Exercise-1</span>
 
@@ -1123,6 +1129,7 @@ apply(X, 2, sum)
 -   output is always a list
 
 ``` r
+set.seed(239874)
 A <- matrix(rnorm(30), nrow=6, ncol=5 ) 
 B <- matrix(rnorm(20), nrow=2, ncol=10 ) 
 C <- matrix(rnorm(36), nrow=6, ncol=6 ) 
@@ -1135,17 +1142,34 @@ To sum up all the columns in each of the matrices, we can write a code like show
 ``` r
 # Note the "[" is a separator
 # The following line extracts first row from all matrices
-lapply(MyList,"[",2, 1)
+lapply(MyList,`[`,2, 1)
 ```
 
     ## [[1]]
-    ## [1] 0.4379665
+    ## [1] 0.1427079
     ## 
     ## [[2]]
-    ## [1] 0.4314612
+    ## [1] -0.7294621
     ## 
     ## [[3]]
-    ## [1] 0.1533705
+    ## [1] 1.025598
+
+``` r
+# this is equivalent to
+list(MyList[[1]][2,1],
+     MyList[[2]][2,1],
+     MyList[[3]][2,1]
+     )
+```
+
+    ## [[1]]
+    ## [1] 0.1427079
+    ## 
+    ## [[2]]
+    ## [1] -0.7294621
+    ## 
+    ## [[3]]
+    ## [1] 1.025598
 
 ##### sapply
 
@@ -1155,27 +1179,35 @@ lapply(MyList,"[",2, 1)
 Let us do the same lapply() function above
 
 ``` r
-sapply(MyList,"[", 2, 1, simplify= F) # returns a List
+sapply(MyList,`[`, 2, 1) # returns a vector
+```
+
+    ## [1]  0.1427079 -0.7294621  1.0255978
+
+``` r
+sapply(MyList,`[`, 2, 1:2) # returns a matrix
+```
+
+    ##            [,1]       [,2]       [,3]
+    ## [1,]  0.1427079 -0.7294621 1.02559778
+    ## [2,] -0.5035557  0.2805829 0.08477751
+
+``` r
+sapply(MyList,`[`, 2, 1, simplify= FALSE) # returns a list
 ```
 
     ## [[1]]
-    ## [1] 0.4379665
+    ## [1] 0.1427079
     ## 
     ## [[2]]
-    ## [1] 0.4314612
+    ## [1] -0.7294621
     ## 
     ## [[3]]
-    ## [1] 0.1533705
-
-``` r
-sapply(MyList,"[", 2, 1, simplify= T) # returns a vector
-```
-
-    ## [1] 0.4379665 0.4314612 0.1533705
+    ## [1] 1.025598
 
 #### tapply
 
-Let us use tapply on mpg dataset from ggplot2
+Let us use tapply on mpg dataset from ggplot2. This applys a function in a similar fashion to `sapply()`, but uses the second argument to break up the first argument into sub-groups.
 
 ``` r
 tapply(mpg$hwy, mpg$cyl, mean)
@@ -1184,18 +1216,36 @@ tapply(mpg$hwy, mpg$cyl, mean)
     ##        4        5        6        8 
     ## 28.80247 28.75000 22.82278 17.62857
 
-#### Related function to apply() function.
+``` r
+# same output using sapply()
+sapply(as.character(unique(mpg$cyl)), function(x) mean(mpg$hwy[mpg$cyl == x]))
+```
 
-NEED TO FILL IN
+    ##        4        6        8        5 
+    ## 28.80247 22.82278 17.62857 28.75000
+
+``` r
+# well, almost same output... order is off
+```
 
 Finally Cleaning up
 ===================
 
 ``` r
-objects() # what vars do you have in your env
+objects() # what vars do you have in your global environment
 search() #what is attached
-#to remove, use rm(object)
-detach(dataframe) 
+# to remove, use rm(object)
+# to detach a package or data frame, use detach(data.frame)
+# Warning: It is almost always a bad idea to attach a data.frame
 ```
+
+If you are ever tempted to use `attach()`, you are probably better off using `with()`. For example, if you want to make the `tapply()` example above a little more readable:
+
+``` r
+with(mpg, tapply(hwy, cyl, mean))
+```
+
+    ##        4        5        6        8 
+    ## 28.80247 28.75000 22.82278 17.62857
 
 In the tidyverse the commonly returning objects are not data.frame but tibbles. So, let us introduce tibble in the next section.
