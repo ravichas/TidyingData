@@ -9,7 +9,7 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 Before we begin, let us clean up the environment and set a working directory. 
-This will clear all the variables and start fresh. 
+Please note that this step will clear all the variables and start fresh. 
 If you want to follow on, then we suggest you set your working directory to the root directory of the TidyingData repository, which you can download here: https://github.com/ravichas/TidyingData. For those unfamiliar with Git, it is probably easiest to download by clicking on the green "Clone or Download" button, choosing the "Download ZIP" option as shown below.
 
 ![](Images/DownloadRepo.png)
