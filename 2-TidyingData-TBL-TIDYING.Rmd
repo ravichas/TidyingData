@@ -1,5 +1,5 @@
 ---
-title: "BTEP-R/RStudio-Intro"
+title: "BTEP-Tibl-Tidying"
 author: "Drs. Sarangan Ravichandran and Randall Johnson"
 date: "May 16, 2017"
 output: github_document
