@@ -1,5 +1,4 @@
-# TidyingData
-BTEP Workshop-1: Statistics for Biologists
+# Stataistics for Lunch: Tidying Data
 
 Drs. S. Ravichandran and Randy Johnson
 
