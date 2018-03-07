@@ -18,13 +18,13 @@ up, run the following commands within RStudio:
 Computer setup
 --------------
 
-Computers in the traning room will have R, RStudio, and the packages
+Computers in the training room will have R, RStudio, and the packages
 we'll be using installed, but if you would like to bring your own
 computer, please install the following:
 
 -   [R](https://cran.r-project.org)
 -   [RStudio](https://www.rstudio.com/products/rstudio/download/)
--   R packages:
+-   R packages (you can install these using the code below):
     -   [tidyverse](https://www.tidyverse.org/)
     -   [biobroom](https://bioconductor.org/packages/release/bioc/html/biobroom.html)
 
@@ -46,3 +46,5 @@ indicating your computer is setup properly, or it will throw an error
 with information on missing packages.
 
     source('https://raw.githubusercontent.com/ravichas/TidyingData/master/Prework/systemCheck.R')
+
+    ## [1] "Your machine is ready for the Data Tidying seminar."
