@@ -284,6 +284,35 @@ To access the documentation for a function, use the `?` command (e.g. `?sum` wil
 When encountering a problem, you can assume someone else has already experienced the same problem. There are lots of help lists out here (e.g. R-help, Sourceforge), and many people blog about their favorite R hacks. Start by typing your question or copy/paste your error message into Google and go from there.
 
 
+## Pipe
+
+The pipe, `%>%`, from the magrittr package is worth mentioning here - we will use it extensively in this seminar). The pipe serves the same funciton as `|` does in bash: it uses the output from the statement on the left and passes it as input to the statement on the right. This results in much cleaner, easy to read code. For example:
+
+```{r pipe}
+meta <- c('001_male_age:42',
+          '002_female_age:36',
+          '003_male_age:34',
+          '004_male_age:72',
+          '005_female_age:23',
+          '006_female_age:63')
+
+# three equivalent statements used to parse the metadata stored in meta, 
+# to get the age of all study subjects
+as.numeric(sapply(strsplit(sapply(strsplit(meta, '_'), `[`, 3), ':'), `[`, 2))
+
+tmp <- strsplit(meta, '_')
+tmp <- sapply(tmp, `[`, 3)
+tmp <- strsplit(tmp, ':')
+tmp <- sapply(tmp, `[`, 2)
+as.numeric(tmp)
+
+strsplit(meta, '_') %>%
+    sapply(`[`, 3) %>%
+    strsplit(':') %>%
+    sapply(`[`, 2) %>%
+    as.numeric()
+```
+
 # Starting Up
 
 ## Starting with a clean environment
