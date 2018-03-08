@@ -1,5 +1,5 @@
-#,Median consumer price ratio of selected generic medicines - Private,Median consumer price ratio of selected generic medicines - Public
-Country,2007-2013,2007-2013
+#Country,Median consumer price ratio of selected generic medicines - Private,Median consumer price ratio of selected generic medicines - Public
+Country,CPR_private,CPR_public
 Bahamas,15.9,2.2
 Bolivia (Plurinational State of),4.5,3.5
 Brazil,11.3,
