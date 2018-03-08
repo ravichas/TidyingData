@@ -1,0 +1,216 @@
+---
+title: "Data Tidying: Tidyverse Basics"
+author: "Drs. Sarangan Ravichandran and Randall Johnson"
+output: github_document
+---
+### Cleaning up
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(knitr)
+library(lubridate)
+```
+
+
+# Tibbles
+
+In the tidyverse the commonly returning objects are not data.frame but tibbles, which can be created with either the `tibble()` or `data_frame()` functions.
+
+What is tibble?
+
+- modern way of loooking at the traditional data.frame 
+- you will get a lot more useful information than the data.frames
+- tibble is part of tibble package and part of the core tidyverse package
+ 
+There is a nice vignette for working with tibbles, accessible using this command: `vignette("tibble")`.
+ 
+How to create a tibble? 
+```{r create-tibble}
+tibble(x = 1:5, 
+       y = LETTERS[1:5], 
+       z = x^2 + 20)
+```
+
+What is the differences between the base-R `data.frame` and `tibble` (`data_frame`)?
+
+```{r tibble vs data frame}
+(df <- data.frame(employee = c('John Wayne','Peter Doe','Esther Julie'),
+                  salary = c(20000, 23400, 26800), 
+                  startdate = as.Date(c('2016-12-1','2007-3-25','2016-3-14'))))
+
+as_tibble(df)
+```
+
+
+## Why Tibbles? 
+
+- `tibble()` doesnt change the inputs (i.e. it doesn't convert strings to factors).
+
+```{r}
+data.frame(x = letters[1:5]) %>%
+    str() # x converted into a factor
+
+data_frame(x = letters[1:5]) %>%
+    str() # no auto-conversion
+```
+
+- `tibble()` allows the use of variables within the function, making for neater code.
+
+```{r, error = TRUE}
+data.frame(x = 1:10,
+           y = x / 2) %>%
+    str()  # doesn't work
+
+dat <- data.frame(x = 1:10)
+dat$y <- dat$x / 2
+str(dat)
+
+data_frame(x = 1:10,
+           y = x / 2) %>%
+    str()
+```
+
+- `data.frame()` does partial string matching without warning you.
+
+```{r}
+data.frame(color = "red")$c
+
+data_frame(color = "red")$c
+```
+
+- The print method for tibbles is more user friendly.
+
+```{r}
+data(who)
+
+who # this is a tibble
+```
+```{r, eval = FALSE}
+as.data.frame(who) # try printing as a data.frame (output not shown here)
+```
+
+Why not use a tibble? There are a few packages that don't get along with tibbles (e.g. the missForest package). In this case, you may need to convert your tibble into a data.frame using `as.data.frame()`. 
+
+## Working with tibbles
+
+Here is a more complicated tibble, consisting of a random start time within +/- 12 hours of now and a random end time within the next 30 days (where "now" is relative to when this code is run).
+
+```{r complicatedtibble, results= 'asis'}
+# lubridate gives us the now() function
+require(lubridate)
+
+twelve_hours <- 43200 # seconds
+twenty4_hours <- 86400 # seconds
+
+n <- 1000
+set.seed(239847)
+(t2 <- tibble(
+    start   = now() +                      # random time within +/- 12 hours of now
+              runif(n, -twelve_hours, twelve_hours), 
+    end     = now() +                      # random time within the next 30 days
+              runif(n, 1, 30 * twenty4_hours),
+    elapsed = as.numeric(end - start, 
+                         units = 'hours'), # hours between time_of_day and day
+    l       = sample(letters, n, replace = TRUE)  # some letters
+))
+```
+
+### Adding rows
+
+You can add rows to a tibble, and using the `.before` option will allow you to specify where exactly to add the data (default, i.e. if you don't specify `.before`, is to put the new data at the end of the tibble).
+
+```{r add rows}
+# see our new row on line 2?
+(t2 <- t2 %>%
+       add_row(start   = now(),
+               end     = now() + 1,
+               elapsed = 24,
+               l       = 'f',
+               .before = 2))
+```
+
+### Subsetting
+
+You can use all the same indexing techniques described for data.frames in the [R/RStudio Intro](https://github.com/ravichas/TidyingData/blob/master/0-RStudio-Intro.md), or you can use one of the wrapper functions from the tidyverse:
+
+- filter(): Select specific rows from the `tibble`
+
+```{r filter}
+# pull all rows where elapsed number of hours is less than 72
+# looks like there are 102 observations (rows) that fit that criterion
+filter(t2, elapsed < 72)
+```
+
+- select(): Select specific columns from the `tibble`
+
+```{r select}
+# pull all start and end times
+select(t2, start, end)
+
+# or drop the l column
+select(t2, -l)
+```
+
+### Printing
+
+You can change the defaults of tibble display with options.
+
+```{r}
+tmp <- options()
+options(tibble.print_min = 6)
+t2
+
+# reset options
+options(tmp)
+```
+
+You can also use the `tibble.width = Inf` option to print all columns. There are more options documented at `package?tibble`.
+
+# Importing Data
+
+RStudio has a nice data import utility under File > Import Dataset. This will generate the code to repeat the import (i.e. so you can save it to your script).
+
+![](Images/RS-ImportDataset.png)
+
+If you are comfortable with writing the code directly, the following functions will import data into tibbles:
+
+- `?read_csv`: import comma separated values data
+- `?read_csv2`: import semicolon separated values data (European version of a csv)
+- `?read_tsv`: import tab delimited data
+- `?read_delim`: import a text file with data (e.g. space delimted)
+- `?read_excel`: import Excel formated data (either xls or xlsx format)
+
+If you are familiar with R you may recognize that there are data.frame generating counterparts from the utils package (e.g. `read.csv()` and `read.delim()`). Why would we want to use these function from the readr package over the base-R functions?
+
+- Speed (~ 10x) - this can make a big difference with very large data sets
+- Output from readr is a tibble
+- Base R taps into the OS where it is executed, but `readr` functions are OS independent and hence more consistent across platforms
+
+```{r read_csv}
+# returns a data.frame
+read.csv('Data/WHO-2a.csv')
+
+require(readr)
+# returns a tibble
+# also, note the helpful warning that several columns have the same name
+read_csv('Data/WHO-2a.csv')
+```
+
+## Comments/Metadata
+
+Sometimes, there will be extra metadata at the top of a file, often preceded with '#'. How do we read a dataset that has some metadata (indicated by '#')? What if the extra lines aren't properly marked with '#'?
+
+```{r}
+# we want to skip this first line
+readLines("Data/WHO-2.csv")[1:3]
+
+# ignore metadata row
+read_csv("Data/WHO-2.csv", comment = "#")
+
+# this results in identical output, but we specify how many lines to skip
+read_csv("Data/WHO-2.csv", skip = 1)
+```
+
+# Exercises
+
+Work through the exercises in the Tidyverse section of [Exercises.R](https://raw.githubusercontent.com/ravichas/TidyingData/master/Exercises.R).
