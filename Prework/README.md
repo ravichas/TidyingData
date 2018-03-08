@@ -39,6 +39,7 @@ you can run this code within the RStudio console window:
 
     if(!require(biobroom))
     {
+        # if this fails, sourcing http://bioconductor.org/biocLite.R might work
         source("https://bioconductor.org/biocLite.R")
         biocLite("biobroom")
     }
