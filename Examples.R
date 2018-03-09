@@ -24,6 +24,56 @@ library(lubridate)
 ###################
 
 
+####################
+# Tidyverse Basics #
+####################
+
+########## tibble Examples ##########
+## Hands-on exercise using Wisconsin Breast Cancer dataset
+
+Now, let us read a slightly complicated Breast Cancer dataset. First let us use
+the import data set drop-down option 
+
+![](Images/RS-ImportDataset.png)
+![](Images/RS-ImportDataset1.png)
+```{r readdata}
+#wdbc <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", col_names = FALSE)
+
+wdbc <- read_csv("Data/wdbc.data", col_names = FALSE)
+#wdbctry2 <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", header = FALSE)
+names(wdbc)
+```
+
+Let us add column names
+
+```{r AssignColnams}
+cnames <- c("ID", "Diagnosis", 
+            "radius", "Texture", "Perimeter", "area",
+            "smoothness", "compactness", "concavity", "concave_points",
+            "symmetry","fractaldim",
+            "radiusSE", "TextureSE", "PerimeterSE", "areaSE",
+            "smoothnessSE", "compactnessSE", "concavitySE", "concave_pointsSE",
+            "symmetrySE","fractaldimSE",
+            "radiusW", "TextureW", "PerimeterW", "areaW",
+            "smoothnessW", "compactnessW", "concavityW", "concave_pointsW",
+            "symmetryW","fractaldimW")
+
+names(wdbc) <- cnames
+```
+Let us find out how many samples we have in the dataset? 
+    
+    
+    ```{r}
+nrow(wdbc)
+```
+How many covariates are in the dataset? 
+    We can look at the Global environment (top right) window to get the information
+We can also find that out by typing the following command:
+    ```{r}
+ncol(wdbc)
+```
+
+
 #############
 # Date/Time #
 #############
