@@ -11,41 +11,84 @@ library(tidyverse)
 library(lubridate)
 ```
 
-## <a name="timeEx"></a>Date/Time Exercises
+## <a name="tibbleEx"></a>Tibble Exercises
 
-The data set that we will be using for this section comes from the  
+### Create a new tibble
+
+Create a new tibble called `tbl1` with 5 observations and the following variables:
+
+* name
+* age
+* height
+* weight
+* smoker (TRUE or FALSE)
+* Male (TRUE or FALSE)
+
+Once you have created `tbl1`, add a new dummary variable, `agecat`, that categorizes age by decade (i.e. `agecat = 0` when `age < 10`, `agecat = 1` when `10 <= age < 20`, ...)
+
+### Conversion of a data.frame to a data_frame
+
+Convert the iris data set to a tibble.
+
+```{r tibble conversion}
+data(iris)
+str(iris)
+```
+
+How can you verify that your modified `iris` data set is formatted as a tibble?
+
+### NEISS data 
+
+The datset that we will be using for this section comes from the  
 National Electronic Injury Surveillance System (NEISS)
 https://www.cpsc.gov/research--statistics/neiss-injury-data 
 Here is a short description of the data file from the NEISS. 
 
-*"Each record (case) is separated by a carriage return/line feed, and the
-fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
-
-Before you read in the data, please source the following file: **Data/NEISSlabels.R**
-This file will provide human readable labels for the codes in the nss15 data set. You may also find the `get_label()` function in this file useful. For example, if you want to get body part codes for `c(0, 33, 37, 33)`, you could do it like so:
-
-```{r get label}
-source('Data/NEISSlabels.R')
-# the hard/ugly way
-sapply(c(0, 33, 37, 33), function(x) which(body_part == x)) %>%
-	names()
-
-# the easy way
-get_label(c(0, 33, 37, 33), body_part)
-```
+*"Each record (case) is separated by a carriage return/line feed, and the fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
 
 Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
 
-**Hint:** Use the File --> Import --> Data DataSet option to read the file. 
-To remind the data is in a tab-separated format.
+**Hint:** You could use the File --> Import --> Data DataSet option to read the file. The data is in a tab-separated format.
 
-**Hint:** Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
+**Hint:** Watch out for the data type choices that are suggested to you and be sure to select the appropriate ones
 
-**Hint:** Please watch out for any warnings or issues while R/RStudio 
-is reading the files. If you spot any errors, think of how to fix it.
-After fixing the problems (if any), go back and read the file. 
+**Hint:** Please watch out for any warnings or issues while R/Rstudio  is reading the files. If you spot any errors, think of how to fix it. After fixing the problems (if any), go back and read the file. 
+
+```{r load NEISS data}
+### Setup
+# this will create look-up variables so you can make better sense of the codes in the data set
+source('Data/NEISSlabels.R')
+
+# for example, if you want to know what body parts these codes indicate...
+codes <- c(30, 30, 77, 35)
+get_label(codes, body_part)
+
+
+### Import data code goes here
+
+
+### mutate code converting codes into human readable labels goes here
+
+
+### further exploration to answer questions goes here
+
+```
  
 Answer the following questions.
+
+- How many cases are reported in this dataset?
+- How many covariates this dataset has? 
+- Access CPSC Case # 150620565 and report the following things:
+- What is the age of the patient? 
+- What is the Race, weight, Stratum, Sex, Race and Diagnosis
+- How many are more than 100 years old?  
+- How many cases were taken to **Children's Hospital**?
+- From the reported cases, get the CPSC case number and age for the 20th entry.
+
+
+## <a name="timeEx"></a>Date/Time Exercises
+
+Answer the following questions using the NEISS data set that you imported above.
 
 - Report the number of cases for the month of May? 
   Tell us how many cases were reported for May 13 - May 16, 2015? 
