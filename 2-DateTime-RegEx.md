@@ -1,298 +1,161 @@
-BTEP-DateTime
+Data Tidying: Dates, Time, and Regular Expressions
 ================
 Drs. Sarangan Ravichandran and Randall Johnson
-February 26, 2017
 
-Let us load the libraries
+Table of Contents
+=================
+
+1.  [Dates and Time](#dateTime)
+
+    1.1 [Base R](#dateTimeR)
+
+    1.2 [lubridate](#dateTimeLub)
+
+    1.3 [Arithmetic](#dateTimeMath)
+
+2.  [Regular Expressions](#regEx)
+
+<a name="dateTime"></a>Dates and Time
+=====================================
+
+<a name="dateTimeR"></a>Base R
+------------------------------
+
+Dates and times are stored in one of three formats in R:
+
+-   Date - number of days since January 1, 1970
+-   POSIXct - number of seconds since January 1, 1970
+-   POSIXlt - a list containing information about the time (see Table 1)
+
+|  Position| Name   | Value                                     |
+|---------:|:-------|:------------------------------------------|
+|         1| sec    | seconds                                   |
+|         2| min    | minutes                                   |
+|         3| hour   | hours                                     |
+|         4| mday   | day of the month (1-31)                   |
+|         5| mon    | month of the year (0-11)                  |
+|         6| year   | years since 1900                          |
+|         7| wday   | day of the week (0: Sunday - 6: Saturday) |
+|         8| yday   | day of the year (0-365)                   |
+|         9| isdst  | daylight savings (Yes/No)                 |
+|        10| zone   | time zone                                 |
+|        11| gmtoff | seconds off of GMT                        |
+
+If you are interested, there are some examples in [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) comparing the format of these two variables, starting on line `31`.
+
+You can use the `as.date()` function to create a date variable in R, and you can also use it to convert strings into dates. In either case, you will want to be aware of how the text you give to `as.Date()` is formatted. According to the documentation (see `?as.Date`), the default format is "YYYY-MM-DD" or "YYYY/MM/DD". If neither works and you didn't specify a different format, `as.date()` will return `NA`.
+
+To specify formatting, see the values in Table 2. For example, the default formats `as.Date()` expects would be coded as `%Y-%m-%d` or `%Y/%m/%d`. If you have a date, "May 3, 2018", you would need to specify the format as `%B %d, %Y`
+
+| Code | Value                             |
+|:-----|:----------------------------------|
+| %d   | Day of the month (integer, 01-31) |
+| %m   | Month (integer, 01-12)            |
+| %b   | Month (abbreviation)              |
+| %B   | Month (full name)                 |
+| %y   | Year (2 digit)                    |
+| %Y   | Year (4 digit)                    |
 
 ``` r
-library(tidyverse) 
+as.Date('1920-6-16')
 ```
 
-    ## Loading tidyverse: ggplot2
-    ## Loading tidyverse: tibble
-    ## Loading tidyverse: tidyr
-    ## Loading tidyverse: readr
-    ## Loading tidyverse: purrr
-    ## Loading tidyverse: dplyr
-
-    ## Conflicts with tidy packages ----------------------------------------------
-
-    ## filter(): dplyr, stats
-    ## lag():    dplyr, stats
-
-### Date & Times in R
-
-Dates and Times are very important. Routinely used in expression (gene) data
+    ## [1] "1920-06-16"
 
 ``` r
-D1 <- as.Date('1920-6-16')
-class(D1)
-```
-
-    ## [1] "Date"
-
-``` r
-D2 <- as.Date('2017/03/07')
-class(D2)
-```
-
-    ## [1] "Date"
-
-``` r
-## Current Date from System 
-Sys.Date()
-```
-
-    ## [1] "2017-04-05"
-
-If you use <cod> ?as.date </code>, you will see the formats that the function takes.
-
-``` r
-Code <- c("%d", "%m","%b","%B","%y","%Y")
-Value <- c("Day of the month (decimal numeber)", "Month(decimal number)", "Month (abbreviation)",
-           "Month(full name)", "Year (2 digit)", "Year (4 digit)")
-library(knitr)
-tibble1 <- tibble(Code, Value)
-kable(tibble1)
-```
-
-| Code | Value                              |
-|:-----|:-----------------------------------|
-| %d   | Day of the month (decimal numeber) |
-| %m   | Month(decimal number)              |
-| %b   | Month (abbreviation)               |
-| %B   | Month(full name)                   |
-| %y   | Year (2 digit)                     |
-| %Y   | Year (4 digit)                     |
-
-The function
-<pre> <code> as.Date </code> </pre>
-expects the date to be in the - separated format. If it is not, then we should use the following format
-
-``` r
-as.Date('03/07/2017', format='%m/%d/%Y')
+as.Date('2017/03/07')
 ```
 
     ## [1] "2017-03-07"
 
 ``` r
-as.Date('March 07, 2017', format='%B %d, %Y')
+as.Date("May 3, 2018", format = "%B %d, %Y")
 ```
 
-    ## [1] "2017-03-07"
-
-Let us look to see how R stores the data internally. Two different datatypes that deal with Time and Date variables:
-
-### POSIXct
-
-Will provide you the number of seconds that has been elapsed since January 1, 1970.
-
-Negative numebrs indicate seconds before this time.
-
-### POSIXlt
-
--   Type of vector
+    ## [1] "2018-05-03"
 
 ``` r
-Position <- 1:9
-Value <- c("seconds","minutes","hours","day of the month (1-31)", "month of the year (0-11)", 
-           "years since 1900", "day of the week (0: Sunday - 6: Saturday)", "Day of the year (0-365)",
-           "Daylight savings indicator (Positive/Negative: Yes/No")
-library(knitr)
-tibble2 <- tibble(Position, Value)
-kable(tibble2)
+## Get current Date and Time from the system 
+Sys.Date() # returns a Date object
 ```
 
-|  Position| Value                                                 |
-|---------:|:------------------------------------------------------|
-|         1| seconds                                               |
-|         2| minutes                                               |
-|         3| hours                                                 |
-|         4| day of the month (1-31)                               |
-|         5| month of the year (0-11)                              |
-|         6| years since 1900                                      |
-|         7| day of the week (0: Sunday - 6: Saturday)             |
-|         8| Day of the year (0-365)                               |
-|         9| Daylight savings indicator (Positive/Negative: Yes/No |
-
-Let us see how we can use these two data types:
+    ## [1] "2018-03-09"
 
 ``` r
-(timext <- Sys.time())
+Sys.time() # returns a POSIXct object
 ```
 
-    ## [1] "2017-04-05 15:20:30 EDT"
+    ## [1] "2018-03-09 14:42:27 EST"
+
+Formatting times is a little more complicated. For this task `strftime()` and `strptime()` are our friends.
+
+-   `strftime()` returns a character string (or character vector of strings) representing the input.
+-   `strptime()` returns POSIXlt formatted values represented by the input.
+
+These function both have a default format of `%Y-%m-%d %H:%M:%S` if any element has a time component which is not midnight, and `%Y-%m-%d` otherwise (see `?strptime` for the full list of codes). For example:
 
 ``` r
-class(timext)
+# get the current system time as a string
+Sys.time() %>% strftime()
 ```
 
-    ## [1] "POSIXct" "POSIXt"
+    ## [1] "2018-03-09 14:42:27"
 
 ``` r
-typeof(timext)
+# convert this string to POSIXlt format (assumes local time zone)
+strptime("May 3, 2018 1:45 PM", format = "%B %d, %Y %H:%M %p")
 ```
 
-    ## [1] "double"
+    ## [1] "2018-05-03 01:45:00 EST"
+
+<a name="dateTimeLub"></a>libridate
+-----------------------------------
+
+The [lubridate](https://github.com/tidyverse/lubridate/blob/master/vignettes/lubridate.Rmd) package, which is part of the tidyverse, has some additional functions that will help us work with dates and time.
+
+-   `now()` essentially does the same thing as `Sys.time()` by default, but you can optionally specify a different timezone.
+-   `second()`, `minute()`, `hour()`, `day()`, `year()`, ... allow you to extract or set (change) the specified part of a POSIXlt formatted variable.
+-   `seconds()`, `minutes()`, `hours()`, `days()`, `years()`, ... allow you to specify a period of time (e.g. `days(5)` is 5 days).
+
+See line `56`of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples using the *lubridate* package.
+
+Note: there seems to be a bug with R's handling of the default time zone settings on some systems (as of early 2018). If you happen to run into this error,
+
+    Error in (function (dt, year, month, yday, mday, wday, hour, minute, second,  : 
+      Invalid timezone of input vector: ""
+
+this bit of code will set things straight (or something similar, e.g. EDT or GMT):
 
 ``` r
-cat(timext, "\n")
+Sys.setenv(TZ="EST")
 ```
 
-    ## 1491420031
+<a name="dateTimeMath"></a>Arithmetic
+-------------------------------------
 
-``` r
-(timelt <- as.POSIXlt(timext) )
-```
+> "If anyone drove a time machine, they would crash" - Hadley Wickham, author of the tidyverse
 
-    ## [1] "2017-04-05 15:20:30 EDT"
+As Hadley Wickham points out [here](https://github.com/tidyverse/lubridate/blob/master/vignettes/lubridate.Rmd#if-anyone-drove-a-time-machine-they-would-crash), arithmetic with dates isn't as straight forward as it could be. Take the following operation for example: `January 31 + one month`. There are at least three possible answers:
 
-``` r
-typeof(timelt)
-```
+-   February 31 (doesn't exist)
+-   March 4 (31 days after January 31st)
+-   February 28 (or the 29th if it is a leap year)
 
-    ## [1] "list"
+Ug! To avoid abiguity, lubridate implements addition in a very specific way.
 
-``` r
-names(timelt)
-```
+-   By default, adding time, increments the specified slot approriately in the data structure. For example, when you add a month, you simply increment the month slot by 1.
+    -   If you add a month to December 23, the month slot goes back to 1 and the year is incrmented by 1.
+    -   If you add a month to January 31, you get `NA`, because February 31 doesn't exist. If you want one of the other two options above, you need to craft your statement a little more carefully (e.g. by adding `days(30)` instead of `months(1)`).
+-   Alternately, some shorcut functions allow the addition of a fixed period of time.
+    -   For example, `dyears(1)` is 365 days, even on a leap year, while `years(1)` increments the years slot by 1 year, without respect to leap years.
 
-    ## NULL
+Excercises
+----------
 
-``` r
-lapply(timelt, function(x) print(x))
-```
+Practice exercises for this section can be found in [Exercsies.Rmd](https://github.com/ravichas/TidyingData/blob/master/Exercises.md#timeEx).
 
-    ## [1] 30.51156
-    ## [1] 20
-    ## [1] 15
-    ## [1] 5
-    ## [1] 3
-    ## [1] 117
-    ## [1] 3
-    ## [1] 94
-    ## [1] 1
-    ## [1] "EDT"
-    ## [1] -14400
-
-    ## $sec
-    ## [1] 30.51156
-    ## 
-    ## $min
-    ## [1] 20
-    ## 
-    ## $hour
-    ## [1] 15
-    ## 
-    ## $mday
-    ## [1] 5
-    ## 
-    ## $mon
-    ## [1] 3
-    ## 
-    ## $year
-    ## [1] 117
-    ## 
-    ## $wday
-    ## [1] 3
-    ## 
-    ## $yday
-    ## [1] 94
-    ## 
-    ## $isdst
-    ## [1] 1
-    ## 
-    ## $zone
-    ## [1] "EDT"
-    ## 
-    ## $gmtoff
-    ## [1] -14400
-
-### How can we use the time?
-
-``` r
- timenow <- Sys.time()
-timenow
-```
-
-    ## [1] "2017-04-05 15:20:30 EDT"
-
-``` r
-timenow - 30 # 30 seconds earlier 
-```
-
-    ## [1] "2017-04-05 15:20:00 EDT"
-
-Be careful with time data that are used for numerical calculations.
-
-### How to store Time in different formats and use it at a later time or using a differnt software?
-
-Two commands that can help us accomplish this, strftime and strptime.
-
-strftime: converts a time data and convert it to a string strptime: converts a sting and convert it to Date/time format suitable for R calculations
-
-``` r
-string_timenow <- strftime(timenow, "%Y-%m-%d %H:%M:%S")  #"2017-03-07 15:52:03 EST"
-string_timenow
-```
-
-    ## [1] "2017-04-05 15:20:30"
-
-``` r
-class(string_timenow)
-```
-
-    ## [1] "character"
-
-``` r
-class(timenow)
-```
-
-    ## [1] "POSIXct" "POSIXt"
-
-``` r
-typeof(string_timenow)
-```
-
-    ## [1] "character"
-
-``` r
-(Posixct_timenow <- strptime(string_timenow,"%Y-%m-%d %H:%M:%S" ))
-```
-
-    ## [1] "2017-04-05 15:20:30 EDT"
-
-``` r
-class(Posixct_timenow)
-```
-
-    ## [1] "POSIXlt" "POSIXt"
-
-### <span style="color:green">Final R exercise that use Time variable</span>
-
-The datset that we will be using for this section comes from the
-National Electronic Injury Surveillance System (NEISS) <https://www.cpsc.gov/research--statistics/neiss-injury-data> Here is a short description of the data file from the NEISS.
-
-*"Each record (case) is separated by a carriage return/line feed, and the fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
-
-Before you read in the data, please take a look at the following two files: **NEISS\_SAS\_formats.txt** and **NEISS\_SAS\_variance.txt** These two files will act as the codebook for the data.
-
-Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
-
-**Hint:** Use the File --&gt; Import --&gt; Data DataSet option to read the file. To remind the data is in a tab-separated format.
-
-**Hint:** Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
-
-**Hint:** Please watch out for any warnings or issues while R/Rstudio is reading the files. If you spot any errors, think of how to fix it. After fixing the problems (if any), go back and read the file.
-
-Answer the following questions.
-
--   Report the number of cases for the month of May? Tell us how many cases were reported for May 13 - May 16, 2015? Use this information to answer the following questions.
--   What hospitals were the cases went to (provide a table)?
--   How many were children ( &lt; 5 years)?
--   provide the proportion of male/female?
--   What was the race distribution?
+<a name="regEx"></a>Regular Expressions
+=======================================
 
 ### What is a Regex?
 
@@ -302,12 +165,6 @@ Answer the following questions.
 -   Speed up calculations
 
 ### How do they work?
-
-### Example 1
-
-``` r
-x <- c("BCR_613", "")
-```
 
 ### Example for using Grep
 
@@ -428,7 +285,7 @@ sub("_", " ", mspecies)
 
 What happened?
 
-sub will only modify the first occurance of the pattern. To modify all occurances in a string, use gsub
+sub will only modify the first occurrence of the pattern. To modify all occurrences in a string, use gsub
 
 ``` r
 gsub("_", " ", mspecies)
@@ -481,4 +338,4 @@ grep("H*sapiens", mspecies, ignore.case = TRUE)
 
     ## [1] 8
 
-Note that <code>\\</code> is used for escapting a character
+Note that `\\` is used for escaping a character
