@@ -6,9 +6,13 @@ output: github_document
 ### Cleaning up
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
 library(tidyverse)
 library(knitr)
 library(lubridate)
+
+# pull Examples for citing line number:
+examples <- readLines('Examples.R')
 ```
 
 
@@ -115,6 +119,15 @@ set.seed(239847)
 ))
 ```
 
+### Adding/changing variables
+
+You can add and change variables within a tibble using `mutate()`. The syntax is nearly identical to `tibble()` and `data_frame()`, except it requires the tibble you want to edit as input. For example, if we want to add a new variable to our data_frame, `t2`:
+
+```{r mutate}
+(t2 <- mutate(t2,
+              case = 1:n <= 500))
+```
+
 ### Adding rows
 
 You can add rows to a tibble, and using the `.before` option will allow you to specify where exactly to add the data (default, i.e. if you don't specify `.before`, is to put the new data at the end of the tibble).
@@ -165,6 +178,12 @@ options(tmp)
 ```
 
 You can also use the `tibble.width = Inf` option to print all columns. There are more options documented at `package?tibble`.
+
+## Examples and Exercises
+
+For more examples, see line ```r which(examples == "########## tibble Examples ##########")```of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R).
+
+Practice exercises for this section can be found in [Exercsies.Rmd](https://github.com/ravichas/TidyingData/blob/master/Exercises.md#tibbleEx).
 
 # Importing Data
 

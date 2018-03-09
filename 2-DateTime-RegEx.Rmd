@@ -85,7 +85,7 @@ Sys.time() %>% strftime()
 strptime("May 3, 2018 1:45 PM", format = "%B %d, %Y %H:%M %p")
 ```
 
-## <a name="dateTimeLub"></a>libridate
+## <a name="dateTimeLub"></a>lubridate
 
 The [lubridate](https://github.com/tidyverse/lubridate/blob/master/vignettes/lubridate.Rmd) package, which is part of the tidyverse, has some additional functions that will help us work with dates and time.
 
@@ -137,14 +137,12 @@ Practice exercises for this section can be found in [Exercsies.Rmd](https://gith
 
 # <a name="regEx"></a>Regular Expressions
 
-### What is a Regex?
+## What is a Regex?
 
 - Was originally developed for PERL
 - Regular Expressions help us identify patterns in text. 
 - Cross-platform compatible
 - Speed up calculations
-
-### How do they work?
 
 ### Example for using Grep
 
