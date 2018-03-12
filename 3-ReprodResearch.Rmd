@@ -1,38 +1,42 @@
 ---
-title: "BTEP Rmd Intro"
+title: "Data Tidying: Rmd Intro"
 author: "Drs.S. Ravichandran and Randall Johnson"
-date: "February 26, 2017"
 output: github_document
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "H:/2017/BTEP1-TidyingData")
-```
-Let us load the libraries and do some cleanup
-```{r loadlibraries}
-# will clean up the history
-rm(list=ls(all=TRUE))
-#install.packages("tidyverse")
+
 library(tidyverse) 
 ```
 
+# Table of Contents
+1. [R Markdown and Reproducible Research](#Rmarkdown)
 
-## R Markdown and Reproducible Research
+    1.1 [R Markdown basics](#basics)
 
+    1.2 [R Markdown creation](#creation)
+    
+    1.3 [Code chunks](#code)
+    
+    1.4 [Tables](#tables)
+    
+    1.5 [Knitting an Rmd file](#knitr)
 
+# <a name="Rmarkdown"></a>R Markdown and Reproducible Research
 
-## R Markdown basics
+R Markdown is a nice way to organize thoughts and R code output in a report. When you knit your Rmd file, it will run your code and put the output into a formatted document complete with figures and tables (i.e. not plain text).
 
-- R Markdowwn, often abbreviated as Rmd 
+## <a name="basics"></a>R Markdown basics
+
+- R Markdown, often abbreviated as Rmd 
 - Like HTML, it is a set of rules for formatting plain text,
-- You can use Rmd file to create texts with formatting, plots, hypoelinks
-  etc. 
+- You can use Rmd file to create texts with formatting, plots, hyperlinks etc. 
   
-## R Markdown creation
+## <a name="creation"></a>R Markdown creation
 
 This section will be based on RStudio. But, one can create Rmd file manually.
-To create a template use, RStudio -> New File -> R Markdown 
+To create an Rmd file using RStudio's template use the menu option: File -> New File -> R Markdown 
 
 ![](Images/RS-RmdFileCreation.png)
 
@@ -41,8 +45,7 @@ A window will pop-up asking you to choose the Title and Author and other informa
 
 ![](Images/RS-RmdFileCreation1.png)
 
-You can also read in your previously created Rmd file. 
-
+### YAML
 
 A quick mention about Yet Another Markup Language (YAML) 
 
@@ -51,54 +54,84 @@ like a CSS in HTML. YAML begins and ends with --- tags.
 YAML header is a section with key:Value pairs 
 
 example: 
-```{r, eval=FALSE}
+```
 ---
-title: "BTEPDataTidyingClass"
+title: "Data Tidying Seminar"
 author: "Ravi & Randy"
-date: "June 10, 2017"
-output: html_document
+output: word_document
 ---
 ```
 
-Rmd format help is available within RStudio. You can find the CheatSheets here,
+### Cheat Sheets
+
+Rmd format help is available within RStudio. You can find the Cheatsheets under Help -> Cheatsheets:
 
 ![](Images/RS-CheatSheets.png)
 
 
-To use R Markdown, you need a package called rmardown. RStudio installs it automatically when you need them. 
+To use R Markdown, you need a package called *rmarkdown*. RStudio installs it automatically if it isn't already installed. 
 
 
-## How it works? 
+## <a name="code"></a>Code chunks
 
-* When you click **Knit**, R runs the **Rmd code** using **knitr** to produces an **md** file
-* **Pandoc** converts the **md** file into the final document (ie pdf, html)
-* Note that the output PDF requires you to install LaTeX 
-    * For Windows OS, MiKTeX ( <https://miktex.org> ) provides an up-to-date implementation of 
-      TeX/LaTeX 
+To effectively use Rmd file, you need to insert what is called *chunk* (use Cmd (Mac)/Ctrl-Alt-I (Windows) to create a chunk). Here is an example of a code chunk:
 
+~~~~~~~~~~~~~~~~~~~
+```{r Chunk name}
+# Hello World!
+x <- 1:10
+```
+~~~~~~~~~~~~~~~~~~~
 
-## How to run the R Markdown document in RStudio?
+To run a Chunk interactively (i.e. while you are actively writing the document, not when trying knit), you can use the Run button. This will allow you to run a single line of code or an entire chunk of code.
 
-* To effectively use Rmd file, you need to insert what is called *chunk* 
-    * use Cmd (Mac)/Ctrl-Alt-I (Windows) to create a chunk
-* Here is an example 
-
-![](Images/RS-RmdChunkCreation.png)
+![](Images/Run.png)
 
 
-* To run a Chunk (the code associated with the chunk), look at the drop-down from the 
-  bottom-left, **RMarkdown and Reproducible Resarch** dropdown (see the image below)
-  
-  ![](Images/RS-RunChunk.png)
-  
-  
-* There are several Chunk options (ex. eval = FALSE ) can modify the execution of the 
-  R code present in the chunk. Please refer to the RMarkdown manual for details.
-  
+### Code chunk options
 
-## Table 
+There are several Chunk options can modify the execution of the R code present in the chunk. We list a few here. Please refer to the [RMarkdown manual](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf) for details. Some examples include:
 
-* Rmd files can provide a nice Table layout.
+* `echo=FALSE` tells knitr not display the the source code. Only the output will be shown.
+* `include=FALSE` tells knitr to execute the code chunk, but no output will be shown in the document. Any packages loaded or variables created will be available in other code chunks, though.
+* `error=TRUE` tells knitr to display error messages and continue executing. Normally the knitr process will fail if there are errors in your code. You only want to use this if you are purposely trying to demonstrate an error.
+
+You can set global options for knitr at the top of the Rmd document. This will change the default for all code chunks following the command. For example, if you wanted to tell knitr not to echo code (i.e. just show the output), you could include the following in the _setup_ chunk:
+
+```
+  knitr::opts_chunk$set(echo = FALSE)
+```
+
+### Inline code
+
+You can also include code inside of your text.
+
+To quote code:
+
+```
+Here is how you take the mean of a variable, _x_: `mean(x)`.
+```
+
+This displays as:
+
+| Here is how you take the mean of a variable, _x_: `mean(x)`.
+
+To execute code inline:
+
+~~~~~~
+Diamonds package in ggplot2 contains the prices of 60K round cut diamonds.
+This data set contains information for `r nrow(diamonds)` diamonds.
+~~~~~~
+
+This displays as:
+
+Diamonds package in ggplot2 contains the prices of 60K round cut diamonds.
+The data set contains information for `r nrow(diamonds)` diamonds.
+
+
+## <a name="tables"></a>Tables
+
+Rmd files can provide a nice Table layout.
 
 ```{r}
 knitr::kable(
@@ -113,27 +146,11 @@ Compare this to the traditional table
 diamonds[1:5,]
 ```
 
-# Global Options
 
-You can set global optons for knitr at the top of the Rmd document. 
+## <a name="knitr"></a>Knitting an Rmd file
 
-<pre> <code>
-  knitr::opts_chunk$set( 
-    echo = FALSE 
-  ) 
-</code></pre>
-
-Finally, a brief mention about inline codes. 
-
-Explore the following code with inline R option that produces the following output: 
-
-<pre> <code>
-Diamonds package in ggplot2 contains the prices of 60K round cut diamonds. 
-Dataset contains information about `r nrow(diamonds)` diamonds.  
-</code></pre>
-
-
-Diamonds package in ggplot2 contains the prices of 60K round cut diamonds. 
-Dataset contains information about `r nrow(diamonds)` diamonds.  
-  
-  
+* When you click **Knit**, R runs the **Rmd code** using **knitr** to produce an **md** file.
+* **Pandoc** converts the **md** file into the final document (i.e. pdf, html, docx). For this example, we'll choose a Word document.
+* Note that the output PDF requires you to install LaTeX 
+    * For Windows OS, [MiKTeX](https://miktex.org) provides an up-to-date implementation of 
+      TeX/LaTeX 
