@@ -13,7 +13,15 @@ Table of Contents
 
     1.3 [Arithmetic](#dateTimeMath)
 
+    1.4 [Exercises](#eeDateTime)
+
 2.  [Regular Expressions](#regEx)
+
+    2.1 [Definition](#regExDefinition)
+
+    2.2 [Find and Replace](#findReplace)
+
+    2.3 [Exercises](#eeRegEx)
 
 <a name="dateTime"></a>Dates and Time
 =====================================
@@ -41,7 +49,7 @@ Dates and times are stored in one of three formats in R:
 |        10| zone   | time zone                                 |
 |        11| gmtoff | seconds off of GMT                        |
 
-If you are interested, there are some examples in [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) comparing the format of these two variables, starting on line `31`.
+If you are interested, there are some examples in [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) comparing the format of these two variables, starting on line `76`.
 
 You can use the `as.date()` function to create a date variable in R, and you can also use it to convert strings into dates. In either case, you will want to be aware of how the text you give to `as.Date()` is formatted. According to the documentation (see `?as.Date`), the default format is "YYYY-MM-DD" or "YYYY/MM/DD". If neither works and you didn't specify a different format, `as.date()` will return `NA`.
 
@@ -79,13 +87,13 @@ as.Date("May 3, 2018", format = "%B %d, %Y")
 Sys.Date() # returns a Date object
 ```
 
-    ## [1] "2018-03-09"
+    ## [1] "2018-03-13"
 
 ``` r
 Sys.time() # returns a POSIXct object
 ```
 
-    ## [1] "2018-03-09 14:42:27 EST"
+    ## [1] "2018-03-13 07:26:11 EST"
 
 Formatting times is a little more complicated. For this task `strftime()` and `strptime()` are our friends.
 
@@ -99,7 +107,7 @@ These function both have a default format of `%Y-%m-%d %H:%M:%S` if any element 
 Sys.time() %>% strftime()
 ```
 
-    ## [1] "2018-03-09 14:42:27"
+    ## [1] "2018-03-13 07:26:11"
 
 ``` r
 # convert this string to POSIXlt format (assumes local time zone)
@@ -108,7 +116,7 @@ strptime("May 3, 2018 1:45 PM", format = "%B %d, %Y %H:%M %p")
 
     ## [1] "2018-05-03 01:45:00 EST"
 
-<a name="dateTimeLub"></a>libridate
+<a name="dateTimeLub"></a>lubridate
 -----------------------------------
 
 The [lubridate](https://github.com/tidyverse/lubridate/blob/master/vignettes/lubridate.Rmd) package, which is part of the tidyverse, has some additional functions that will help us work with dates and time.
@@ -117,7 +125,7 @@ The [lubridate](https://github.com/tidyverse/lubridate/blob/master/vignettes/lub
 -   `second()`, `minute()`, `hour()`, `day()`, `year()`, ... allow you to extract or set (change) the specified part of a POSIXlt formatted variable.
 -   `seconds()`, `minutes()`, `hours()`, `days()`, `years()`, ... allow you to specify a period of time (e.g. `days(5)` is 5 days).
 
-See line `56`of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples using the *lubridate* package.
+See line `101`of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples using the *lubridate* package.
 
 Note: there seems to be a bug with R's handling of the default time zone settings on some systems (as of early 2018). If you happen to run into this error,
 
@@ -149,193 +157,68 @@ Ug! To avoid abiguity, lubridate implements addition in a very specific way.
 -   Alternately, some shorcut functions allow the addition of a fixed period of time.
     -   For example, `dyears(1)` is 365 days, even on a leap year, while `years(1)` increments the years slot by 1 year, without respect to leap years.
 
-Excercises
-----------
+<a name="eeDateTime"></a>Excercises
+-----------------------------------
 
 Practice exercises for this section can be found in [Exercsies.Rmd](https://github.com/ravichas/TidyingData/blob/master/Exercises.md#timeEx).
 
 <a name="regEx"></a>Regular Expressions
 =======================================
 
-### What is a Regex?
+<a name="regExDefinition"></a>Define regular expressions
+--------------------------------------------------------
+
+A regular expression (sometimes referred to as a regex) is a string of special charcaters defining search criteria for a pattern search of some text.
 
 -   Was originally developed for PERL
--   Regular Expressions help us identify patterns in text.
--   Cross-platform compatible
+-   Regular Expressions help us identify patterns in text
+-   Cross-platform compatible (mostly)
 -   Speed up calculations
 
-### How do they work?
+There are three types of regular expression parts:
 
-### Example for using Grep
+-   Anchors, used to specify a position on the line of text
+-   Character Sets, used to match characters
+-   Modifiers, used to specify how many times the previous character should be repeated
 
-``` r
-IDS <-  c("NP_004`318.3", "XP_003317181.1", "XP_002798337.1", "XP_848654.2", "NP_001074881.1", "XP_228091.6", "XP_415244.3", "NP_001123792.1", "XP_005161278")
+| Type           | Regex     | Meaning                                        |
+|----------------|-----------|------------------------------------------------|
+| Anchors        | `^`       | Beginning of the line                          |
+|                | `$`       | End of the line                                |
+| Character Sets | `[a-z]`   | A lower case character                         |
+|                | `[A-Z]`   | An upper case character                        |
+|                | `[0-9]`   | An number character                            |
+|                | `.`       | Any single character                           |
+|                | `[abc]`   | Any letter in {a, b, c}                        |
+|                | `[^a]`    | Any character that is *not* an 'a'             |
+|                | `\e`      | Escape                                         |
+|                | `\f`      | Form feed                                      |
+|                | `\n`      | New line                                       |
+|                | `\r`      | Carriage return                                |
+|                | `\t`      | Tab                                            |
+| Modifiers      | `?`       | 0 or 1 repetitions                             |
+|                | `*`       | 0 or more repetitions                          |
+|                | `+`       | 1 or more repetitions                          |
+|                | `\{n\}`   | exactly *n* repetitions                        |
+|                | `\{n,m\}` | at least *n* and not more than *m* repetitions |
 
-grepids <- grep(pattern = "NP", x = IDS)
+As you can see, some characters have special meaning in regular expressions. If you want to search for a '\[' or a '.', you will need to escape the special meaning with a `\` (e.g. `\[` or `\.`). Note that `\` is an escape character in R strings, so you will need to enter it as `\\` in your strings (e.g. if you want to include `\[` in your regular expression, you'll need to give R the string: "\\\[")
 
-IDS[grepids]
-```
+You can also search for multiple patterns at the same time by including the `|` character between regular expressions. For example, if you wanted to search for *vcf* files, you may want to use this regular expression to find both compressed and uncompressed files with the proper ending: `vcf$|vcf.tar.gz$`.
 
-    ## [1] "NP_004`318.3"   "NP_001074881.1" "NP_001123792.1"
+Check out line `126` of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples of using the `grep()` and `grepl()` functions to search for IDs containing a specific pattern.
 
-``` r
-MIDS <- c("NP_004`318.3", "XP_003317181.1", "XP_002798337.1", "XP_848654.2", "np_001074881.1", "XP_228091.6", "XP_415244.3", "NP_001123792.1", "XP_005161278")
+<a name="findReplace"></a>Find and replace
+------------------------------------------
 
+Sometimes we want to find and replace specific text in a string. For this, we generally will use the `sub()` or `gsub()` functions.
 
-grepmids <- grep("NP", MIDS, ignore.case = FALSE)
-IDS[grepmids]
-```
+-   `sub()` replaces the first occurance of `pattern` with `replacement`.
+-   `gsub()` replaces all occurances of `pattern` with `replacement`.
 
-    ## [1] "NP_004`318.3"   "NP_001123792.1"
+See line `150` of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples using `sub()` and `gsub()`.
 
-``` r
-grepmids <- grep("NP", MIDS, ignore.case = TRUE)
-IDS[grepmids]
-```
+<a name="eeRegEx"></a>Exercises
+-------------------------------
 
-    ## [1] "NP_004`318.3"   "NP_001074881.1" "NP_001123792.1"
-
-### What is grepl?
-
-``` r
-grepl("NP", MIDS, ignore.case = TRUE) 
-```
-
-    ## [1]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE
-
-### What are sub and gsub functions?
-
-``` r
-species <- c("Arabidopsis_thaliana", "Bos_taurus", "Caenorhabditis_elegans", "Danio_rerio", 
-             "Dictyostelium_discoideum", "Drosophila_melanogaster", "Escherichia_coli",
-             "Homo_sapiens", "Mus_musculus", "Mycoplasma_pneumoniae",
-             "Oryza_sativa","Plasmodium_falciparum","Pneumocystis_carinii","Rattus_norvegicus",
-             "Saccharmomyces_cerevisiae","Schizosaccharomyces_pombe","Takifugu_rubripes","Xenopus_laevis",
-             "Zea_mays")
-species
-```
-
-    ##  [1] "Arabidopsis_thaliana"      "Bos_taurus"               
-    ##  [3] "Caenorhabditis_elegans"    "Danio_rerio"              
-    ##  [5] "Dictyostelium_discoideum"  "Drosophila_melanogaster"  
-    ##  [7] "Escherichia_coli"          "Homo_sapiens"             
-    ##  [9] "Mus_musculus"              "Mycoplasma_pneumoniae"    
-    ## [11] "Oryza_sativa"              "Plasmodium_falciparum"    
-    ## [13] "Pneumocystis_carinii"      "Rattus_norvegicus"        
-    ## [15] "Saccharmomyces_cerevisiae" "Schizosaccharomyces_pombe"
-    ## [17] "Takifugu_rubripes"         "Xenopus_laevis"           
-    ## [19] "Zea_mays"
-
-``` r
-sub("_", " ", species)
-```
-
-    ##  [1] "Arabidopsis thaliana"      "Bos taurus"               
-    ##  [3] "Caenorhabditis elegans"    "Danio rerio"              
-    ##  [5] "Dictyostelium discoideum"  "Drosophila melanogaster"  
-    ##  [7] "Escherichia coli"          "Homo sapiens"             
-    ##  [9] "Mus musculus"              "Mycoplasma pneumoniae"    
-    ## [11] "Oryza sativa"              "Plasmodium falciparum"    
-    ## [13] "Pneumocystis carinii"      "Rattus norvegicus"        
-    ## [15] "Saccharmomyces cerevisiae" "Schizosaccharomyces pombe"
-    ## [17] "Takifugu rubripes"         "Xenopus laevis"           
-    ## [19] "Zea mays"
-
-Let us look at what happens when we add a new species.
-------------------------------------------------------
-
-``` r
-mspecies <- c(species, "Hepatitis_C_Virus")
-mspecies
-```
-
-    ##  [1] "Arabidopsis_thaliana"      "Bos_taurus"               
-    ##  [3] "Caenorhabditis_elegans"    "Danio_rerio"              
-    ##  [5] "Dictyostelium_discoideum"  "Drosophila_melanogaster"  
-    ##  [7] "Escherichia_coli"          "Homo_sapiens"             
-    ##  [9] "Mus_musculus"              "Mycoplasma_pneumoniae"    
-    ## [11] "Oryza_sativa"              "Plasmodium_falciparum"    
-    ## [13] "Pneumocystis_carinii"      "Rattus_norvegicus"        
-    ## [15] "Saccharmomyces_cerevisiae" "Schizosaccharomyces_pombe"
-    ## [17] "Takifugu_rubripes"         "Xenopus_laevis"           
-    ## [19] "Zea_mays"                  "Hepatitis_C_Virus"
-
-``` r
-grep(pattern="g.cus", mspecies)
-```
-
-    ## [1] 14
-
-Let us use the substitute, sub, command on the modified string?
-
-``` r
-sub("_", " ", mspecies)
-```
-
-    ##  [1] "Arabidopsis thaliana"      "Bos taurus"               
-    ##  [3] "Caenorhabditis elegans"    "Danio rerio"              
-    ##  [5] "Dictyostelium discoideum"  "Drosophila melanogaster"  
-    ##  [7] "Escherichia coli"          "Homo sapiens"             
-    ##  [9] "Mus musculus"              "Mycoplasma pneumoniae"    
-    ## [11] "Oryza sativa"              "Plasmodium falciparum"    
-    ## [13] "Pneumocystis carinii"      "Rattus norvegicus"        
-    ## [15] "Saccharmomyces cerevisiae" "Schizosaccharomyces pombe"
-    ## [17] "Takifugu rubripes"         "Xenopus laevis"           
-    ## [19] "Zea mays"                  "Hepatitis C_Virus"
-
-What happened?
-
-sub will only modify the first occurrence of the pattern. To modify all occurrences in a string, use gsub
-
-``` r
-gsub("_", " ", mspecies)
-```
-
-    ##  [1] "Arabidopsis thaliana"      "Bos taurus"               
-    ##  [3] "Caenorhabditis elegans"    "Danio rerio"              
-    ##  [5] "Dictyostelium discoideum"  "Drosophila melanogaster"  
-    ##  [7] "Escherichia coli"          "Homo sapiens"             
-    ##  [9] "Mus musculus"              "Mycoplasma pneumoniae"    
-    ## [11] "Oryza sativa"              "Plasmodium falciparum"    
-    ## [13] "Pneumocystis carinii"      "Rattus norvegicus"        
-    ## [15] "Saccharmomyces cerevisiae" "Schizosaccharomyces pombe"
-    ## [17] "Takifugu rubripes"         "Xenopus laevis"           
-    ## [19] "Zea mays"                  "Hepatitis C Virus"
-
-### Can we look for a word in each strings?
-
--regexpr returns the position in the string of the pattern. It will also return the length of the pattern matched.
-
-``` r
-regexpr("sa", mspecies)
-```
-
-    ##  [1] -1 -1 -1 -1 -1 -1 -1  6 -1 -1  7 -1 -1 -1 -1  7 -1 -1 -1 -1
-    ## attr(,"match.length")
-    ##  [1] -1 -1 -1 -1 -1 -1 -1  2 -1 -1  2 -1 -1 -1 -1  2 -1 -1 -1 -1
-    ## attr(,"useBytes")
-    ## [1] TRUE
-
-### <span style="color:green">RegEx Exercise-1</span>
-
--   Find out what regexec and gregexpr
-
-You can combine regex keywords
-------------------------------
-
-``` r
-grep("sapiens|sativa", mspecies)
-```
-
-    ## [1]  8 11
-
-``` r
-mylist <- c("b*taurus", "C*elegans", "D*rerio", 
-             "H*sapiens", "M*musculus", "R*norvegicus")
-
-grep("H*sapiens", mspecies, ignore.case = TRUE)
-```
-
-    ## [1] 8
-
-Note that `\\` is used for escaping a character
+Practice exercises for this section can be found in [Exercsies.Rmd](https://github.com/ravichas/TidyingData/blob/master/Exercises.md#regEx).
