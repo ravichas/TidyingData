@@ -49,7 +49,7 @@ Dates and times are stored in one of three formats in R:
 |        10| zone   | time zone                                 |
 |        11| gmtoff | seconds off of GMT                        |
 
-If you are interested, there are some examples in [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) comparing the format of these two variables, starting on line `76`.
+If you are interested, there are some examples in [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) comparing the format of these two variables, starting on line `60`.
 
 You can use the `as.date()` function to create a date variable in R, and you can also use it to convert strings into dates. In either case, you will want to be aware of how the text you give to `as.Date()` is formatted. According to the documentation (see `?as.Date`), the default format is "YYYY-MM-DD" or "YYYY/MM/DD". If neither works and you didn't specify a different format, `as.date()` will return `NA`.
 
@@ -93,7 +93,7 @@ Sys.Date() # returns a Date object
 Sys.time() # returns a POSIXct object
 ```
 
-    ## [1] "2018-03-13 07:26:11 EST"
+    ## [1] "2018-03-13 08:48:25 EST"
 
 Formatting times is a little more complicated. For this task `strftime()` and `strptime()` are our friends.
 
@@ -107,7 +107,7 @@ These function both have a default format of `%Y-%m-%d %H:%M:%S` if any element 
 Sys.time() %>% strftime()
 ```
 
-    ## [1] "2018-03-13 07:26:11"
+    ## [1] "2018-03-13 08:48:25"
 
 ``` r
 # convert this string to POSIXlt format (assumes local time zone)
@@ -125,7 +125,7 @@ The [lubridate](https://github.com/tidyverse/lubridate/blob/master/vignettes/lub
 -   `second()`, `minute()`, `hour()`, `day()`, `year()`, ... allow you to extract or set (change) the specified part of a POSIXlt formatted variable.
 -   `seconds()`, `minutes()`, `hours()`, `days()`, `years()`, ... allow you to specify a period of time (e.g. `days(5)` is 5 days).
 
-See line `101`of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples using the *lubridate* package.
+See line `85`of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples using the *lubridate* package.
 
 Note: there seems to be a bug with R's handling of the default time zone settings on some systems (as of early 2018). If you happen to run into this error,
 
@@ -156,6 +156,8 @@ Ug! To avoid abiguity, lubridate implements addition in a very specific way.
     -   If you add a month to January 31, you get `NA`, because February 31 doesn't exist. If you want one of the other two options above, you need to craft your statement a little more carefully (e.g. by adding `days(30)` instead of `months(1)`).
 -   Alternately, some shorcut functions allow the addition of a fixed period of time.
     -   For example, `dyears(1)` is 365 days, even on a leap year, while `years(1)` increments the years slot by 1 year, without respect to leap years.
+
+See line `108` of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples of date arithmetic.
 
 <a name="eeDateTime"></a>Excercises
 -----------------------------------
@@ -206,7 +208,7 @@ As you can see, some characters have special meaning in regular expressions. If 
 
 You can also search for multiple patterns at the same time by including the `|` character between regular expressions. For example, if you wanted to search for *vcf* files, you may want to use this regular expression to find both compressed and uncompressed files with the proper ending: `vcf$|vcf.tar.gz$`.
 
-Check out line `126` of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples of using the `grep()` and `grepl()` functions to search for IDs containing a specific pattern.
+Check out line `121` of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples of using the `grep()` and `grepl()` functions to search for IDs containing a specific pattern.
 
 <a name="findReplace"></a>Find and replace
 ------------------------------------------
@@ -216,7 +218,7 @@ Sometimes we want to find and replace specific text in a string. For this, we ge
 -   `sub()` replaces the first occurance of `pattern` with `replacement`.
 -   `gsub()` replaces all occurances of `pattern` with `replacement`.
 
-See line `150` of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples using `sub()` and `gsub()`.
+See line `145` of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples using `sub()` and `gsub()`.
 
 <a name="eeRegEx"></a>Exercises
 -------------------------------

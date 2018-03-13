@@ -133,10 +133,8 @@ Ug! To avoid abiguity, lubridate implements addition in a very specific way.
 * Alternately, some shorcut functions allow the addition of a fixed period of time.
     * For example, `dyears(1)` is 365 days, even on a leap year, while `years(1)` increments the years slot by 1 year, without respect to leap years.
 
-```{r, include=FALSE, eval=FALSE}
-# add this back in after adding some date arithmetic examples
 See line ```r which(examples == "########## Date arithmetic ##########")``` of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R) for some examples of date arithmetic.
-```
+
 
 ## <a name="eeDateTime"></a>Excercises
 

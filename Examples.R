@@ -19,11 +19,6 @@ library(tidyverse) # this loads the following packages:
 library(lubridate)
 
 
-###################
-# R/RStudio Intro #
-###################
-
-
 ####################
 # Tidyverse Basics #
 ####################
@@ -31,22 +26,9 @@ library(lubridate)
 ########## tibble Examples ##########
 ## Hands-on exercise using Wisconsin Breast Cancer dataset
 
-Now, let us read a slightly complicated Breast Cancer dataset. First let us use
-the import data set drop-down option 
+(wdbc <- read_csv("Data/wdbc.data", col_names = FALSE))
 
-![](Images/RS-ImportDataset.png)
-![](Images/RS-ImportDataset1.png)
-```{r readdata}
-#wdbc <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", col_names = FALSE)
-
-wdbc <- read_csv("Data/wdbc.data", col_names = FALSE)
-#wdbctry2 <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", header = FALSE)
-names(wdbc)
-```
-
-Let us add column names
-
-```{r AssignColnams}
+# Add names
 cnames <- c("ID", "Diagnosis", 
             "radius", "Texture", "Perimeter", "area",
             "smoothness", "compactness", "concavity", "concave_points",
@@ -57,21 +39,18 @@ cnames <- c("ID", "Diagnosis",
             "radiusW", "TextureW", "PerimeterW", "areaW",
             "smoothnessW", "compactnessW", "concavityW", "concave_pointsW",
             "symmetryW","fractaldimW")
-
 names(wdbc) <- cnames
-```
-Let us find out how many samples we have in the dataset? 
-    
-    
-    ```{r}
+
+
+# How many samples do we have in the dataset? 
+# How many covariates are in the dataset?
+str(wdbc)
+
+# We can look at the Global environment (top right) window to get the information,
+# or we can look at the dimensions of wdbc
+dim(wdbc)
 nrow(wdbc)
-```
-How many covariates are in the dataset? 
-    We can look at the Global environment (top right) window to get the information
-We can also find that out by typing the following command:
-    ```{r}
 ncol(wdbc)
-```
 
 
 #############
@@ -128,3 +107,66 @@ crash <- interval(crash - days(1),                        # Monday @ 9:30 AM
 
 ########## Date arithmetic ##########
 
+require(lubridate)
+
+jan28 <- strptime(c("2016-01-28", "2017-01-28"), format = "%Y-%m-%d")
+
+# we can add a month and then a day is OK
+jan28 + months(1) + days(1)
+
+# adding a day then a month can be problematic
+jan28 + days(1) + months(1)
+
+
+########## grep ##########
+
+# our list of IDs
+IDS <-	c("NP_004`318.3", "XP_003317181.1", "XP_002798337.1", "XP_848654.2", "NP_001074881.1", "XP_228091.6", "XP_415244.3", "NP_001123792.1", "XP_005161278")
+
+# find all IDs that contain "NP"
+(grepids <- grep(pattern = "NP", x = IDS))
+
+IDS[grepids]
+
+# a new set of IDs
+MIDS <-	c("NP_004`318.3", "XP_003317181.1", "XP_002798337.1", "XP_848654.2", "np_001074881.1", "XP_228091.6", "XP_415244.3", "NP_001123792.1", "XP_005161278")
+
+# find all IDs that contain "NP"
+grepmids <- grep("NP", MIDS)
+MIDS[grepmids]
+
+# find all IDs that contain NP (case insensitive)
+grep("NP", MIDS, ignore.case = TRUE, value = TRUE)
+
+# this will return TRUE/FALSE values for each string in the vector
+grepl("NP", MIDS, ignore.case = TRUE)
+
+
+########## g/sub ##########
+
+species <- c("Arabidopsis_thaliana", "Bos_taurus", "Caenorhabditis_elegans", "Danio_rerio", 
+             "Dictyostelium_discoideum", "Drosophila_melanogaster", "Escherichia_coli",
+             "Homo_sapiens", "Mus_musculus", "Mycoplasma_pneumoniae",
+             "Oryza_sativa","Plasmodium_falciparum","Pneumocystis_carinii","Rattus_norvegicus",
+             "Saccharmomyces_cerevisiae","Schizosaccharomyces_pombe","Takifugu_rubripes","Xenopus_laevis",
+             "Zea_mays")
+
+# replace '_' with ' '
+sub("_", " ", species)
+
+# add a new species (this has two _ characters)
+species <- c(species, "Hepatitis_C_Virus")
+
+# only the first '_' is replaced
+sub("_", " ", species)
+
+# both are replaced using gsub()
+gsub("_", " ", species)
+
+# search for "sapiens" or "sativa"            (three different outputs)
+grep("sapiens|sativa", species)               # index
+grep("sapiens|sativa", species, value = TRUE) # values
+grepl("sapiens|sativa", species)              # TRUE/FALSE vector
+
+# search for strings starting with D
+grep("^D", species)
