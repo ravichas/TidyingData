@@ -45,6 +45,7 @@ There is a nice vignette for working with tibbles, accessible using this command
  
 How to create a tibble? 
 ```{r create-tibble}
+require(dplyr)
 tibble(x = 1:5, 
        y = LETTERS[1:5], 
        z = x^2 + 20)
@@ -247,4 +248,4 @@ read_csv("Data/WHO-2.csv", skip = 1)
 
 ## <a name="eeImport"></a>Exercises
 
-Work through the exercises in the Tidyverse section of [Exercises.R](https://raw.githubusercontent.com/ravichas/TidyingData/master/Exercises.R).
+Work through the exercises in the Tidyverse section of [Exercises.Rmd](https://github.com/ravichas/TidyingData/blob/master/Exercises.md#tibbleEx).
