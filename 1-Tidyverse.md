@@ -1,96 +1,62 @@
-BTEP-R/RStudio-Intro
+Data Tidying: Tidyverse Basics
 ================
 Drs. Sarangan Ravichandran and Randall Johnson
-February 26, 2017
 
 ### Cleaning up
 
-Before we begin, let us clean up the environment and set a working directory. This will clear all the variables and start fresh. If you want to follow on, then we suggest you to run the following lines.
+Table of Contents
+=================
 
-``` r
-setwd("H:/2017/BTEP1-TidyingData")
-rm(list = ls())
-```
+1.  [Tibbles](#tibbles)
 
-### Loading the libraries
+    1.1 [Why tibbles?](#why)
 
-Let us first load the libraries needed for the workshop
+    1.2 [Working with tibbles](#working)
 
-``` r
-# if you dont have tidyverse then run the following line once 
-# install.packages(c("tidyverse", "knitr"))
-library(tidyverse)
-```
+    1.3 [Examples and exercises](#eeTibbles)
 
-    ## Loading tidyverse: ggplot2
-    ## Loading tidyverse: tibble
-    ## Loading tidyverse: tidyr
-    ## Loading tidyverse: readr
-    ## Loading tidyverse: purrr
-    ## Loading tidyverse: dplyr
+2.  [Importing Data](#import)
 
-    ## Conflicts with tidy packages ----------------------------------------------
+    2.1 [Comments and metadata](#skip)
 
-    ## filter(): dplyr, stats
-    ## lag():    dplyr, stats
+    2.2 [Examples and exercises](#eeImport)
 
-``` r
-library(knitr)
-library(lubridate)
-```
+<a name="tibbles"></a>Tibbles
+=============================
 
-    ## 
-    ## Attaching package: 'lubridate'
-
-    ## The following object is masked from 'package:base':
-    ## 
-    ##     date
-
-In the tidyverse the commonly returning objects are not data.frame but tibbles. So, let us introduce tibble in this section.
-
-Tibble
-------
+In the tidyverse the commonly returning objects are not data.frame but tibbles, which can be created with either the `tibble()` or `data_frame()` functions.
 
 What is tibble?
 
--   modern way or loooking at the traditional data.frame
+-   modern way of looking at the traditional data.frame
 -   you will get a lot more useful information than the data.frames
 -   tibble is part of tibble package and part of the core tidyverse package
 
-To get help, use
-
-``` r
-?tibble
-vignette("tibble")
-```
+There is a nice vignette for working with tibbles, accessible using this command: `vignette("tibble")`.
 
 How to create a tibble?
 
 ``` r
-tibble(
-  x = 1:5, 
-  y = LETTERS[1:5], 
-  z = x^2 + 20
-)
+tibble(x = 1:5, 
+       y = LETTERS[1:5], 
+       z = x^2 + 20)
 ```
 
-    ## # A tibble: 5 × 3
-    ##       x     y     z
+    ## # A tibble: 5 x 3
+    ##       x y         z
     ##   <int> <chr> <dbl>
-    ## 1     1     A    21
-    ## 2     2     B    24
-    ## 3     3     C    29
-    ## 4     4     D    36
-    ## 5     5     E    45
+    ## 1     1 A       21.
+    ## 2     2 B       24.
+    ## 3     3 C       29.
+    ## 4     4 D       36.
+    ## 5     5 E       45.
 
-What is the difference between the R regular data.frame and tibble (data\_frame)?
+What is the differences between the base-R `data.frame` and `tibble` (`data_frame`)?
 
 ``` r
-employee <- c('John Wayne','Peter Doe','Esther Julie')
-salary <- c(20000, 23400, 26800)
-startdate <- as.Date(c('2016-12-1','2007-3-25','2016-3-14'))
-df <- data.frame(employee, salary, startdate)
-df
+(df <- data.frame(employee = c('John Wayne','Peter Doe','Esther Julie'),
+                  salary = c(20000, 23400, 26800), 
+                  startdate = as.Date(c('2016-12-1','2007-3-25','2016-3-14'))))
 ```
 
     ##       employee salary  startdate
@@ -102,441 +68,475 @@ df
 as_tibble(df)
 ```
 
-    ## # A tibble: 3 × 3
-    ##       employee salary  startdate
-    ##         <fctr>  <dbl>     <date>
-    ## 1   John Wayne  20000 2016-12-01
-    ## 2    Peter Doe  23400 2007-03-25
-    ## 3 Esther Julie  26800 2016-03-14
+    ## # A tibble: 3 x 3
+    ##   employee     salary startdate 
+    ##   <fct>         <dbl> <date>    
+    ## 1 John Wayne   20000. 2016-12-01
+    ## 2 Peter Doe    23400. 2007-03-25
+    ## 3 Esther Julie 26800. 2016-03-14
 
-Let us create a data.frame and a tibble.
+<a name="why"></a>Why Tibbles?
+------------------------------
 
-``` r
-df1 <- data.frame( Color = "Red")
-tb1 <-tibble(Color = "Red")
-```
-
-### <span style="color:green">Tibble Exercise-1</span>
-
-If you type the following commmands, what will you get and explain your reasoning:
+-   `tibble()` doesn't change the inputs (i.e. it doesn't convert strings to factors).
 
 ``` r
-df1$C
-tb1$C
-
-class(df1$Color)
-class(tb1$Color)
+data.frame(x = letters[1:5]) %>%
+    str() # x converted into a factor
 ```
 
-Also, speculate on the type of object that you will get from each of these above two operations?
-
-The above explains traditional R data.frame is helpful in filling in the missing information. Also how data.frame modifies the variable type without asking (ex Character to Factor)
-
-### Map function example
-
-purr::map\_dbl(mtcars, mean) purrr:map\_dbl(mtcars, mean)
-
-tb1 &lt;- as.tibble( Color = "red") tb1$C
-
-you can coerce regular R data frame into tibble. Let us look at the R dataset, cars. Let us learn about cars datset
-
-<pre> <code>
-  ?cars
-</code></pre>
-Let us find out what class cars object belongs to and how to convert cars data frame into tibbles object. Note that
+    ## 'data.frame':    5 obs. of  1 variable:
+    ##  $ x: Factor w/ 5 levels "a","b","c","d",..: 1 2 3 4 5
 
 ``` r
-class(cars)
+data_frame(x = letters[1:5]) %>%
+    str() # no auto-conversion
 ```
 
-    ## [1] "data.frame"
+    ## Classes 'tbl_df', 'tbl' and 'data.frame':    5 obs. of  1 variable:
+    ##  $ x: chr  "a" "b" "c" "d" ...
+
+-   `tibble()` allows the use of variables within the function, making for neater code.
 
 ``` r
-as_tibble(cars)
+data.frame(x = 1:10,
+           y = x / 2) %>%
+    str()  # doesn't work
 ```
 
-    ## # A tibble: 50 × 2
-    ##    speed  dist
-    ##    <dbl> <dbl>
-    ## 1      4     2
-    ## 2      4    10
-    ## 3      7     4
-    ## 4      7    22
-    ## 5      8    16
-    ## 6      9    10
-    ## 7     10    18
-    ## 8     10    26
-    ## 9     10    34
-    ## 10    11    17
-    ## # ... with 40 more rows
+    ## Error in data.frame(x = 1:10, y = x/2): object 'x' not found
 
 ``` r
-head(cars) #otherwise you get all 50 rows
+dat <- data.frame(x = 1:10)
+dat$y <- dat$x / 2
+str(dat)
 ```
 
-    ##   speed dist
-    ## 1     4    2
-    ## 2     4   10
-    ## 3     7    4
-    ## 4     7   22
-    ## 5     8   16
-    ## 6     9   10
-
-Why Tibble?
------------
-
--   Tibble doesnt change the inputs. Ex. strings to factors
--   Doesnt add new names or modify the inputs
--   For example, Tibble never converts strings to factors
-
-What is tribble
----------------
-
--   transposed tibble, tribble()
--   small data in readable form
--   column headings are shown as formulas ( ie ~ )
--   nice format
--   no need to explicitely use head command (Ex. head cars)
+    ## 'data.frame':    10 obs. of  2 variables:
+    ##  $ x: int  1 2 3 4 5 6 7 8 9 10
+    ##  $ y: num  0.5 1 1.5 2 2.5 3 3.5 4 4.5 5
 
 ``` r
-tribble(
-  ~x, ~y, ~z,
-  #--|--|----
-  "Male", 187, 210,
-  "Female", 190, 150
-)
+data_frame(x = 1:10,
+           y = x / 2) %>%
+    str()
 ```
 
-    ## # A tibble: 2 × 3
-    ##        x     y     z
-    ##    <chr> <dbl> <dbl>
-    ## 1   Male   187   210
-    ## 2 Female   190   150
+    ## Classes 'tbl_df', 'tbl' and 'data.frame':    10 obs. of  2 variables:
+    ##  $ x: int  1 2 3 4 5 6 7 8 9 10
+    ##  $ y: num  0.5 1 1.5 2 2.5 3 3.5 4 4.5 5
 
-Let us create a little bit complicated tibble note that lubridate gives the current time
+-   `data.frame()` does partial string matching without warning you.
 
 ``` r
-t2 <- tibble(
-  a = lubridate::now() + runif(1e3) * 86400,
-  b = lubridate::today() + runif(1e3) * 30,
-  c = 1:1e3,
-  d = runif(1e3),
-  e = sample(letters, 1e3, replace = TRUE)
-)
+data.frame(color = "red")$c
 ```
+
+    ## [1] red
+    ## Levels: red
 
 ``` r
-t2
+data_frame(color = "red")$c
 ```
 
-    ## # A tibble: 1,000 × 5
-    ##                      a          b     c         d     e
-    ##                 <dttm>     <date> <int>     <dbl> <chr>
-    ## 1  2017-04-05 21:29:11 2017-04-25     1 0.9833032     i
-    ## 2  2017-04-06 13:21:13 2017-04-26     2 0.3967371     t
-    ## 3  2017-04-06 04:53:48 2017-04-24     3 0.9805095     g
-    ## 4  2017-04-05 21:05:16 2017-04-19     4 0.5579897     h
-    ## 5  2017-04-06 02:01:07 2017-04-25     5 0.6319346     k
-    ## 6  2017-04-06 15:03:27 2017-05-02     6 0.1584572     g
-    ## 7  2017-04-06 14:04:12 2017-04-06     7 0.8944167     v
-    ## 8  2017-04-05 21:21:09 2017-04-16     8 0.8882579     h
-    ## 9  2017-04-05 23:54:39 2017-04-26     9 0.3822417     i
-    ## 10 2017-04-06 11:19:30 2017-04-15    10 0.8487553     l
+    ## Warning: Unknown or uninitialised column: 'c'.
+
+    ## NULL
+
+-   The print method for tibbles is more user friendly.
+
+``` r
+data(who)
+
+who # this is a tibble
+```
+
+    ## # A tibble: 7,240 x 60
+    ##    country     iso2  iso3   year new_sp_m014 new_sp_m1524 new_sp_m2534
+    ##    <chr>       <chr> <chr> <int>       <int>        <int>        <int>
+    ##  1 Afghanistan AF    AFG    1980          NA           NA           NA
+    ##  2 Afghanistan AF    AFG    1981          NA           NA           NA
+    ##  3 Afghanistan AF    AFG    1982          NA           NA           NA
+    ##  4 Afghanistan AF    AFG    1983          NA           NA           NA
+    ##  5 Afghanistan AF    AFG    1984          NA           NA           NA
+    ##  6 Afghanistan AF    AFG    1985          NA           NA           NA
+    ##  7 Afghanistan AF    AFG    1986          NA           NA           NA
+    ##  8 Afghanistan AF    AFG    1987          NA           NA           NA
+    ##  9 Afghanistan AF    AFG    1988          NA           NA           NA
+    ## 10 Afghanistan AF    AFG    1989          NA           NA           NA
+    ## # ... with 7,230 more rows, and 53 more variables: new_sp_m3544 <int>,
+    ## #   new_sp_m4554 <int>, new_sp_m5564 <int>, new_sp_m65 <int>,
+    ## #   new_sp_f014 <int>, new_sp_f1524 <int>, new_sp_f2534 <int>,
+    ## #   new_sp_f3544 <int>, new_sp_f4554 <int>, new_sp_f5564 <int>,
+    ## #   new_sp_f65 <int>, new_sn_m014 <int>, new_sn_m1524 <int>,
+    ## #   new_sn_m2534 <int>, new_sn_m3544 <int>, new_sn_m4554 <int>,
+    ## #   new_sn_m5564 <int>, new_sn_m65 <int>, new_sn_f014 <int>,
+    ## #   new_sn_f1524 <int>, new_sn_f2534 <int>, new_sn_f3544 <int>,
+    ## #   new_sn_f4554 <int>, new_sn_f5564 <int>, new_sn_f65 <int>,
+    ## #   new_ep_m014 <int>, new_ep_m1524 <int>, new_ep_m2534 <int>,
+    ## #   new_ep_m3544 <int>, new_ep_m4554 <int>, new_ep_m5564 <int>,
+    ## #   new_ep_m65 <int>, new_ep_f014 <int>, new_ep_f1524 <int>,
+    ## #   new_ep_f2534 <int>, new_ep_f3544 <int>, new_ep_f4554 <int>,
+    ## #   new_ep_f5564 <int>, new_ep_f65 <int>, newrel_m014 <int>,
+    ## #   newrel_m1524 <int>, newrel_m2534 <int>, newrel_m3544 <int>,
+    ## #   newrel_m4554 <int>, newrel_m5564 <int>, newrel_m65 <int>,
+    ## #   newrel_f014 <int>, newrel_f1524 <int>, newrel_f2534 <int>,
+    ## #   newrel_f3544 <int>, newrel_f4554 <int>, newrel_f5564 <int>,
+    ## #   newrel_f65 <int>
+
+``` r
+as.data.frame(who) # try printing as a data.frame (output not shown here)
+```
+
+Why not use a tibble? There are a few packages that don't get along with tibbles (e.g. the missForest package). In this case, you may need to convert your tibble into a data.frame using `as.data.frame()`.
+
+<a name="working"></a>Working with tibbles
+------------------------------------------
+
+Here is a more complicated tibble, consisting of a random start time within +/- 12 hours of now and a random end time within the next 30 days (where "now" is relative to when this code is run).
+
+``` r
+# lubridate gives us the now() function
+require(lubridate)
+
+twelve_hours <- 43200 # seconds
+twenty4_hours <- 86400 # seconds
+
+n <- 1000
+set.seed(239847)
+(t2 <- tibble(
+    start   = now() +                      # random time within +/- 12 hours of now
+              runif(n, -twelve_hours, twelve_hours), 
+    end     = now() +                      # random time within the next 30 days
+              runif(n, 1, 30 * twenty4_hours),
+    elapsed = as.numeric(end - start, 
+                         units = 'hours'), # hours between time_of_day and day
+    l       = sample(letters, n, replace = TRUE)  # some letters
+))
+```
+
+A tibble: 1,000 x 4
+===================
+
+start end elapsed l
+<dttm> <dttm> <dbl> <chr> 1 2018-03-13 11:31:15 2018-04-03 12:24:03 505. d
+2 2018-03-13 11:04:22 2018-04-11 14:06:40 699. p
+3 2018-03-13 12:09:19 2018-03-28 02:20:54 350. f
+4 2018-03-13 02:28:50 2018-03-14 05:34:29 27.1 n
+5 2018-03-13 10:57:35 2018-04-11 06:55:35 692. q
+6 2018-03-13 17:47:08 2018-03-24 07:59:27 254. b
+7 2018-03-13 12:49:37 2018-03-21 18:33:43 198. v
+8 2018-03-13 03:06:51 2018-04-02 05:54:52 483. f
+9 2018-03-13 18:52:39 2018-03-19 06:57:55 132. b
+10 2018-03-12 20:27:28 2018-03-17 15:46:57 115. b
+\# ... with 990 more rows
+
+### Adding/changing variables
+
+You can add and change variables within a tibble using `mutate()`. The syntax is nearly identical to `tibble()` and `data_frame()`, except it requires the tibble you want to edit as input. For example, if we want to add a new variable to our data\_frame, `t2`:
+
+``` r
+(t2 <- mutate(t2,
+              case = 1:n <= 500))
+```
+
+    ## # A tibble: 1,000 x 5
+    ##    start               end                 elapsed l     case 
+    ##    <dttm>              <dttm>                <dbl> <chr> <lgl>
+    ##  1 2018-03-13 11:31:15 2018-04-03 12:24:03   505.  d     TRUE 
+    ##  2 2018-03-13 11:04:22 2018-04-11 14:06:40   699.  p     TRUE 
+    ##  3 2018-03-13 12:09:19 2018-03-28 02:20:54   350.  f     TRUE 
+    ##  4 2018-03-13 02:28:50 2018-03-14 05:34:29    27.1 n     TRUE 
+    ##  5 2018-03-13 10:57:35 2018-04-11 06:55:35   692.  q     TRUE 
+    ##  6 2018-03-13 17:47:08 2018-03-24 07:59:27   254.  b     TRUE 
+    ##  7 2018-03-13 12:49:37 2018-03-21 18:33:43   198.  v     TRUE 
+    ##  8 2018-03-13 03:06:51 2018-04-02 05:54:52   483.  f     TRUE 
+    ##  9 2018-03-13 18:52:39 2018-03-19 06:57:55   132.  b     TRUE 
+    ## 10 2018-03-12 20:27:28 2018-03-17 15:46:57   115.  b     TRUE 
     ## # ... with 990 more rows
+
+### Adding rows
+
+You can add rows to a tibble, and using the `.before` option will allow you to specify where exactly to add the data (default, i.e. if you don't specify `.before`, is to put the new data at the end of the tibble).
+
+``` r
+# see our new row on line 2?
+(t2 <- t2 %>%
+       add_row(start   = now(),
+               end     = now() + 1,
+               elapsed = 24,
+               l       = 'f',
+               .before = 2))
+```
+
+    ## # A tibble: 1,001 x 5
+    ##    start               end                 elapsed l     case 
+    ##    <dttm>              <dttm>                <dbl> <chr> <lgl>
+    ##  1 2018-03-13 11:31:15 2018-04-03 12:24:03   505.  d     TRUE 
+    ##  2 2018-03-13 07:27:31 2018-03-13 07:27:32    24.0 f     NA   
+    ##  3 2018-03-13 11:04:22 2018-04-11 14:06:40   699.  p     TRUE 
+    ##  4 2018-03-13 12:09:19 2018-03-28 02:20:54   350.  f     TRUE 
+    ##  5 2018-03-13 02:28:50 2018-03-14 05:34:29    27.1 n     TRUE 
+    ##  6 2018-03-13 10:57:35 2018-04-11 06:55:35   692.  q     TRUE 
+    ##  7 2018-03-13 17:47:08 2018-03-24 07:59:27   254.  b     TRUE 
+    ##  8 2018-03-13 12:49:37 2018-03-21 18:33:43   198.  v     TRUE 
+    ##  9 2018-03-13 03:06:51 2018-04-02 05:54:52   483.  f     TRUE 
+    ## 10 2018-03-13 18:52:39 2018-03-19 06:57:55   132.  b     TRUE 
+    ## # ... with 991 more rows
+
+### Subsetting
+
+You can use all the same indexing techniques described for data.frames in the [R/RStudio Intro](https://github.com/ravichas/TidyingData/blob/master/0-RStudio-Intro.md), or you can use one of the wrapper functions from the tidyverse:
+
+-   filter(): Select specific rows from the `tibble`
+
+``` r
+# pull all rows where elapsed number of hours is less than 72
+# looks like there are 102 observations (rows) that fit that criterion
+filter(t2, elapsed < 72)
+```
+
+    ## # A tibble: 102 x 5
+    ##    start               end                 elapsed l     case 
+    ##    <dttm>              <dttm>                <dbl> <chr> <lgl>
+    ##  1 2018-03-13 07:27:31 2018-03-13 07:27:32   24.0  f     NA   
+    ##  2 2018-03-13 02:28:50 2018-03-14 05:34:29   27.1  n     TRUE 
+    ##  3 2018-03-13 18:55:44 2018-03-15 20:59:34   50.1  k     TRUE 
+    ##  4 2018-03-12 22:35:34 2018-03-13 12:09:15   13.6  p     TRUE 
+    ##  5 2018-03-13 14:05:37 2018-03-15 13:52:42   47.8  v     TRUE 
+    ##  6 2018-03-13 14:44:23 2018-03-14 19:29:18   28.7  v     TRUE 
+    ##  7 2018-03-12 19:55:08 2018-03-15 18:25:20   70.5  e     TRUE 
+    ##  8 2018-03-13 02:30:37 2018-03-13 07:31:09    5.01 g     TRUE 
+    ##  9 2018-03-13 14:48:01 2018-03-14 19:07:19   28.3  l     TRUE 
+    ## 10 2018-03-13 11:40:03 2018-03-14 04:00:02   16.3  n     TRUE 
+    ## # ... with 92 more rows
+
+-   select(): Select specific columns from the `tibble`
+
+``` r
+# pull all start and end times
+select(t2, start, end)
+```
+
+    ## # A tibble: 1,001 x 2
+    ##    start               end                
+    ##    <dttm>              <dttm>             
+    ##  1 2018-03-13 11:31:15 2018-04-03 12:24:03
+    ##  2 2018-03-13 07:27:31 2018-03-13 07:27:32
+    ##  3 2018-03-13 11:04:22 2018-04-11 14:06:40
+    ##  4 2018-03-13 12:09:19 2018-03-28 02:20:54
+    ##  5 2018-03-13 02:28:50 2018-03-14 05:34:29
+    ##  6 2018-03-13 10:57:35 2018-04-11 06:55:35
+    ##  7 2018-03-13 17:47:08 2018-03-24 07:59:27
+    ##  8 2018-03-13 12:49:37 2018-03-21 18:33:43
+    ##  9 2018-03-13 03:06:51 2018-04-02 05:54:52
+    ## 10 2018-03-13 18:52:39 2018-03-19 06:57:55
+    ## # ... with 991 more rows
+
+``` r
+# or drop the l column
+select(t2, -l)
+```
+
+    ## # A tibble: 1,001 x 4
+    ##    start               end                 elapsed case 
+    ##    <dttm>              <dttm>                <dbl> <lgl>
+    ##  1 2018-03-13 11:31:15 2018-04-03 12:24:03   505.  TRUE 
+    ##  2 2018-03-13 07:27:31 2018-03-13 07:27:32    24.0 NA   
+    ##  3 2018-03-13 11:04:22 2018-04-11 14:06:40   699.  TRUE 
+    ##  4 2018-03-13 12:09:19 2018-03-28 02:20:54   350.  TRUE 
+    ##  5 2018-03-13 02:28:50 2018-03-14 05:34:29    27.1 TRUE 
+    ##  6 2018-03-13 10:57:35 2018-04-11 06:55:35   692.  TRUE 
+    ##  7 2018-03-13 17:47:08 2018-03-24 07:59:27   254.  TRUE 
+    ##  8 2018-03-13 12:49:37 2018-03-21 18:33:43   198.  TRUE 
+    ##  9 2018-03-13 03:06:51 2018-04-02 05:54:52   483.  TRUE 
+    ## 10 2018-03-13 18:52:39 2018-03-19 06:57:55   132.  TRUE 
+    ## # ... with 991 more rows
+
+### Printing
 
 You can change the defaults of tibble display with options.
 
 ``` r
-options(tibble.print_max = 10, tibble.print_min = 6)
+tmp <- options()
+options(tibble.print_min = 6)
 t2
 ```
 
-    ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-04-05 21:29:11 2017-04-25     1 0.9833032     i
-    ## 2 2017-04-06 13:21:13 2017-04-26     2 0.3967371     t
-    ## 3 2017-04-06 04:53:48 2017-04-24     3 0.9805095     g
-    ## 4 2017-04-05 21:05:16 2017-04-19     4 0.5579897     h
-    ## 5 2017-04-06 02:01:07 2017-04-25     5 0.6319346     k
-    ## 6 2017-04-06 15:03:27 2017-05-02     6 0.1584572     g
-    ## # ... with 994 more rows
-
-You can also use the following tibble option to show all columns
-
-``` r
-options(tibble.width = Inf)
-# more options available at 
-package?tibble
-```
-
-How to extract the columns or rows of tibble?
-
-``` r
-head(t2$a)
-```
-
-    ## [1] "2017-04-05 21:29:11 EDT" "2017-04-06 13:21:13 EDT"
-    ## [3] "2017-04-06 04:53:48 EDT" "2017-04-05 21:05:16 EDT"
-    ## [5] "2017-04-06 02:01:07 EDT" "2017-04-06 15:03:27 EDT"
-
-``` r
-has_name(t2, "b")
-```
-
-    ## [1] TRUE
-
-``` r
-getOption("tibble.max_extra_cols")
-```
-
-    ## NULL
-
-how to add a row of a tibble in a specific place?
-
-original t2
-
-``` r
-t2
-```
-
-    ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-04-05 21:29:11 2017-04-25     1 0.9833032     i
-    ## 2 2017-04-06 13:21:13 2017-04-26     2 0.3967371     t
-    ## 3 2017-04-06 04:53:48 2017-04-24     3 0.9805095     g
-    ## 4 2017-04-05 21:05:16 2017-04-19     4 0.5579897     h
-    ## 5 2017-04-06 02:01:07 2017-04-25     5 0.6319346     k
-    ## 6 2017-04-06 15:03:27 2017-05-02     6 0.1584572     g
-    ## # ... with 994 more rows
-
-``` r
-    aa = lubridate::today()
-    bb = lubridate::now()
-    cc = 1:1
-    dd = runif(1)
-    ee = sample(letters, 1, replace = TRUE)
-    print(aa); print(bb); print(cc); print(dd); print(ee)
-```
-
-    ## [1] "2017-04-05"
-
-    ## [1] "2017-04-05 15:15:41 EDT"
-
-    ## [1] 1
-
-    ## [1] 0.8591092
-
-    ## [1] "n"
-
-``` r
-t2 %>% 
-  add_row(
-    a = aa, 
-    b = bb,
-    c = cc,
-    d = dd,
-    e = ee, .before = 2  # note the dot in ".before = 2"
-)
-```
-
-    ## # A tibble: 1,001 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-04-05 21:29:11 2017-04-25     1 0.9833032     i
-    ## 2 2017-04-04 20:00:00 2017-04-05     1 0.8591092     n
-    ## 3 2017-04-06 13:21:13 2017-04-26     2 0.3967371     t
-    ## 4 2017-04-06 04:53:48 2017-04-24     3 0.9805095     g
-    ## 5 2017-04-05 21:05:16 2017-04-19     4 0.5579897     h
-    ## 6 2017-04-06 02:01:07 2017-04-25     5 0.6319346     k
+    ## # A tibble: 1,001 x 5
+    ##   start               end                 elapsed l     case 
+    ##   <dttm>              <dttm>                <dbl> <chr> <lgl>
+    ## 1 2018-03-13 11:31:15 2018-04-03 12:24:03   505.  d     TRUE 
+    ## 2 2018-03-13 07:27:31 2018-03-13 07:27:32    24.0 f     NA   
+    ## 3 2018-03-13 11:04:22 2018-04-11 14:06:40   699.  p     TRUE 
+    ## 4 2018-03-13 12:09:19 2018-03-28 02:20:54   350.  f     TRUE 
+    ## 5 2018-03-13 02:28:50 2018-03-14 05:34:29    27.1 n     TRUE 
+    ## 6 2018-03-13 10:57:35 2018-04-11 06:55:35   692.  q     TRUE 
     ## # ... with 995 more rows
 
-After the change
-
 ``` r
-t2
+# reset options
+options(tmp)
 ```
 
-    ## # A tibble: 1,000 × 5
-    ##                     a          b     c         d     e
-    ##                <dttm>     <date> <int>     <dbl> <chr>
-    ## 1 2017-04-05 21:29:11 2017-04-25     1 0.9833032     i
-    ## 2 2017-04-06 13:21:13 2017-04-26     2 0.3967371     t
-    ## 3 2017-04-06 04:53:48 2017-04-24     3 0.9805095     g
-    ## 4 2017-04-05 21:05:16 2017-04-19     4 0.5579897     h
-    ## 5 2017-04-06 02:01:07 2017-04-25     5 0.6319346     k
-    ## 6 2017-04-06 15:03:27 2017-05-02     6 0.1584572     g
-    ## # ... with 994 more rows
+You can also use the `tibble.width = Inf` option to print all columns. There are more options documented at `package?tibble`.
 
-Subsetting
-----------
+<a name="eeTibbles"></a>Examples and Exercises
+----------------------------------------------
 
--   $ by name
--   
+For more examples, see line `26`of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R).
+
+Practice exercises for this section can be found in [Exercsies.Rmd](https://github.com/ravichas/TidyingData/blob/master/Exercises.md#tibbleEx).
+
+<a name="import"></a>Importing Data
+===================================
+
+RStudio has a nice data import utility under File &gt; Import Dataset. This will generate the code to repeat the import (i.e. so you can save it to your script).
+
+![](Images/RS-ImportDataset.png)
+
+If you are comfortable with writing the code directly, the following functions will import data into tibbles:
+
+-   `?read_csv`: import comma separated values data
+-   `?read_csv2`: import semicolon separated values data (European version of a csv)
+-   `?read_tsv`: import tab delimited data
+-   `?read_delim`: import a text file with data (e.g. space delimited)
+-   `?read_excel`: import Excel formatted data (either xls or xlsx format)
+
+If you are familiar with R you may recognize that there are data.frame generating counterparts from the utils package (e.g. `read.csv()` and `read.delim()`). Why would we want to use these function from the readr package over the base-R functions?
+
+-   Speed (~ 10x) - this can make a big difference with very large data sets
+-   Output from readr is a tibble
+-   Base R taps into the OS where it is executed, but `readr` functions are OS independent and hence more consistent across platforms
 
 ``` r
-df <- tibble(
-  x = runif(5),
-  y = rnorm(5)
-)
-
-df$x
+# returns a data.frame
+read.csv('Data/WHO-2a.csv')
 ```
 
-    ## [1] 0.9915810 0.6355919 0.9408978 0.9293142 0.1179778
+    ##                             Country X2007.2013 X2007.2013.1
+    ## 1                           Bahamas       15.9          2.2
+    ## 2  Bolivia (Plurinational State of)        4.5          3.5
+    ## 3                            Brazil       11.3           NA
+    ## 4                      Burkina Faso        2.9          2.2
+    ## 5                           Burundi        2.8          1.7
+    ## 6                             China        1.4          1.6
+    ## 7                          Colombia        3.1           NA
+    ## 8                             Congo       11.5          6.5
+    ## 9                      Cook Islands        4.5           NA
+    ## 10 Democratic Republic of the Congo        2.3          2.0
+    ## 11               Dominican Republic        9.4          1.2
+    ## 12                          Ecuador        5.0           NA
+    ## 13                      El Salvador       16.4           NA
+    ## 14                            Haiti        7.3          4.8
+    ## 15                            India       86.3         33.1
+    ## 16                        Indonesia        2.0          1.8
+    ## 17       Iran (Islamic Republic of)        1.3          1.3
+    ## 18                       Kyrgyzstan        3.4           NA
+    ## 19                           Malawi        3.9           NA
+    ## 20                        Mauritius        5.9           NA
+    ## 21                           Mexico        4.7           NA
+    ## 22                        Nicaragua        5.7           NA
+    ## 23                            Niger        3.9          2.9
+    ## 24                             Oman        7.4           NA
+    ## 25                             Peru        5.6          1.4
+    ## 26                      Philippines       10.8         10.8
+    ## 27              Republic of Moldova        4.7          5.2
+    ## 28               Russian Federation        4.1          2.7
+    ## 29                           Rwanda        3.6          1.7
+    ## 30            Sao Tome and Principe       13.8          2.4
+    ## 31                          Ukraine        3.7          4.0
+    ## 32                           Zambia        4.7           NA
 
 ``` r
-df[[1]]
+require(readr)
+# returns a tibble
+# also, note the helpful warning that several columns have the same name
+read_csv('Data/WHO-2a.csv')
 ```
 
-    ## [1] 0.9915810 0.6355919 0.9408978 0.9293142 0.1179778
+    ## Warning: Duplicated column names deduplicated: '2007-2013' =>
+    ## '2007-2013_1' [3]
 
-Can you use Tibble in a pipeline?
+    ## Parsed with column specification:
+    ## cols(
+    ##   Country = col_character(),
+    ##   `2007-2013` = col_double(),
+    ##   `2007-2013_1` = col_double()
+    ## )
+
+    ## # A tibble: 32 x 3
+    ##   Country                          `2007-2013` `2007-2013_1`
+    ##   <chr>                                  <dbl>         <dbl>
+    ## 1 Bahamas                                15.9           2.20
+    ## 2 Bolivia (Plurinational State of)        4.50          3.50
+    ## 3 Brazil                                 11.3          NA   
+    ## 4 Burkina Faso                            2.90          2.20
+    ## 5 Burundi                                 2.80          1.70
+    ## 6 China                                   1.40          1.60
+    ## # ... with 26 more rows
+
+<a name="skip"></a>Comments/Metadata
+------------------------------------
+
+Sometimes, there will be extra metadata at the top of a file, often preceded with '\#'. How do we read a data set that has some metadata (indicated by '\#')? What if the extra lines aren't properly marked with '\#'?
 
 ``` r
-df %>% .$x   
+# we want to skip this first line
+readLines("Data/WHO-2.csv")[1:3]
 ```
 
-    ## [1] 0.9915810 0.6355919 0.9408978 0.9293142 0.1179778
+    ## [1] "#Country,Median consumer price ratio of selected generic medicines - Private,Median consumer price ratio of selected generic medicines - Public"
+    ## [2] "Country,CPR_private,CPR_public"                                                                                                                 
+    ## [3] "Bahamas,15.9,2.2"
 
 ``` r
-df %>% .[["y"]]
-```
-
-    ## [1] 0.8673129 1.0857834 0.5456471 0.2797278 0.6857248
-
-What happens if tibble doesnt work with a package? Transform Tibble back to a data.frame using the following command:
-
-``` r
-as.data.frame(df)
-```
-
-    ##           x         y
-    ## 1 0.9915810 0.8673129
-    ## 2 0.6355919 1.0857834
-    ## 3 0.9408978 0.5456471
-    ## 4 0.9293142 0.2797278
-    ## 5 0.1179778 0.6857248
-
-### <span style="color:green">Tibble Exercise-2</span>
-
-Create a new tibble with the following information: name, age, height, weight, smoker (T or F), Male (True or Fale) compare the tibble with the R data\_frame
-
-### <span style="color:green">Tibble Exercise-3</span>
-
-convert iris data set (given to us in data.frame ) to tibble data\_frame
-
-### <span style="color:green">Tibble Exercise-4</span>
-
-How can you tell whether the object is a Tibble or not?
-
-### <span style="color:green">Tibble Exercise-5 (based on Hadley's tutorial) </span>
-
-Partial matching is a big issue with data.frame. df &lt;- data.frame(abc = 1, xyz = "a") df$x df\[, "xyz"\]
-
-### <span style="color:green">Final R-basic exercise</span>
-
-The datset that we will be using for this section comes from the
-National Electronic Injury Surveillance System (NEISS) <https://www.cpsc.gov/research--statistics/neiss-injury-data> Here is a short description of the data file from the NEISS.
-
-*"Each record (case) is separated by a carriage return/line feed, and the fields (parameters and narrative) are separated by a tab character, which you can specify as the delimiter when importing into a spreadsheet or database."*
-
-Before you read in the data, please take a look at the following two files: **NEISS\_SAS\_formats.txt** and **NEISS\_SAS\_variance.txt** These two files will act as the codebook for the data.
-
-Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** and call the data as **nss15** variable.
-
-**Hint:** Use the File --&gt; Import --&gt; Data DataSet option to read the file. To remind the data is in a tab-separated format.
-
-**Hint:** Watch out for the Data Type choices that are suggested to you and choose the appropriate ones
-
-**Hint:** Please watch out for any warnings or issues while R/Rstudio is reading the files. If you spot any errors, think of how to fix it. After fixing the problems (if any), go back and read the file.
-
-Answer the following questions.
-
--   How many cases are reported in this dataset?
--   How many covariates this dataset has?
--   Access CPSC Case \# 150620565 and report the following things: What is the age of the patient? What is the Race, weight, Stratum, Sex, Race and Diagnosis
--   How many are more than 100 years old?
--   How many cases were taken to **Children's Hospital**? From the reported cases, get the CPSC case number and age for the 20th entry.
-
-### Ignore from here to the end for the moment
-
-Hands-on exercise using Wisconsin Breast Cancer dataset
--------------------------------------------------------
-
-Now, let us read a slightly complicated Breast Cancer dataset. First let us use the import data set drop-down option
-
-![](Images/RS-ImportDataset.png) ![](Images/RS-ImportDataset1.png)
-
-``` r
-#wdbc <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", col_names = FALSE)
-
-wdbc <- read_csv("Data/wdbc.data", col_names = FALSE)
+# ignore metadata row
+read_csv("Data/WHO-2.csv", comment = "#")
 ```
 
     ## Parsed with column specification:
     ## cols(
-    ##   .default = col_double(),
-    ##   X1 = col_integer(),
-    ##   X2 = col_character()
+    ##   Country = col_character(),
+    ##   CPR_private = col_double(),
+    ##   CPR_public = col_double()
     ## )
 
-    ## See spec(...) for full column specifications.
+    ## # A tibble: 32 x 3
+    ##   Country                          CPR_private CPR_public
+    ##   <chr>                                  <dbl>      <dbl>
+    ## 1 Bahamas                                15.9        2.20
+    ## 2 Bolivia (Plurinational State of)        4.50       3.50
+    ## 3 Brazil                                 11.3       NA   
+    ## 4 Burkina Faso                            2.90       2.20
+    ## 5 Burundi                                 2.80       1.70
+    ## 6 China                                   1.40       1.60
+    ## # ... with 26 more rows
 
 ``` r
-#wdbctry2 <- read_csv("C:/Users/Ravi/Desktop/BTEP/Data/wdbc.data", header = FALSE)
-names(wdbc)
+# this results in identical output, but we specify how many lines to skip
+read_csv("Data/WHO-2.csv", skip = 1)
 ```
 
-    ##  [1] "X1"  "X2"  "X3"  "X4"  "X5"  "X6"  "X7"  "X8"  "X9"  "X10" "X11"
-    ## [12] "X12" "X13" "X14" "X15" "X16" "X17" "X18" "X19" "X20" "X21" "X22"
-    ## [23] "X23" "X24" "X25" "X26" "X27" "X28" "X29" "X30" "X31" "X32"
+    ## Parsed with column specification:
+    ## cols(
+    ##   Country = col_character(),
+    ##   CPR_private = col_double(),
+    ##   CPR_public = col_double()
+    ## )
 
-Let us add column names
+    ## # A tibble: 32 x 3
+    ##   Country                          CPR_private CPR_public
+    ##   <chr>                                  <dbl>      <dbl>
+    ## 1 Bahamas                                15.9        2.20
+    ## 2 Bolivia (Plurinational State of)        4.50       3.50
+    ## 3 Brazil                                 11.3       NA   
+    ## 4 Burkina Faso                            2.90       2.20
+    ## 5 Burundi                                 2.80       1.70
+    ## 6 China                                   1.40       1.60
+    ## # ... with 26 more rows
 
-``` r
-cnames <- c("ID", "Diagnosis", 
-            "radius", "Texture", "Perimeter", "area",
-            "smoothness", "compactness", "concavity", "concave_points",
-            "symmetry","fractaldim",
-            "radiusSE", "TextureSE", "PerimeterSE", "areaSE",
-            "smoothnessSE", "compactnessSE", "concavitySE", "concave_pointsSE",
-            "symmetrySE","fractaldimSE",
-            "radiusW", "TextureW", "PerimeterW", "areaW",
-            "smoothnessW", "compactnessW", "concavityW", "concave_pointsW",
-            "symmetryW","fractaldimW")
+<a name="eeImport"></a>Exercises
+--------------------------------
 
-names(wdbc) <- cnames
-```
-
-Let us find out how many samples we have in the dataset?
-
-``` r
-nrow(wdbc)
-```
-
-    ## [1] 569
-
-How many covariates are in the dataset? We can look at the Global environment (top right) window to get the information We can also find that out by typing the following command:
-
-``` r
-ncol(wdbc)
-```
-
-    ## [1] 32
-
-Including Plots
----------------
-
-You can also embed plots, for example:
-
-![](2-TidyingData-TBL-TIDYING_files/figure-markdown_github/pressure-1.png)
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-``` r
-with(cars, plot(speed,dist))
-```
-
-![cars](2-TidyingData-TBL-TIDYING_files/figure-markdown_github/cars-1.png)
+Work through the exercises in the Tidyverse section of [Exercises.R](https://raw.githubusercontent.com/ravichas/TidyingData/master/Exercises.R).

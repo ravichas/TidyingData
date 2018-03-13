@@ -15,14 +15,29 @@ library(lubridate)
 examples <- readLines('Examples.R')
 ```
 
+# Table of Contents
 
-# Tibbles
+1. [Tibbles](#tibbles)
+
+    1.1 [Why tibbles?](#why)
+    
+    1.2 [Working with tibbles](#working)
+    
+    1.3 [Examples and exercises](#eeTibbles)
+
+2. [Importing Data](#import)
+
+    2.1 [Comments and metadata](#skip)
+    
+    2.2 [Examples and exercises](#eeImport)
+
+# <a name="tibbles"></a>Tibbles
 
 In the tidyverse the commonly returning objects are not data.frame but tibbles, which can be created with either the `tibble()` or `data_frame()` functions.
 
 What is tibble?
 
-- modern way of loooking at the traditional data.frame 
+- modern way of looking at the traditional data.frame 
 - you will get a lot more useful information than the data.frames
 - tibble is part of tibble package and part of the core tidyverse package
  
@@ -46,9 +61,9 @@ as_tibble(df)
 ```
 
 
-## Why Tibbles? 
+## <a name="why"></a>Why Tibbles? 
 
-- `tibble()` doesnt change the inputs (i.e. it doesn't convert strings to factors).
+- `tibble()` doesn't change the inputs (i.e. it doesn't convert strings to factors).
 
 ```{r}
 data.frame(x = letters[1:5]) %>%
@@ -95,7 +110,7 @@ as.data.frame(who) # try printing as a data.frame (output not shown here)
 
 Why not use a tibble? There are a few packages that don't get along with tibbles (e.g. the missForest package). In this case, you may need to convert your tibble into a data.frame using `as.data.frame()`. 
 
-## Working with tibbles
+## <a name="working"></a>Working with tibbles
 
 Here is a more complicated tibble, consisting of a random start time within +/- 12 hours of now and a random end time within the next 30 days (where "now" is relative to when this code is run).
 
@@ -179,13 +194,13 @@ options(tmp)
 
 You can also use the `tibble.width = Inf` option to print all columns. There are more options documented at `package?tibble`.
 
-## Examples and Exercises
+## <a name="eeTibbles"></a>Examples and Exercises
 
 For more examples, see line ```r which(examples == "########## tibble Examples ##########")```of [Examples.R](https://github.com/ravichas/TidyingData/blob/master/Examples.R).
 
 Practice exercises for this section can be found in [Exercsies.Rmd](https://github.com/ravichas/TidyingData/blob/master/Exercises.md#tibbleEx).
 
-# Importing Data
+# <a name="import"></a>Importing Data
 
 RStudio has a nice data import utility under File > Import Dataset. This will generate the code to repeat the import (i.e. so you can save it to your script).
 
@@ -196,8 +211,8 @@ If you are comfortable with writing the code directly, the following functions w
 - `?read_csv`: import comma separated values data
 - `?read_csv2`: import semicolon separated values data (European version of a csv)
 - `?read_tsv`: import tab delimited data
-- `?read_delim`: import a text file with data (e.g. space delimted)
-- `?read_excel`: import Excel formated data (either xls or xlsx format)
+- `?read_delim`: import a text file with data (e.g. space delimited)
+- `?read_excel`: import Excel formatted data (either xls or xlsx format)
 
 If you are familiar with R you may recognize that there are data.frame generating counterparts from the utils package (e.g. `read.csv()` and `read.delim()`). Why would we want to use these function from the readr package over the base-R functions?
 
@@ -215,9 +230,9 @@ require(readr)
 read_csv('Data/WHO-2a.csv')
 ```
 
-## Comments/Metadata
+## <a name="skip"></a>Comments/Metadata
 
-Sometimes, there will be extra metadata at the top of a file, often preceded with '#'. How do we read a dataset that has some metadata (indicated by '#')? What if the extra lines aren't properly marked with '#'?
+Sometimes, there will be extra metadata at the top of a file, often preceded with '#'. How do we read a data set that has some metadata (indicated by '#')? What if the extra lines aren't properly marked with '#'?
 
 ```{r}
 # we want to skip this first line
@@ -230,6 +245,6 @@ read_csv("Data/WHO-2.csv", comment = "#")
 read_csv("Data/WHO-2.csv", skip = 1)
 ```
 
-# Exercises
+## <a name="eeImport"></a>Exercises
 
 Work through the exercises in the Tidyverse section of [Exercises.R](https://raw.githubusercontent.com/ravichas/TidyingData/master/Exercises.R).
