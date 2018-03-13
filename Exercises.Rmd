@@ -97,3 +97,22 @@ Answer the following questions using the NEISS data set that you imported above.
 - How many were children ( < 5 years)? 
 - provide the proportion of male/female? 
 - What was the race distribution? 
+
+## <a name="regEx"></a>Regular Expressions Exercises
+
+* `regexpr()` returns the position in the string of the pattern. It will also return the length of 
+the pattern matched. Use `regexpr()` to locate all species names with the pattern 'sa'.
+* Identify all species that end with the letter 's'
+
+```{r regex1}
+species <- c("Arabidopsis_thaliana", "Bos_taurus", "Caenorhabditis_elegans", "Danio_rerio", 
+             "Dictyostelium_discoideum", "Drosophila_melanogaster", "Escherichia_coli",
+             "Homo_sapiens", "Mus_musculus", "Mycoplasma_pneumoniae",
+             "Oryza_sativa","Plasmodium_falciparum","Pneumocystis_carinii","Rattus_norvegicus",
+             "Saccharmomyces_cerevisiae","Schizosaccharomyces_pombe","Takifugu_rubripes","Xenopus_laevis",
+             "Zea_mays", "Hepatitis_C_Virus")
+
+# your regexpr code goes here
+```
+
+* Find out what `regexec()` and  `gregexpr()` do. How are they different from the other regular expression functions we have covered?
