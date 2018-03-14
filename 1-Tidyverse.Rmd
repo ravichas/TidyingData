@@ -237,13 +237,13 @@ Sometimes, there will be extra metadata at the top of a file, often preceded wit
 
 ```{r}
 # we want to skip this first line
-readLines("Data/WHO-2.csv")[1:3]
+readLines("Data/WHO-2.csv")[1:3]  # base package
 
 # ignore metadata row
-read_csv("Data/WHO-2.csv", comment = "#")
+readr::read_csv("Data/WHO-2.csv", comment = "#")
 
 # this results in identical output, but we specify how many lines to skip
-read_csv("Data/WHO-2.csv", skip = 1)
+readr::read_csv("Data/WHO-2.csv", skip = 1)
 ```
 
 ## <a name="eeImport"></a>Exercises
