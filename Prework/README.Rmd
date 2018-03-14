@@ -26,22 +26,13 @@ Computers in the training room will have R, RStudio, and the packages we'll be u
 
 * [R](https://cran.r-project.org)
 * [RStudio](https://www.rstudio.com/products/rstudio/download/)
-* R packages (you can install these using the code below):
-    * [tidyverse](https://www.tidyverse.org/)
-    * [biobroom](https://bioconductor.org/packages/release/bioc/html/biobroom.html)
+* The [tidyverse](https://www.tidyverse.org/) package (you can install these using the code below):
 
 To check for the required packages and to install any missing packages, you can run this code within the RStudio console window:
 
 ```{r message = FALSE}
 if(!require(tidyverse))
     install.packages('tidyverse')
-
-if(!require(biobroom))
-{
-    # if this fails, sourcing http://bioconductor.org/biocLite.R might work
-    source("https://bioconductor.org/biocLite.R")
-    biocLite("biobroom")
-}
 ```
 
 To verify that you have correctly set up your system, run this line of code in RStudio. It will either print a message to your screen indicating your computer is setup properly, or it will throw an error with information on missing packages.

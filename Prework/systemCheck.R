@@ -3,8 +3,9 @@
 if(!require(tidyverse))
     stop("The tidyverse package is not installed properly.")
 
-if(!require(biobroom))
-    stop("The biobroom package is not installed properly.")
+## didn't end up using this.
+## if(!require(biobroom))
+##    stop("The biobroom package is not installed properly.")
 
 it_works <- try({
 dat <- data_frame(x = rnorm(100),

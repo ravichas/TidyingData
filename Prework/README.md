@@ -27,9 +27,8 @@ computer, please install the following:
 
 -   [R](https://cran.r-project.org)
 -   [RStudio](https://www.rstudio.com/products/rstudio/download/)
--   R packages (you can install these using the code below):
-    -   [tidyverse](https://www.tidyverse.org/)
-    -   [biobroom](https://bioconductor.org/packages/release/bioc/html/biobroom.html)
+-   The [tidyverse](https://www.tidyverse.org/) package (you can install
+    these using the code below):
 
 To check for the required packages and to install any missing packages,
 you can run this code within the RStudio console window:
@@ -37,25 +36,13 @@ you can run this code within the RStudio console window:
     if(!require(tidyverse))
         install.packages('tidyverse')
 
-    if(!require(biobroom))
-    {
-        # if this fails, sourcing http://bioconductor.org/biocLite.R might work
-        source("https://bioconductor.org/biocLite.R")
-        biocLite("biobroom")
-    }
-
-    ## Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
-    ## logical.return = TRUE, : there is no package called 'biobroom'
-
-    ## 
-    ## The downloaded binary packages are in
-    ##  /var/folders/db/ydcvmksn5bx2zkzfrsmhqj4nngsnlf/T//RtmpAhwcye/downloaded_packages
-
 To verify that you have correctly set up your system, run this line of
 code in RStudio. It will either print a message to your screen
 indicating your computer is setup properly, or it will throw an error
 with information on missing packages.
 
     source('https://raw.githubusercontent.com/ravichas/TidyingData/master/Prework/systemCheck.R')
+
+    ## Loading required package: broom
 
     ## [1] "Your machine is ready for the Data Tidying seminar."
