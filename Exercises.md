@@ -65,7 +65,7 @@ fixing the problems (if any), go back and read the file.
 
     # for example, if you want to know what body parts these codes indicate...
     codes <- c(30, 30, 77, 35)
-    get_label(codes, body_part)
+    get_label(codes, body_part_lab)
 
     ## [1] "SHOULDER" "SHOULDER" "EYEBALL"  "KNEE"
 
@@ -85,7 +85,6 @@ Answer the following questions.
 -   What is the age of the patient?
 -   What is the Race, weight, Stratum, Sex, Race and Diagnosis
 -   How many are more than 100 years old?  
--   How many cases were taken to **Children's Hospital**?
 -   From the reported cases, get the CPSC case number and age for the
     20th entry.
 
@@ -95,10 +94,9 @@ Answer the following questions.
 Answer the following questions using the NEISS data set that you
 imported above.
 
--   Report the number of cases for the month of May? Tell us how many
-    cases were reported for May 13 - May 16, 2015? Use this information
-    to answer the following questions.
--   What hospitals were the cases went to (provide a table)?
+-   Report the number of cases for the month of May?
+    -   Tell us how many cases were reported for May 13 - May 16, 2015?
+    -   Use this information to answer the following questions.
 -   How many were children ( &lt; 5 years)?
 -   provide the proportion of male/female?
 -   What was the race distribution?
