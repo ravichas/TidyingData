@@ -215,11 +215,11 @@ Here we have the same table of data in three different data objects (a matrix, a
 ```
 
     ## # A tibble: 3 x 5
-    ##   id        a     b     c     d
+    ##      id     a     b     c     d
     ##   <chr> <int> <int> <int> <int>
-    ## 1 x         1     4     7    10
-    ## 2 y         2     5     8    11
-    ## 3 z         3     6     9    12
+    ## 1     x     1     4     7    10
+    ## 2     y     2     5     8    11
+    ## 3     z     3     6     9    12
 
 ``` r
 # our table as a list of vectors
@@ -411,6 +411,46 @@ To access the documentation for a function, use the `?` command (e.g. `?sum` wil
 
 When encountering a problem, you can assume someone else has already experienced the same problem. There are lots of help lists out here (e.g. R-help, Sourceforge), and many people blog about their favorite R hacks. Start by typing your question or copy/paste your error message into Google and go from there.
 
+Pipe
+----
+
+The pipe, `%>%`, from the magrittr package is worth mentioning here - we will use it extensively in this seminar). The pipe serves the same funciton as `|` does in bash: it uses the output from the statement on the left and passes it as input to the statement on the right. This results in much cleaner, easy to read code. For example:
+
+``` r
+meta <- c('001_male_age:42',
+          '002_female_age:36',
+          '003_male_age:34',
+          '004_male_age:72',
+          '005_female_age:23',
+          '006_female_age:63')
+
+# three equivalent statements used to parse the metadata stored in meta, 
+# to get the age of all study subjects
+as.numeric(sapply(strsplit(sapply(strsplit(meta, '_'), `[`, 3), ':'), `[`, 2))
+```
+
+    ## [1] 42 36 34 72 23 63
+
+``` r
+tmp <- strsplit(meta, '_')
+tmp <- sapply(tmp, `[`, 3)
+tmp <- strsplit(tmp, ':')
+tmp <- sapply(tmp, `[`, 2)
+as.numeric(tmp)
+```
+
+    ## [1] 42 36 34 72 23 63
+
+``` r
+strsplit(meta, '_') %>%
+    sapply(`[`, 3) %>%
+    strsplit(':') %>%
+    sapply(`[`, 2) %>%
+    as.numeric()
+```
+
+    ## [1] 42 36 34 72 23 63
+
 Starting Up
 ===========
 
@@ -430,7 +470,7 @@ setwd("<TidyingData_Directory>")
 # setwd("H:/Users/me/Desktop/TidyingData")
 ```
 
-Alternately, you can use the `Session > Set Working Directory > Choose Directory ...` dialog (or use the shortcut, `^⇧H`)
+Alternately, you can use the `Session > Set Working Directory > Choose Directory ...` dialog (or use the shortcut, `Ctl-Shift-H`)
 
 You may also want to clear your work space. R will save your work space for you when you exit the program, but we recommend not doing this, as your work space can quickly become cluttered. Loading a bloated work space can also result in performance issues. If you do find you have a lot of stuff being loaded when R starts up, you'll probably want to remove the shared work space from that directory.
 
@@ -448,7 +488,7 @@ To check what you have in your current working environment, you can use the `ls(
 Packages
 --------
 
-Only the most commonly used, basic packages will be loaded when R starts up, and not all packages are installed when you install R. Anyone can write and publish an R package - there are currently 12235 packages available on CRAN alone.
+Only the most commonly used, basic packages will be loaded when R starts up, and not all packages are installed when you install R. Anyone can write and publish an R package - there are currently 11989 packages available on CRAN alone.
 
 ### Loading packages
 
@@ -495,13 +535,9 @@ It is often helpful to know what version of R you are running and what packages 
 sessionInfo()
 ```
 
-    ## R version 3.4.3 (2017-11-30)
-    ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+    ## R version 3.3.3 (2017-03-06)
+    ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
     ## Running under: macOS Sierra 10.12.6
-    ## 
-    ## Matrix products: default
-    ## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-    ## LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
     ## 
     ## locale:
     ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -510,24 +546,23 @@ sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ##  [1] lubridate_1.7.3 knitr_1.20      forcats_0.3.0   stringr_1.3.0  
-    ##  [5] dplyr_0.7.4     purrr_0.2.4     readr_1.1.1     tidyr_0.8.0    
-    ##  [9] tibble_1.4.2    ggplot2_2.2.1   tidyverse_1.2.1
+    ## [1] lubridate_1.6.0 knitr_1.17      dplyr_0.7.4     purrr_0.2.4    
+    ## [5] readr_1.1.1     tidyr_0.7.2     tibble_1.3.4    ggplot2_2.2.1  
+    ## [9] tidyverse_1.1.1
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_0.12.15     highr_0.6        cellranger_1.1.0 pillar_1.2.1    
-    ##  [5] compiler_3.4.3   plyr_1.8.4       bindr_0.1        tools_3.4.3     
-    ##  [9] digest_0.6.15    jsonlite_1.5     evaluate_0.10.1  nlme_3.1-131.1  
-    ## [13] gtable_0.2.0     lattice_0.20-35  pkgconfig_2.0.1  rlang_0.2.0     
-    ## [17] psych_1.7.8      cli_1.0.0        rstudioapi_0.7   yaml_2.1.17     
-    ## [21] parallel_3.4.3   haven_1.1.1      bindrcpp_0.2     xml2_1.2.0      
-    ## [25] httr_1.3.1       hms_0.4.1        rprojroot_1.3-2  grid_3.4.3      
-    ## [29] glue_1.2.0       R6_2.2.2         readxl_1.0.0     foreign_0.8-69  
-    ## [33] rmarkdown_1.8    modelr_0.1.1     reshape2_1.4.3   magrittr_1.5    
-    ## [37] backports_1.1.2  scales_0.5.0     htmltools_0.3.6  rvest_0.3.2     
-    ## [41] assertthat_0.2.0 mnormt_1.5-5     colorspace_1.3-2 utf8_1.1.3      
-    ## [45] stringi_1.1.6    lazyeval_0.2.1   munsell_0.4.3    broom_0.4.3     
-    ## [49] crayon_1.3.4
+    ##  [1] Rcpp_0.12.13     highr_0.6        cellranger_1.1.0 plyr_1.8.4      
+    ##  [5] bindr_0.1        forcats_0.2.0    tools_3.3.3      digest_0.6.12   
+    ##  [9] jsonlite_1.5     evaluate_0.10.1  nlme_3.1-131     gtable_0.2.0    
+    ## [13] lattice_0.20-35  pkgconfig_2.0.1  rlang_0.1.2      psych_1.7.8     
+    ## [17] yaml_2.1.14      parallel_3.3.3   haven_1.1.0      bindrcpp_0.2    
+    ## [21] xml2_1.1.1       httr_1.3.1       stringr_1.2.0    hms_0.3         
+    ## [25] rprojroot_1.2    grid_3.3.3       glue_1.2.0       R6_2.2.2        
+    ## [29] readxl_1.0.0     foreign_0.8-69   rmarkdown_1.6    modelr_0.1.1    
+    ## [33] reshape2_1.4.2   magrittr_1.5     backports_1.1.1  scales_0.5.0    
+    ## [37] htmltools_0.3.6  rvest_0.3.2      assertthat_0.2.0 mnormt_1.5-5    
+    ## [41] colorspace_1.3-2 stringi_1.1.5    lazyeval_0.2.1   munsell_0.4.3   
+    ## [45] broom_0.4.2
 
 Search path
 -----------
@@ -541,9 +576,8 @@ search()
 ```
 
     ##  [1] ".GlobalEnv"        "package:lubridate" "package:knitr"    
-    ##  [4] "package:forcats"   "package:stringr"   "package:dplyr"    
-    ##  [7] "package:purrr"     "package:readr"     "package:tidyr"    
-    ## [10] "package:tibble"    "package:ggplot2"   "package:tidyverse"
-    ## [13] "package:stats"     "package:graphics"  "package:grDevices"
-    ## [16] "package:utils"     "package:datasets"  "package:methods"  
-    ## [19] "Autoloads"         "package:base"
+    ##  [4] "package:dplyr"     "package:purrr"     "package:readr"    
+    ##  [7] "package:tidyr"     "package:tibble"    "package:ggplot2"  
+    ## [10] "package:tidyverse" "package:stats"     "package:graphics" 
+    ## [13] "package:grDevices" "package:utils"     "package:datasets" 
+    ## [16] "package:methods"   "Autoloads"         "package:base"

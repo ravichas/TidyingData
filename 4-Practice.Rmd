@@ -1,7 +1,5 @@
 ---
 title: "Data Tidying: Practice"
-author: "Drs. Sarangan Ravichandran and Randall Johnson"
-date: "February 26, 2017"
 output: github_document
 ---
 
@@ -61,7 +59,7 @@ The `wdbc` data set has `r nrow(wdbc)` samples and `r ncol(wdbc)` covariates. Th
 Figures showing the raw relationship between diagnosis (benign or metastatic) tumors and some of these measures follows:
 
 ```{r raw data, echo=FALSE}
-# do not echo the code from this chunk
+# do not echo the code from this chunk, but do show the figures
 
 # Diagnosis by radius
 ggplot(wdbc, aes(Diagnosis, radius)) + 
@@ -100,6 +98,7 @@ pctPerimeterSE_gt5 <- nPerimeterSE_gt5 / nrow(wdbc) * 100
 pctPerimeterSE_gt5_M <- (filter(wdbc, PerimeterSE > 5 & Diagnosis == 'M') %>%
                          nrow()) / nPerimeterSE_gt5 * 100
 
+
 ##### creation of summaryTable #####
 
 # Create a subset of wdbc containing only individuals with Diagnosis == 'B'
@@ -117,6 +116,7 @@ meanMetast <- filter(wdbc, Diagnosis == 'M') %>%
               select(Texture, Perimeter, area, smoothness, compactness,
                      concavity, concave_points, symmetry, fractaldim)
 
+# fill table in with mean values among individuals with benign/metastatic diagnosis
 summaryTable <- tibble(measure = c('Texture', 'Perimeter', 'area', 'smoothness',
                                    'compactness', 'concavity', 'concave_points', 
                                    'symmetry', 'fractaldim'),
@@ -128,5 +128,12 @@ The perimter of the cells appears to be fairly consistent within most samples, b
 
 
 ```{r table, echo = FALSE}
+if(!exists('summaryTable'))
+    summaryTable <- tibble(measure = c('Texture', 'Perimeter', 'area', 'smoothness',
+                                   'compactness', 'concavity', 'concave_points', 
+                                   'symmetry', 'fractaldim'),
+                           meanB = 'incomplete',
+                           meanM = 'incomplete')
+
 kable(summaryTable, caption = "This table shows the summary statistics for each of the measures")
 ```

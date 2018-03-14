@@ -1,7 +1,5 @@
 Data Tidying: Practice
 ================
-Drs. Sarangan Ravichandran and Randall Johnson
-February 26, 2017
 
 ### Cleaning up
 

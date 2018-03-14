@@ -329,7 +329,7 @@ setwd("<TidyingData_Directory>")
 # setwd("H:/Users/me/Desktop/TidyingData")
 ```
 
-Alternately, you can use the `Session > Set Working Directory > Choose Directory ...` dialog (or use the shortcut, `^⇧H`)
+Alternately, you can use the `Session > Set Working Directory > Choose Directory ...` dialog (or use the shortcut, `Ctl-Shift-H`)
 
 You may also want to clear your work space. R will save your work space for you when you exit the program, but we recommend not doing this, as your work space can quickly become cluttered. Loading a bloated work space can also result in performance issues. If you do find you have a lot of stuff being loaded when R starts up, you'll probably want to remove the shared work space from that directory.
 
