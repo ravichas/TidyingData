@@ -61,7 +61,7 @@ source('Data/NEISSlabels.R')
 
 # for example, if you want to know what body parts these codes indicate...
 codes <- c(30, 30, 77, 35)
-get_label(codes, body_part)
+get_label(codes, body_part_lab)
 
 
 ### Import data code goes here
