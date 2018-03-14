@@ -11,12 +11,15 @@
 
 get_label <- function(x, codes)
 {
-    retval <- sapply(x, function(.x) names(codes)[codes == .x])
+    require(purrr)
+    retval <-map(x, ~ names(codes)[codes == .x]) %>%
+             map(~ ifelse(length(.x) == 0, '', .x)) %>% # some of these are missing
+             unlist()
 
     return(retval)
 }
 
-body_part <- c(
+body_part_lab <- c(
 'INTERNAL'           = 0,
 'SHOULDER'           = 30,
 'UPPER TRUNK'        = 31,
@@ -45,7 +48,7 @@ body_part <- c(
 'EAR'                = 94)
 
 
-diag <- c(
+diag_lab <- c(
 'INGESTION'                 =41,
 'ASPIRATION'                =42,
 'BURN, ELECTRICAL'          =46,
@@ -79,7 +82,7 @@ diag <- c(
 'DERMATITIS/CONJUNCTIVITIS' =74)
 
 
-disposition <- c(
+disposition_lab <- c(
 'TREATED AND RELEASED'   =1,
 'TRANSFERRED'            =2,
 'HOSPITALIZED'           =4,
@@ -89,14 +92,14 @@ disposition <- c(
 'UNKNOWN'                =9)
 
 
-fmv <- c(
+fmv_lab <- c(
 'NO FIRE'                        =0,
 'FIRE DEPARTMENT ATTENDED'       =1,
 'FIRE DEPARTMENT DID NOT ATTEND' =2,
 'UNKNOWN IF FIRE DEPT. ATTENDED' =3)
 
 
-location <- c(
+location_lab <- c(
 'UNKNOWN'                  =0,
 'HOME'                     =1,
 'FARM'                     =2,
@@ -109,20 +112,23 @@ location <- c(
 'SPORTS'                   =9)
 
 
-gender <- c(
+gender_lab <- c(
 'UNKNOWN' =0,
 'MALE'    =1,
 'FEMALE'  =2)
 
 
-race <- c(
+race_lab <- c(
 'UNKNOWN' =0,
 'WHITE'   =1,
 'BLACK'   =2,
-'OTHER'   =3)
+'OTHER'   =3,
+'ASIAN'   =4,
+'American Indian/Alaska Native' = 5,
+'Native Hawaiian/Pacific Islander' = 6)
 
 
-product <- c(
+product_lab <- c(
 'WASHING MACHINES WITHOUT WRINGERS OR OTHER DRYERS'                =  101,
 'WRINGER WASHING MACHINES'                       =  102,
 'WASHING MACHINES WITH UNHEATED SPIN DRYERS'               =  103,
