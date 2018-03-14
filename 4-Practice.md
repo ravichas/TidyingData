@@ -26,7 +26,7 @@ The `wdbc` data set has 569 samples and 32 covariates. There are mean, standard 
 
 Figures showing the raw relationship between diagnosis (benign or metastatic) tumors and some of these measures follows:
 
-![](4-Practice_files/figure-markdown_github/raw%20data-1.png)![](4-Practice_files/figure-markdown_github/raw%20data-2.png)![](4-Practice_files/figure-markdown_github/raw%20data-3.png)![](4-Practice_files/figure-markdown_github/raw%20data-4.png)
+![](4-Practice_files/figure-markdown_github-ascii_identifiers/raw%20data-1.png)![](4-Practice_files/figure-markdown_github-ascii_identifiers/raw%20data-2.png)![](4-Practice_files/figure-markdown_github-ascii_identifiers/raw%20data-3.png)![](4-Practice_files/figure-markdown_github-ascii_identifiers/raw%20data-4.png)
 
 The perimter of the cells appears to be fairly consistent within most samples, but 10.5% of the samples had a standard error over 5. Of these, 96.7% were diagnosed as metastatic.
 
