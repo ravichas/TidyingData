@@ -26,6 +26,20 @@ Create a new tibble called `tbl1` with 5 observations and the following variable
 
 Once you have created `tbl1`, add a new dummary variable, `agecat`, that categorizes age by decade (i.e. `agecat = 0` when `age < 10`, `agecat = 1` when `10 <= age < 20`, ...)
 
+```{r tibble}
+set.seed(923874)
+tbl1 <- tibble(name = c("Sam","Tom","John","Stacy","Naomi"),
+               age = sample(1:100,5),
+               height = sample(150:190,5),
+               weight = sample(120:220,5),
+               smoker = sample(c("TRUE","FALSE"),5, replace = TRUE),
+               Male = c("TRUE","TRUE","TRUE","FALSE","FALSE"))
+
+tbl1 <- mutate(tbl1,
+               agecat = age %/% 10)
+#              agecat = floor(age / 10)) # another possible solution
+```
+
 ### Conversion of a data.frame to a data_frame
 
 Convert the iris data set to a tibble.
@@ -33,6 +47,8 @@ Convert the iris data set to a tibble.
 ```{r tibble conversion}
 data(iris)
 str(iris)
+
+iris_tibble <- as_tibble(iris)
 ```
 
 How can you verify that your modified `iris` data set is formatted as a tibble?
@@ -60,20 +76,30 @@ Read the data file, **nss15.tsv** file from the sub-folder/directory, **Data** a
 source('Data/NEISSlabels.R')
 
 # for example, if you want to know what body parts these codes indicate...
-codes <- c(30, 30, 77, 35)
-get_label(codes, body_part)
+x <- c(30, 30, 77, 35)
+get_label(x, body_part_lab)
 
 
 ### Import data code goes here
+require(readr)
+nss15 <- read_delim("Data/nss15.tsv", "\t", escape_double = FALSE, trim_ws = TRUE,
+                    col_types = cols(trmt_date = col_date(format = "%m/%d/%Y")))
 
 
 ### mutate code converting codes into human readable labels goes here
-
-
-### further exploration to answer questions goes here
-
+require(dplyr)
+nss15 <- mutate(nss15,
+                sex = get_label(sex, gender_lab),
+                race = get_label(race, race_lab),
+                diag = get_label(diag, diag_lab),
+                body_part = get_label(body_part, body_part_lab),
+                disposition = get_label(disposition, disposition_lab),
+                location = get_label(location, location_lab),
+                fmv = get_label(fmv, fmv_lab),
+                prod1 = get_label(prod1, product_lab),
+                prod2 = get_label(prod2, product_lab))
 ```
- 
+
 Answer the following questions.
 
 - How many cases are reported in this dataset?
@@ -82,8 +108,45 @@ Answer the following questions.
 - What is the age of the patient? 
 - What is the Race, weight, Stratum, Sex, Race and Diagnosis
 - How many are more than 100 years old?  
-- How many cases were taken to **Children's Hospital**?
 - From the reported cases, get the CPSC case number and age for the 20th entry.
+
+
+```{r neiss data questions}
+### further exploration to answer questions goes here
+
+# How many cases?
+nrow(nss15)
+dim(nss15)[1] # same answer
+
+# How many covariates?
+ncol(nss15)
+dim(nss15)[2]        # same answer
+length(names(nss15)) # same answer
+
+# CPSC Case # 150620565
+filter(nss15, `CPSC Case #` == 150620565) %>%
+    select(`CPSC Case #`, age, race, stratum, sex, diag)
+
+# How many over 100 years?
+filter(nss15, age > 100) %>%
+    nrow()
+
+summary(nss15$age)
+```
+
+This seems like a lot of people, and I'm sure that no on was actually 223 years old. Upon further inspection of the documentation, any age over 200 is `200 + age in months`.
+
+```{r neiss data questions cont}
+# fix age and recalculate how many over 100 years.
+nss15 <- mutate(nss15,
+                age = ifelse(age >= 200, (age - 200) / 12, age))
+
+filter(nss15, age > 100) %>%
+    nrow()
+
+# CPSC case number and age for the 20th entry
+nss15[20,c(1,6)]
+```
 
 
 ## <a name="timeEx"></a>Date/Time Exercises
@@ -91,12 +154,37 @@ Answer the following questions.
 Answer the following questions using the NEISS data set that you imported above.
 
 - Report the number of cases for the month of May? 
-  Tell us how many cases were reported for May 13 - May 16, 2015? 
-  Use this information to answer the following questions. 
-- What hospitals were the cases went to (provide a table)?
+    - Tell us how many cases were reported for May 13 - May 16, 2015? 
+    - Use this information to answer the following questions. 
 - How many were children ( < 5 years)? 
 - provide the proportion of male/female? 
 - What was the race distribution? 
+
+```{r dateTime}
+# How many cases in May?
+require(lubridate)
+filter(nss15, month(trmt_date) == 5) %>%
+    nrow()
+
+### Cases between May 13 and May 16 ###
+nss15_sub <- filter(nss15, trmt_date >= as.Date("2015-05-13") &
+                           trmt_date <= as.Date("2015-05-16"))
+
+# How many cases in this date range?
+nrow(nss15_sub)
+
+# How many children < 5 years?
+filter(nss15_sub, age < 5) %>%
+    nrow()
+
+# proportion male/female
+with(nss15_sub, sum(sex == 'MALE') / length(sex))
+
+# race distribution
+table(nss15_sub$race)
+
+table(nss15_sub$race_other) # nice misspellings/inconsistent reporting here
+```
 
 ## <a name="regEx"></a>Regular Expressions Exercises
 
@@ -112,7 +200,15 @@ species <- c("Arabidopsis_thaliana", "Bos_taurus", "Caenorhabditis_elegans", "Da
              "Saccharmomyces_cerevisiae","Schizosaccharomyces_pombe","Takifugu_rubripes","Xenopus_laevis",
              "Zea_mays", "Hepatitis_C_Virus")
 
-# your regexpr code goes here
+# All species names with the pattern 'sa'
+grep('sa', species, value = TRUE)
+
+regexpr('sa', species) # e.g.  1234567...
+                       # match -----**-----
+                       #       Homo_sapiens
+
+# all species ending with 's'
+grep('s$', species)
 ```
 
 * Find out what `regexec()` and  `gregexpr()` do. How are they different from the other regular expression functions we have covered?
